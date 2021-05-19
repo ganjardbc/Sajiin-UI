@@ -56,7 +56,7 @@ Vue.prototype.feedbackImageCoverUrl = api + '/contents/feedbacks/covers/'
 
 const token = Vue.$cookies.get('token'); 
 const router = new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes: routes,
     base: process.env.BASE_URL,
     scrollBehavior(to, from, savedPosition) {
