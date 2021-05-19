@@ -37,17 +37,17 @@
                                             </button>
                                         </router-link>
                                     </div>
-                                    <router-link v-if="!token ? false : true" :to="{name: 'dashboard'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
+                                    <router-link v-if="!user ? false : true" :to="{name: 'dashboard'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
                                         <button class="btn btn-small btn-sekunder btn-mobile">
                                             DASHBOARD
                                         </button>
                                     </router-link>
-                                    <router-link v-if="token ? false : true" :to="{name: 'login'}" style="display: block;" class="header-menu-mobile">
+                                    <router-link v-if="user ? false : true" :to="{name: 'login'}" style="display: block;" class="header-menu-mobile">
                                         <button class="btn btn-small btn-sekunder btn-mobile">
                                             LOGIN
                                         </button>
                                     </router-link>
-                                    <router-link v-if="token ? false : true" :to="{name: 'register'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
+                                    <router-link v-if="user ? false : true" :to="{name: 'register'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
                                         <button class="btn btn-small btn-main btn-mobile">
                                             REGISTER
                                         </button>

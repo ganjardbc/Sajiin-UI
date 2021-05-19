@@ -200,8 +200,8 @@ export default {
                 
                 if (rest.data.status === 'ok') {
                     this.removeCookieAuth()
-                    // this.$router.push({ name: 'home' })
-                    window.location = this.initUrl
+                    this.$router.push({ name: 'home' })
+                    // window.location = this.initUrl
                 }
 
                 console.log('LOGOUT', rest)

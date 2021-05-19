@@ -87,16 +87,17 @@ export default {
     },
     methods: {
         ...mapActions({
-            removeCookieAuth: 'auth/removeCookieAuth',
+            removeCookieAuth: 'auth/removeCookieCustomerAuth',
             signOut: 'customer/removeData'
         }),
         onLogout() {
             var a = confirm('Logout customer ?')
             if (a) {
+                this.removeCookieAuth()
                 this.signOut()
-                // this.$router.push({ name: 'home' })
+                this.$router.push({ name: 'home' })
                 // this.$router.push({ name: 'customer-main' })
-                window.location = this.initUrl
+                // window.location = this.initUrl
             }
         },
         onBuilded () {
