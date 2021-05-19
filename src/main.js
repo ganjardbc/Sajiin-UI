@@ -16,7 +16,7 @@ import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
 // const api = "http://localhost:8000";
-const api = "http://sajiin.kebunbegonialembang.com/";
+const api = "https://kebunbegonialembang.com/sajiin-v2/public/";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = api;
