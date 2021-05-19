@@ -25,7 +25,7 @@
                         style="text-transform: capitalize;">
                         {{ 
                             dt.order.status === 'unconfirmed' 
-                                ? 'Waiting for Confirmation' 
+                                ? 'Unconfirmed' 
                                 : dt.order.status === 'confirmed' 
                                     ? 'Confirmed'
                                     : dt.order.status 

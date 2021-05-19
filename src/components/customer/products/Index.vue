@@ -165,7 +165,7 @@
                         </div>
                         <button 
                             class="btn btn-sekunder btn-full" 
-                            style="margin-bottom: 0; margin-top: 15px;" 
+                            style="margin-bottom: 40px; margin-top: 15px;" 
                             @click="makeToast('Chat Admin')">
                             Chat Admin
                         </button>

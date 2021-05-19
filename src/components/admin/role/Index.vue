@@ -35,6 +35,8 @@
                             <th class="medium-col"></th>
                         </thead>
                         <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
+
                             <tr v-for="(row, index) in displayData" :key="index">
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.role_id }}</td>
@@ -132,7 +134,6 @@ export default {
     },
     mounted () {
         this.getData()
-        console.log('datas', this.datas)
     },
     components: {
         AppAlert,
@@ -200,7 +201,6 @@ export default {
             }
 
             const rest = await axios.post('/api/role/delete', payload, { headers: { Authorization: token } })
-            console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -244,18 +244,22 @@ export default {
             }
         },
         async getData () {
+            this.visibleLoader = true 
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = {
                 limit: 1000,
                 offset: 0
             }
             
-            console.log('token', token)
             const rest = await axios.post('/api/role/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.datas = data
+                this.visibleLoader = false
+            } else {
+                this.visibleLoader = false
             }
         }
     }

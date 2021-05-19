@@ -33,16 +33,16 @@
                         <img :src="icon" alt="SAJI-IN" class="post-center" style="width: 100%;">
                     </div>
                 </div>
-
-                <div class="banner-benefit">
-                    <div>
-                        <AppCardGrid :data.sync="benefit" />
-                    </div>
-                </div>
             </div>
         </div>
 
-        <div class="main-screen" style="padding-top: 100px;">
+        <div class="main-screen" style="padding-top: 32px;">
+            <div v-if="!visibleLoaderBenefit" class="banner-benefit">
+                <AppCardGrid :data.sync="benefit" />
+            </div>
+        </div>
+
+        <div class="main-screen" style="padding-top: 52px;">
             <div class="space space-center">
                 <h2 class="fonts fonts-32px bold black no-line-height">Our news</h2>
                 <h2 class="fonts fonts-32px bold black no-line-height">Find promos or events</h2>
@@ -50,14 +50,17 @@
                     <div class="bottom-line" style="margin-top: 15px; margin-bottom: 15px;"></div>
                 </AppWrapper>
             </div>
-            <div>
-                <AppCardArticleGrid :data.sync="articles" />
+            <div v-if="!visibleLoaderArticle">
+                <div>
+                    <AppCardArticleGrid :data.sync="articles" />
+                </div>
+                <div class="display-flex center" style="margin-top: 50px;">
+                    <router-link :to="{name: 'articles'}" class="btn btn-main-reverse" style="padding-left: 0; padding-right: 0">
+                        View more <i class="icn fa fa-1x fa-arrow-right" />
+                    </router-link>
+                </div>
             </div>
-            <div class="display-flex center" style="margin-top: 50px;">
-                <router-link :to="{name: 'articles'}" class="btn btn-main-reverse" style="padding-left: 0; padding-right: 0">
-                    View more <i class="icn fa fa-1x fa-arrow-right" />
-                </router-link>
-            </div>
+            <AppLoader v-else />
         </div>
 
         <div class="main-screen" style="margin-top: 0;">
@@ -92,11 +95,14 @@ import AppCardPostGrid from '../modules/AppCardPostGrid'
 import AppCardGrid from '../modules/AppCardGrid'
 import AppCardList from '../modules/AppCardList'
 import AppButtonQR from '../modules/AppButtonQR'
+import AppLoader from '../modules/AppLoader'
 
 export default {
     name: 'App',
     data () {
         return {
+            visibleLoaderBenefit: false,
+            visibleLoaderArticle: false,
             icon: icon,
             products: [],
             categories: [],
@@ -113,6 +119,7 @@ export default {
         }
     },
     components: {
+        AppLoader,
         AppButtonQR,
         AppCardCategoryGrid,
         AppCardArticleGrid,
@@ -124,8 +131,8 @@ export default {
         AppText
     },
     mounted () {
-        this.getCategory()
-        this.getProduct()
+        // this.getCategory()
+        // this.getProduct()
         this.getBenefit()
         this.getArticle()
     },
@@ -187,6 +194,8 @@ export default {
             }
         },
         async getBenefit () {
+            this.visibleLoaderBenefit = true 
+
             const payload = {
                 limit: 3,
                 offset: 0
@@ -205,11 +214,16 @@ export default {
                     }
                 })
                 this.benefit = payload
+                this.visibleLoaderBenefit = false
+            } else {
+                this.visibleLoaderBenefit = false
             }
 
             console.log('rest', rest)
         },
         async getArticle () {
+            this.visibleLoaderArticle = true
+
             const payload = {
                 limit: 3,
                 offset: 0
@@ -229,6 +243,9 @@ export default {
                     }
                 })
                 this.articles = payload
+                this.visibleLoaderArticle = false 
+            } else {
+                this.visibleLoaderArticle = false 
             }
         },
         onRegister () {

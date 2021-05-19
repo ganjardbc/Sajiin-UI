@@ -36,6 +36,8 @@
                             <th class="medium-col"></th>
                         </thead>
                         <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
+
                             <tr v-for="(row, index) in displayData" :key="index">
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.shipment_id }}</td>
@@ -304,6 +306,8 @@ export default {
             }
         },
         async getData () {
+            this.visibleLoader = true 
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = {
                 limit: 1000,
@@ -315,6 +319,9 @@ export default {
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.datas = data
+                this.visibleLoader = false 
+            } else {
+                this.visibleLoader = false
             }
         }
     }

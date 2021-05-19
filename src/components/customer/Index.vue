@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <div class="display-flex space-between display-mobile" style="margin-bottom: 40px;">
+        <!-- <div class="display-flex space-between display-mobile" style="margin-bottom: 40px;">
             <div style="width: 100%;">
                 <div class="card border border-full" style="max-height: 200px; overflow-y: auto;">
                     <div class="fonts fonts-10 semibold" style="padding-bottom: 0px;">Notes</div>
@@ -82,8 +82,8 @@
                     </div>
                 </div>
             </div>
-            <!-- <div style="width: 100%;"></div> -->
-        </div>
+            <div style="width: 100%;"></div>
+        </div> -->
 
         <div>
             <div class="display-flex space-between">

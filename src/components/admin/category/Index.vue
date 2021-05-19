@@ -36,6 +36,8 @@
                             <th class="medium-col"></th>
                         </thead>
                         <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
+
                             <tr v-for="(row, index) in displayData" :key="index">
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.category_id }}</td>
@@ -155,7 +157,7 @@ export default {
     },
     methods: {
         onChangeMenu (index) {
-            console.log('onChange', index)
+            // console.log('onChange', index)
         },
         nameLength (row) {
             return row.key.length
@@ -211,7 +213,7 @@ export default {
             }
 
             const rest = await axios.post('/api/category/delete', payload, { headers: { Authorization: token } })
-            console.log('rest', rest)
+            // console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -308,6 +310,8 @@ export default {
             }
         },
         async getData () {
+            this.visibleLoader = true 
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
                 limit: 1000,
@@ -318,13 +322,15 @@ export default {
                 user_id: this.dataUser.id
             }
             
-            console.log('token', token)
+            // console.log('token', token)
             const rest = await axios.post('/api/category/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.datas = data
-                console.log('response', JSON.stringify(this.datas))
+                this.visibleLoader = false 
+            } else {
+                this.visibleLoader = false 
             }
         }
     }

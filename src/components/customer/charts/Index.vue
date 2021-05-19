@@ -1,6 +1,6 @@
 <template>
     <div id="product">
-        <div v-if="datas.length > 0" class="main-screen" style="padding-top: 30px;">
+        <div class="main-screen" style="padding-top: 30px;">
             <div class="fonts fonts-22 semibold black" style="margin-bottom: 20px;">Carts</div>
             <div class="display-flex display-mobile">
                 <div class="width width-65 width-mobile">
@@ -21,11 +21,22 @@
                                 </button> -->
                             </div>
                         </div>
-                        <AppCardCharts 
-                            :data.sync="datas" :onSave="(data) => onSave(data)" 
-                            :onDelete="(data) => onShowHideDelete(data)" 
-                            :onChange="(status, data) => onChangeList(status, data)"
-                        />
+                        
+                        <div v-if="!visibleLoader">
+                            <div v-if="datas.length > 0">
+                                <AppCardCharts 
+                                    :data.sync="datas" :onSave="(data) => onSave(data)" 
+                                    :onDelete="(data) => onShowHideDelete(data)" 
+                                    :onChange="(status, data) => onChangeList(status, data)"
+                                />
+                            </div>
+
+                            <div v-else class="main-screen" style="padding-top: 50px;">
+                                <AppEmpty />
+                            </div>
+                        </div>
+
+                        <AppLoader v-if="visibleLoader" style="margin-top: 20px;" />
 
                         <div v-if="!visibleLoader" class="display-flex center">
                             <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 40px;" @click="onMore">
@@ -66,10 +77,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div v-else class="main-screen" style="padding-top: 50px;">
-            <AppEmpty />
         </div>
 
         <AppAlert 

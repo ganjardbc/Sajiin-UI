@@ -41356,8 +41356,8 @@ a {
 #app .banner {
   position: relative;
   width: calc(100% - 40px);
-  padding: 50px 20px 130px 20px;
-  margin-bottom: 100px;
+  padding: 50px 20px 50px 20px;
+  margin-bottom: 0;
   border-radius: 0;
   background-color: #fff;
 }
@@ -41394,14 +41394,12 @@ a {
   }
 }
 #app .banner .banner-benefit {
-  position: absolute;
-  bottom: -250px;
+  position: relative;
+  margin-top: 32px;
+  width: 100%;
 }
 @media (max-width: 720px) {
   #app .banner .banner-benefit {
-    position: relative;
-    width: 100%;
-    margin-top: 32px;
     bottom: 0;
   }
 }
@@ -41796,6 +41794,24 @@ a {
   .mobile-hidden {
     display: none;
   }
+}
+
+.show-app {
+  display: block;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.hide-app {
+  display: none;
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -ms-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 /*# sourceMappingURL=app.css.map */

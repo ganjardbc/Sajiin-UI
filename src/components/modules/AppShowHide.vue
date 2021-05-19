@@ -10,7 +10,7 @@
                 </button>
             </div>
         </div>
-        <div v-if="visible" style="padding-top: 10px;">
+        <div :class="visible ? 'show-app' : 'hide-app'" style="padding-top: 10px;">
             <slot />
         </div>
     </div>

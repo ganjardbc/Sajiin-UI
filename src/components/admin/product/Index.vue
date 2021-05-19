@@ -36,6 +36,8 @@
                             <th class="medium-col"></th>
                         </thead>
                         <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
+
                             <tr v-for="(row, index) in displayData" :key="index">
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.product.product_id }}</td>
@@ -267,6 +269,8 @@ export default {
             }
         },
         async getDataCategory () {
+            this.visibleLoader = true 
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
                 limit: 1000,
@@ -284,6 +288,9 @@ export default {
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.categories = data
+                this.visibleLoader = false 
+            } else {
+                this.visibleLoader = false 
             }
         }
     }

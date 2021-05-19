@@ -20,11 +20,11 @@
                 </div>
                 
                 <div style="width: 100%; margin-bottom: 10px;">
-                    <input type="email" placeholder="email" class="field field-sekunder" name="email" id="email" v-model="form.email">
+                    <input type="email" placeholder="email" class="field field-sekunder" name="email" id="email" required :readonly="visibleLoader" v-model="form.email">
                 </div>
 
                 <div style="width: 100%; margin-bottom: 30px;">
-                    <input type="password" placeholder="password" class="field field-sekunder" name="password" id="password" v-model="form.password">
+                    <input type="password" placeholder="password" class="field field-sekunder" name="password" id="password" required :readonly="visibleLoader" v-model="form.password">
                 </div>
                 
                 <!-- <div style="width: 100%; margin-bottom: 30px;">
@@ -38,9 +38,9 @@
                     {{ textError }}
                 </div>
 
-                <div style="margin-bottom: 20px;">
-                    <button class="btn btn-main" style="width: 100%;" type="submit">
-                        Check Account
+                <div style="margin-bottom: 10px;">
+                    <button :class="visibleLoader ? 'btn btn-grey' : 'btn btn-main'" style="width: 100%;" :type="visibleLoader ? 'button' : 'submit'" :disabled="visibleLoader">
+                        {{visibleLoader ? 'Please Wait..' : 'Check Account' }}
                     </button>
                 </div>
                 
@@ -74,6 +74,7 @@ export default {
 
     data () {
         return {
+            visibleLoader: false,
             visibleError: false,
             textError: 'error',
             logo: logo,
@@ -94,6 +95,7 @@ export default {
         }),
 
         async submit () {
+            this.visibleLoader = true
             this.visibleError = false
             const rest = await this.signIn(this.form)
 
@@ -111,6 +113,7 @@ export default {
                 this.$router.push({ name: 'home' })
                 // window.location = this.initUrl + '/home'
             } else {
+                this.visibleLoader = false
                 this.visibleError = true
                 this.textError = rest.data.message
             }

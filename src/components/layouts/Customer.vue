@@ -1,6 +1,6 @@
 <template>
     <div id="CustomerLayout">
-        <div id="header" class="box-shadow">
+        <div id="header" class="border-bottom">
             <div id="header-container" class="header-mobile">
                 <div class="left">
                     <router-link :to="{name: 'customer-main'}" style="position: relative; width: 100%; top: -10px; left: -7.5px;">
