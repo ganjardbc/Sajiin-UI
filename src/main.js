@@ -10,7 +10,7 @@ import {routes} from './router';
 import store from './store';
 import SmartTable from 'vuejs-smart-table';
 import jquery from 'jquery';
-// import "./assets/sass/app.css";
+import "./assets/sass/app.css";
 // import "./assets/icons/fontawesome/css/all.min.css";
 import Vue from 'vue';
 
