@@ -173,7 +173,7 @@ export default {
     },
     mounted () {
         const token = this.$cookies.get('token')
-        this.code = (this.$router.mode === 'hash' ? '/#' : '') + '/generate-customer/' + token
+        this.code = this.deployUrl + (this.$router.mode === 'hash' ? '/#/' : '') + 'generate-customer/' + token
     },
     components: {
         AppButtonQR,

@@ -13,12 +13,12 @@
             <div style="padding: 15px 0;">
                 <div class="content-center" style="width: 300px; margin: auto; padding-bottom: 15px;">
                     <div class="image image-padding" style="background-color: #f5f5f5;">
-                        <VueQrcode :value="initUrl + validCode" />
+                        <VueQrcode :value="validCode" />
                     </div>
                 </div>
                 <div class="content-center" style="padding-bottom: 30px;">
                     <div class="fonts fonts-11 black semibold">Scan this QR-code to make an order</div>
-                    <div class="fonts fonts-11 grey">{{ initUrl + validCode }}</div>
+                    <div class="fonts fonts-11 grey">{{ validCode }}</div>
                 </div>
                 <router-link :to="{name: 'customer-main'}" class="btn btn-sekunder">
                     Navigate To Customer Dashboard (For Development)

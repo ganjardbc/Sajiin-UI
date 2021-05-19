@@ -15,8 +15,8 @@ import "./assets/sass/app.css";
 import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
-// const api = "http://localhost:8000";
 const api = "https://kebunbegonialembang.com/sajiin-v2/public/";
+const deploy = "https://ganjardbc.github.io/Sajiin-UI/";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = api;
@@ -31,32 +31,33 @@ Vue.use(SmartTable);
 
 
 Vue.$cookies.config('7d');
-Vue.prototype.apiUrl = api
-Vue.prototype.initUrl = url
-Vue.prototype.adminImageThumbnailUrl = api + '/contents/users/thumbnails/'
-Vue.prototype.adminImageCoverUrl = api + '/contents/users/covers/'
-Vue.prototype.benefitImageThumbnailUrl = api + '/contents/benefits/thumbnails/'
-Vue.prototype.benefitImageCoverUrl = api + '/contents/benefits/covers/'
-Vue.prototype.productImageThumbnailUrl = api + '/contents/products/thumbnails/'
-Vue.prototype.productImageCoverUrl = api + '/contents/products/covers/'
-Vue.prototype.articleImageThumbnailUrl = api + '/contents/articles/thumbnails/'
-Vue.prototype.articleImageCoverUrl = api + '/contents/articles/covers/'
-Vue.prototype.categoryImageThumbnailUrl = api + '/contents/categories/thumbnails/'
-Vue.prototype.categoryImageCoverUrl = api + '/contents/categories/covers/'
-Vue.prototype.paymentImageThumbnailUrl = api + '/contents/payments/thumbnails/'
-Vue.prototype.paymentImageCoverlUrl = api + '/contents/payments/covers/'
-Vue.prototype.shipmentImageThumbnaiUrl = api + '/contents/shipments/thumbnails/'
-Vue.prototype.shipmentImageCoverUrl = api + '/contents/shipments/covers/'
-Vue.prototype.customerImageThumbnailUrl = api + '/contents/customers/thumbnails/'
-Vue.prototype.customerImageCoverUrl = api + '/contents/customers/covers/'
-Vue.prototype.tableImageThumbnailUrl = api + '/contents/tables/thumbnails/'
-Vue.prototype.tableImageCoverUrl = api + '/contents/tables/covers/'
-Vue.prototype.feedbackImageThumbnailUrl = api + '/contents/feedbacks/thumbnails/'
-Vue.prototype.feedbackImageCoverUrl = api + '/contents/feedbacks/covers/'
+Vue.prototype.deployUrl = deploy;
+Vue.prototype.apiUrl = api;
+Vue.prototype.initUrl = url;
+Vue.prototype.adminImageThumbnailUrl = api + '/contents/users/thumbnails/';
+Vue.prototype.adminImageCoverUrl = api + '/contents/users/covers/';
+Vue.prototype.benefitImageThumbnailUrl = api + '/contents/benefits/thumbnails/';
+Vue.prototype.benefitImageCoverUrl = api + '/contents/benefits/covers/';
+Vue.prototype.productImageThumbnailUrl = api + '/contents/products/thumbnails/';
+Vue.prototype.productImageCoverUrl = api + '/contents/products/covers/';
+Vue.prototype.articleImageThumbnailUrl = api + '/contents/articles/thumbnails/';
+Vue.prototype.articleImageCoverUrl = api + '/contents/articles/covers/';
+Vue.prototype.categoryImageThumbnailUrl = api + '/contents/categories/thumbnails/';
+Vue.prototype.categoryImageCoverUrl = api + '/contents/categories/covers/';
+Vue.prototype.paymentImageThumbnailUrl = api + '/contents/payments/thumbnails/';
+Vue.prototype.paymentImageCoverlUrl = api + '/contents/payments/covers/';
+Vue.prototype.shipmentImageThumbnaiUrl = api + '/contents/shipments/thumbnails/';
+Vue.prototype.shipmentImageCoverUrl = api + '/contents/shipments/covers/';
+Vue.prototype.customerImageThumbnailUrl = api + '/contents/customers/thumbnails/';
+Vue.prototype.customerImageCoverUrl = api + '/contents/customers/covers/';
+Vue.prototype.tableImageThumbnailUrl = api + '/contents/tables/thumbnails/';
+Vue.prototype.tableImageCoverUrl = api + '/contents/tables/covers/';
+Vue.prototype.feedbackImageThumbnailUrl = api + '/contents/feedbacks/thumbnails/';
+Vue.prototype.feedbackImageCoverUrl = api + '/contents/feedbacks/covers/';
 
 const token = Vue.$cookies.get('token'); 
 const router = new VueRouter({
-    // mode: 'history',
+    mode: 'history',
     routes: routes,
     base: process.env.BASE_URL,
     scrollBehavior(to, from, savedPosition) {
