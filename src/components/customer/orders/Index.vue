@@ -1,0 +1,594 @@
+<template>
+    <div id="product">
+        <div class="main-screen" style="padding-top: 30px;">
+            <div class="fonts fonts-22 semibold black" style="margin-bottom: 20px;">Make Order</div>
+            <div class="display-flex display-mobile">
+                <div class="width width-65 width-mobile" style="margin-bottom: 20px;">
+                    <div class="width width-full" style="margin-bottom: 30px;">
+                        <div class="card box-shadow">
+                            <div>
+                                <div class="display-flex">
+                                    <div style="width: calc(100% - 40px);">
+                                        <div v-if="selectedCustomer" class="display-flex">
+                                            <div style="width: 60px; margin-right: 20px;">
+                                                <div class="image image-padding image-circle">
+                                                    <img :src="selectedCustomer ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="" class="post-center">
+                                                </div>
+                                            </div>
+                                            <div style="width: calc(100% - 80px);">
+                                                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ selectedCustomer && selectedCustomer.name ? selectedCustomer.name : '-' }}</div>
+                                                <div class="display-flex" style="margin-bottom: 5px;">
+                                                    <div style="width: 25px;">
+                                                        <i class="fa fa-lw fa-envelope" style="font-size: 14px; color: #555;" />
+                                                    </div>
+                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.email ? selectedCustomer.email : '-' }}</div>
+                                                </div>
+                                                <div class="display-flex" style="margin-bottom: 5px;">
+                                                    <div style="width: 25px;">
+                                                        <i class="fa fa-lw fa-phone" style="font-size: 14px; color: #555;" />
+                                                    </div>
+                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.phone ? selectedCustomer.phone : '-' }}</div>
+                                                </div>
+                                                <div class="display-flex">
+                                                    <div style="width: 25px;">
+                                                        <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
+                                                    </div>
+                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about ? selectedCustomer.about : '-' }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            <div class="fonts fonts-11 semibold" style="margin-top: 12px;">Customer not selected</div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 40px;">
+                                        <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
+                                            <i class="fa fa-lg fa-arrow-right" />
+                                        </button> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="visibleAddress" class="card border-full" style="margin-top: 15px;">
+                                <div class="display-flex">
+                                    <div style="width: calc(100% - 40px)">
+                                        <div v-if="selectedAddress" class="display-flex">
+                                            <div style="width: 40px;">
+                                                <i class="fa fa-lg fa-map-marker-alt fonts main" style="margin-top: 5px;"></i>
+                                            </div>
+                                            <div style="width: calc(100% - 80px);">
+                                                <div class="display-flex">
+                                                    <div class="fonts fonts-10">{{ selectedAddress && selectedAddress.name ? selectedAddress.name : '-' }}</div>
+                                                    <AppDote style="margin-top: 8px;" />
+                                                    <div class="fonts fonts-10 grey">{{ selectedAddress && selectedAddress.type ? selectedAddress.type : '-' }}</div>
+                                                </div>
+                                                <div class="fonts fonts-11 semibold">{{ selectedAddress && selectedAddress.address ? selectedAddress.address : '-' }}</div>
+                                            </div>
+                                        </div>
+                                        <div v-else>
+                                            <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Address not selected</div>
+                                        </div>
+                                    </div>
+                                    <div style="width: 40px;">
+                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openAddress">
+                                            <i class="fa fa-lg fa-arrow-right" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="width width-full">
+                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Products</div>
+                        <AppCardOrderItem :data.sync="data" />
+                        <!-- <AppShowHide v-if="data.length > 1" :title="'View More Products (' + (data.length - 1) + ')'">
+                            <AppCardOrderItem :data.sync="data" :from="0" :to="data.length" />
+                        </AppShowHide> -->
+                    </div>
+
+                    <div class="width width-100 margin margin-top-30-px">
+                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Shipments</div>
+                        <div class="card border-full">
+                            <div class="display-flex space-between">
+                                <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Choose shipment method</div>
+                                <div style="width: 40px;">
+                                    <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
+                                        <i class="fa fa-lg fa-arrow-right" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                <div style="width: 45px; margin-right: 15px">
+                                    <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                        <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
+                                    </div>
+                                </div>
+                                <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                    <div class="post-tops">
+                                        <div class="fonts fonts-10 semibold black">
+                                            {{ selectedShipment && selectedShipment.name }}
+                                        </div>
+                                        <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
+                                    </div>
+                                    <div class="post-tops">
+                                        <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="width width-100 margin margin-top-30-px">
+                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Payments</div>
+                        <div class="card border-full">
+                            <div class="display-flex space-between">
+                                <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Choose payment method</div>
+                                <div style="width: 40px;">
+                                    <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
+                                        <i class="fa fa-lg fa-arrow-right" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-if="selectedPayment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                <div style="width: 45px; margin-right: 15px">
+                                    <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                        <img alt="" :src="selectedPayment ? (paymentImageThumbnailUrl + selectedPayment.image) : ''" />
+                                    </div>
+                                </div>
+                                <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                    <div class="post-tops">
+                                        <div class="fonts fonts-10 semibold black">
+                                            {{ selectedPayment && selectedPayment.name }}
+                                        </div>
+                                        <div class="fonts fonts-10 grey">{{ selectedPayment && selectedPayment.description }}</div>
+                                    </div>
+                                    <div class="post-tops">
+                                        <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="width width-100 margin margin-top-30-px">
+                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Notes</div>
+                        <textarea 
+                            name="note" 
+                            id="note" 
+                            class="field field-sekunder field-textarea" 
+                            v-model="formPayload.order.note"
+                            ></textarea>
+                    </div>
+                </div>
+                <div class="width width-5"></div>
+                <div class="width width-30 width-mobile">
+                    <div class="width width-100">
+                        <div class="border-full padding padding-15-px">
+                            <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Order Summary</div>
+                            <div class="display-flex space-between margin margin-bottom-5-px">
+                                <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
+                                <div class="fonts fonts-11 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
+                            </div>
+                            <div class="display-flex space-between margin margin-bottom-5-px">
+                                <div class="fonts fonts-10 black">Delivery fee</div>
+                                <div class="fonts fonts-11 grey semibold">Rp {{ formPayload && formPayload.order.delivery_fee }}</div>
+                            </div>
+                            <div class="display-flex space-between margin margin-bottom-20-px">
+                                <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
+                                <div class="fonts fonts-11 grey semibold">Rp {{ totalPPN }}</div>
+                            </div>
+
+                            <div class="display-flex space-between margin margin-bottom-20-px">
+                                <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Total Payment</div>
+                                <div class="fonts fonts-11 main semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
+                            </div>
+
+                            <button 
+                                v-if="selectedPayment && selectedShipment && selectedCustomer" 
+                                class="btn btn-main btn-full" 
+                                @click="onShowHideSave">
+                                Order Now
+                            </button>
+                            <button v-else class="btn btn-primary btn-full">
+                                Order Now
+                            </button>
+
+                            <button class="btn btn-sekunder btn-full" style="margin-top: 15px;" @click="onShowHideCancel">
+                                Cancel Order ?
+                            </button>
+                        </div>
+                        <button class="btn btn-sekunder btn-full" style="margin-top: 15px;" @click="makeToast('Chat Admin')">
+                            Chat Admin 
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <FormCustomer 
+            v-if="visiblePopupCustomer" 
+            :selectedID="selectedCustomer && selectedCustomer.id ? selectedCustomer.id : 0" 
+            :data.sync="dataCustomer"
+            :onChange="(data) => onChangeCustomer(data)"
+            :onClose="openCustomer" 
+        />
+        
+        <FormAddress 
+            v-if="visiblePopupAddress"
+            :selectedID="selectedAddress && selectedAddress.id ? selectedAddress.id : 0" 
+            :data.sync="dataAddress"
+            :onClose="openAddress"
+            :onChange="(data) => onChangeAddress(data)"
+        />
+
+        <FormShipment
+            v-if="visiblePopupShipment"
+            :selectedID="selectedShipment && selectedShipment.id ? selectedShipment.id : 0" 
+            :data.sync="dataShipment"
+            :onClose="openShipment"
+            :onChange="(data) => onChangeShipment(data)"
+        />
+
+        <FormPayment
+            v-if="visiblePopupPayment"
+            :selectedID="selectedPayment && selectedPayment.id ? selectedPayment.id : 0" 
+            :data.sync="dataPayment"
+            :onClose="openPayment"
+            :onChange="(data) => onChangePayment(data)"
+        />
+
+        <AppAlert 
+            v-if="visibleAlertCancel" 
+            :title="'Cancel this order ?'" 
+            :onClose="onShowHideCancel" 
+            :onSave="onCancelOrder" />
+        
+        <AppAlert 
+            v-if="visibleAlertSave" 
+            :title="'Save this order ?'" 
+            :isLoader="visibleLoaderSave"
+            :onClose="onShowHideSave" 
+            :onSave="onSaveOrder" />
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+import AppAlert from '../../modules/AppAlert'
+import AppWrapper from '../../modules/AppWrapper'
+import AppButton from '../../modules/AppButton'
+import AppText from '../../modules/AppText'
+import AppCardCharts from '../../modules/AppCardCharts'
+import AppCardOrderItem from '../../modules/AppCardOrderItem'
+import AppShowHide from '../../modules/AppShowHide'
+import AppDote from '../../modules/AppDote'
+import FormCustomer from './FormCustomer'
+import FormAddress from './FormAddress'
+import FormShipment from './FormShipment'
+import FormPayment from './FormPayment'
+
+export default {
+    name: 'product',
+    data () {
+        return {
+            visibleLoaderSave: false,
+            visibleAlertSave: false,
+            visibleAlertCancel: false,
+            visiblePopupPayment: false,
+            visiblePopupShipment: false,
+            visiblePopupCustomer: false,
+            visiblePopupAddress: false,
+            visibleAddress: false,
+            visibleButton: false,
+            totalPrice: 0,
+            subtotalPrice: 0,
+            totalProduct: 0,
+            totalPPN: 0,
+            ppn: 0,
+            formPayload: null,
+            data: [],
+            dataPayment: [],
+            dataShipment: [],
+            dataUser: null,
+            dataCustomer: null,
+            dataAddress: null,
+            selectedCustomer: null,
+            selectedAddress: null,
+            selectedShipment: null,
+            selectedPayment: null 
+        }
+    },
+    mounted () {
+        const orderItem = this.$cookies.get('orderItem')
+        this.data = orderItem.details
+        this.dataUser = this.$cookies.get('user')
+        this.formPayload = {...orderItem}
+        this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : this.$cookies.get('customer')
+        this.selectedAddress = orderItem && orderItem.address ? orderItem.address : null
+        this.visibleAddress = this.selectedCustomer ? true : false
+        this.selectedShipment = orderItem && orderItem.shipment ? orderItem.shipment : null
+        this.selectedPayment = orderItem && orderItem.payment ? orderItem.payment : null
+        const csID = this.selectedCustomer ? this.selectedCustomer.customer_id : null
+        this.onChangeOnlyCustomer(this.selectedCustomer)
+        this.onTotal(this.data)
+        this.getDataCustomer()
+        this.getDataAddress(csID)
+        this.getDataPayment()
+        this.getDataShipment()
+
+        // console.log('orderItem', orderItem)
+    },
+    components: {
+        FormPayment,
+        FormShipment,
+        FormCustomer,
+        FormAddress,
+        AppDote,
+        AppShowHide,
+        AppCardOrderItem,
+        AppWrapper,
+        AppButton,
+        AppText,
+        AppCardCharts,
+        AppAlert
+    },
+    computed: {
+        ...mapGetters({
+            cartItems: 'cart/data'
+        })
+    },
+    methods: {
+        ...mapActions({
+            setToast: 'toast/setToast',
+            getCount: 'cart/getCount',
+            getCountOrder: 'order/getCount'
+        }),
+        getLocalCartCount () {
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            this.getCount(token)
+        },
+        getLocalOrderCount () {
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            this.getCountOrder(token)
+        },
+        makeToast (title) {
+            const payload = {
+                visible: true,
+                title: title
+            }
+            this.setToast(payload)
+        },
+        onShowHideSave () {
+            this.visibleAlertSave = !this.visibleAlertSave
+        },
+        onShowHideCancel () {
+            this.visibleAlertCancel = !this.visibleAlertCancel
+        },
+        onCancelOrder () {
+            this.makeToast('Order Canceled')
+            this.$cookies.remove('orderItem')
+            this.$router.push({ name: 'layout-profile' })
+        },
+        onTotal (data) {
+            let qty = 0
+            let price = 0
+            let totalPrice = 0
+            data && data.map((dt) => {
+                qty += dt.quantity
+                price += dt.subtotal
+                totalPrice += dt.subtotal
+            })
+            this.totalPPN = (this.ppn * totalPrice) / 100
+            this.totalProduct = qty
+            this.totalPrice = price 
+            this.subtotalPrice = this.totalPPN + totalPrice
+
+            this.formPayload = {
+                ...this.formPayload,
+                order: {
+                    ...this.formPayload.order,
+                    total_item: qty,
+                    total_price: totalPrice
+                }
+            }
+
+            // console.log('formPayload', this.formPayload)
+
+            if (this.subtotalPrice) {
+                this.visibleButton = true 
+            } else {
+                this.visibleButton = false 
+            }
+        },
+        onChangeOnlyCustomer (data) {
+            this.visibleAddress = true 
+            this.selectedAddress = null 
+            this.formPayload = {
+                ...this.formPayload,
+                customer: data,
+                address: null,
+                order: {
+                    ...this.formPayload.order,
+                    customer_id: data.id,
+                    address_id: null
+                }
+            }
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+        },
+        onChangeCustomer (data) {
+            this.selectedCustomer = data.customer
+            this.dataAddress = data.address
+            this.visibleAddress = true 
+            this.selectedAddress = null 
+            this.formPayload = {
+                ...this.formPayload,
+                customer: this.selectedCustomer,
+                address: null,
+                order: {
+                    ...this.formPayload.order,
+                    customer_id: this.selectedCustomer.id,
+                    address_id: 0
+                }
+            }
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+            this.openCustomer()
+            this.makeToast('Customer Updated')
+            // console.log('onChangeCustomer', data)
+        },
+        onChangeAddress (data) {
+            this.selectedAddress = data 
+            this.formPayload = {
+                ...this.formPayload,
+                address: this.selectedAddress,
+                order: {
+                    ...this.formPayload.order,
+                    address_id: this.selectedAddress.id 
+                }
+            }
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+            this.openAddress()
+            this.makeToast('Address Customer Updated')
+            // console.log('onChangeAddress', data)
+        },
+        onChangeShipment (data) {
+            this.selectedShipment = data 
+            this.formPayload = {
+                ...this.formPayload,
+                shipment: this.selectedShipment,
+                order: {
+                    ...this.formPayload.order,
+                    shipment_id: this.selectedShipment.id 
+                }
+            }
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+            this.openShipment()
+            this.makeToast('Shipment Updated')
+            // console.log('onChangeShipment', data)
+        },
+        onChangePayment (data) {
+            this.selectedPayment = data 
+            this.formPayload = {
+                ...this.formPayload,
+                payment: this.selectedPayment,
+                order: {
+                    ...this.formPayload.order,
+                    payment_id: this.selectedPayment.id 
+                }
+            }
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+            this.openPayment()
+            this.makeToast('Shipment Updated')
+            // console.log('onChangePayment', data)
+        },
+        openCustomer () {
+            this.visiblePopupCustomer = !this.visiblePopupCustomer
+        },
+        openAddress () {
+            this.visiblePopupAddress = !this.visiblePopupAddress
+        },
+        openShipment () {
+            this.visiblePopupShipment = !this.visiblePopupShipment
+        },
+        openPayment () {
+            this.visiblePopupPayment = !this.visiblePopupPayment
+        },
+        async onSaveOrder () {
+            this.visibleLoaderSave = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const time = new Date().getTime()
+            const data = {
+                ...this.formPayload,
+                order: {
+                    ...this.formPayload.order,
+                    order_id: 'ODR-' + time.toString()
+                }
+            }
+            
+            const rest = await axios.post('/api/order/postCustomer', data, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                this.visibleAlertSave = false
+                this.onShowHideSave()
+                this.makeToast('Your Order Created')
+                this.getLocalCartCount()
+                this.getLocalOrderCount()
+                this.$cookies.remove('orderItem')
+                this.$router.push({ name: 'customer-layout' })
+            } else {
+                this.visibleAlertSave = false
+                this.onShowHideSave()
+                this.makeToast('Order Failed to Create')
+            }
+
+            // console.log('makeOrder', rest)
+        },
+        async getDataPayment () {
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                limit: 1000,
+                offset: 0,
+                status: 'active'
+            }
+            const rest = await axios.post('/api/payment/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.dataPayment = data
+            }
+
+            // console.log('rest', rest)
+        },
+        async getDataShipment () {
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                limit: 1000,
+                offset: 0,
+                status: 'active'
+            }
+            const rest = await axios.post('/api/shipment/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.dataShipment = data
+            }
+
+            // console.log('rest', rest)
+        },
+        async getDataCustomer () {
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                limit: 1000,
+                offset: 0,
+                user_id: this.dataUser.id,
+                status: 'active'
+            }
+            const rest = await axios.post('/api/customer/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.dataCustomer = data
+            }
+        },
+        async getDataAddress (csID) {
+            if (csID) {
+                const token = 'Bearer '.concat(this.$cookies.get('token'))
+                const payload = {
+                    limit: 1000,
+                    offset: 0,
+                    customer_id: csID
+                }
+                const rest = await axios.post('/api/address/getAll', payload, { headers: { Authorization: token } })
+
+                if (rest && rest.status === 200) {
+                    const data = rest.data.data
+                    this.dataAddress = data
+                }
+            } else {
+                // console.log('csID not defined', csID)
+            }
+        }
+    },
+}
+</script>

@@ -1,0 +1,36 @@
+.field {
+    position: relative;
+    width: calc(100% - 20px);
+    padding: 13px 10px;
+    font-size: 13px;
+    &.field-main {
+        background-color: $main-color;
+        color: #fff;
+        border: 1px $main-color solid;
+    }
+    &.field-primary {
+        background-color: #f5f5f5;
+        color: $black;
+        border: 1px #f5f5f5 solid;
+    }
+    &.field-link {
+        background-color: #fff;
+        color: $black;
+        border: 1px #fff solid;
+    }
+    &.field-sekunder {
+        background-color: #fff;
+        color: $black;
+        border: 1px #ccc solid;
+    }
+    &.field-sekunder:focus {
+        box-shadow: 0 0 0 #fff;
+    }
+    &.field-radius {
+        border-radius: 3.5px;
+    }
+    &.field-radius-rounded {
+        border-radius: 55px;
+        padding: 12.8px 16px;
+    }
+}

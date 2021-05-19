@@ -1,0 +1,99 @@
+<template>
+    <div :class="isListView ? '' : 'display-flex wrap'" id="AppCardGrid">
+        <div 
+            v-for="(dt, index) in datas" 
+            :key="index" 
+            :class="(isListView ? 'column-1' : 'column-4')"
+            :style="'position: relative; padding: 0;'"
+        >
+            <div class="column-margin">
+                <div :class="'card no-padding box-shadow ' + (isListView && 'mobile-grid')" style="margin-top: 30px;">
+                    <div class="left">
+                        <router-link :to="{name: 'product', params: {id: dt.product_id}}">
+                            <div class="cover">
+                                <img :src="dt.image" alt="product" class="post-center" style="width: 100%;">
+                            </div>
+                        </router-link>
+                    </div>
+                    <div class="right">
+                        <div style="position: relative; width: 100%; margin-bottom: 15px;">
+                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="fonts fonts-11 semibold black" style="margin-top: 0;">
+                                {{ dt.title }}
+                            </router-link>
+                            <div class="fonts fonts-9 grey" style="margin-top: 5px;">{{ dt.category }}</div>
+                            <div class="fonts fonts-11 semibold black" style="margin-top: 5px;">Rp {{ dt.price }}</div>
+                        </div>
+                        <div class="display-flex space-between">
+                            <div class="display-flex">
+                                <div :class="dt.is_available ? 'card-capsule active' : 'card-capsule'" style="margin-top: 4px; margin-right: 10px;">{{ dt.available }}</div>
+                            </div>
+                            <!-- <div>
+                                <AppLikeButton :productID.sync="dt.id" />
+                            </div> -->
+                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="btn btn-main-reverse" style="padding-left: 0; padding-right: 0">
+                                Detail <i class="icn fa fa-1x fa-arrow-right" />
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+import AppWrapper from './AppWrapper'
+import AppButton from './AppButton'
+import AppText from './AppText'
+import AppLikeButton from './AppLikeButton'
+
+export default {
+    name: 'AppCardGrid',
+    data () {
+        return {
+            icon: '',
+            datas: this.data
+        }
+    },
+    components: {
+        AppLikeButton,
+        AppWrapper,
+        AppButton,
+        AppText
+    },
+    props: {
+        isListView: {
+            type: Boolean,
+            required: false
+        },
+        data: {
+            required: true
+        }
+    },
+    // mounted() {
+    //     console.log('data', this.data)
+    // },
+    methods: {
+        ...mapActions({
+            setToast: 'toast/setToast'
+        }),
+        makeToast (title) {
+            const payload = {
+                visible: true,
+                title: title
+            }
+            this.setToast(payload)
+        },
+    },
+    watch: {
+        data: function (props, prevProps) {
+            if (props) {
+                this.datas = props
+            } else {
+                this.datas = []
+            }
+        }
+    }
+}
+</script>
