@@ -5,9 +5,6 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/Sajiin-UI/'
-    : '/',
   dev: {
 
     // Paths
@@ -46,7 +43,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../docs'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/Sajiin-UI/',
 
     /**
      * Source Maps
