@@ -38,7 +38,7 @@ export default {
         this.selectedTable = this.$cookies.get('table')
 
         const token = 'Bearer '.concat(this.$cookies.get('token'))
-        const user = this.$cookies.get('user')
+        const user = this.$cookies.get('admin')
         const uID = user && user.id
         this.payloadWishelist = {
             ...this.payloadWishelist,
