@@ -102,7 +102,7 @@ import { mapGetters, mapActions } from 'vuex'
 import AppPopupForm from './AppPopupForm'
 import AppAlert from './AppAlert'
 import AppEmpty from './AppEmpty'
-import Apploader from './AppLoader'
+import AppLoader from './AppLoader'
 import SearchField from './SearchField'
 
 const payload = {}
@@ -137,7 +137,7 @@ export default {
     },
     components: {
         SearchField,
-        Apploader,
+        AppLoader,
         AppEmpty,
         AppPopupForm,
         AppAlert
