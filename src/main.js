@@ -11,7 +11,7 @@ import store from './store';
 import SmartTable from 'vuejs-smart-table';
 import jquery from 'jquery';
 import "./assets/sass/app.css";
-// import "./assets/icons/fontawesome/css/all.min.css";
+import "./assets/icons/fontawesome/css/all.min.css";
 import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
