@@ -553,7 +553,7 @@ export default {
                 this.getLocalCartCount()
                 this.getLocalOrderCount()
                 this.$cookies.remove('orderItem')
-                this.$router.push({ name: 'customer-layout' })
+                this.$router.push({ name: 'customer-order' })
             } else {
                 this.visibleAlertSave = false
                 this.onShowHideSave()
