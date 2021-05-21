@@ -163,7 +163,7 @@
                     <div class="width width-100">
                         <div class="component-mobile">
                             <div class="component-mobile-content">
-                                <AppShowHide title="Order Summary" style="margin-bottom: 10px;">
+                                <AppShowHide :title="'Rp. ' + (formPayload && formPayload.order.total_price)" style="margin-bottom: 10px;">
                                     <div class="display-flex space-between margin margin-bottom-5-px">
                                         <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>

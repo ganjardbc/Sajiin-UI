@@ -124,7 +124,7 @@
                         <div class="width width-100 width-mobile">
                             <div class="component-mobile">
                                 <div class="component-mobile-content">
-                                    <AppShowHide title="Detail Order" style="margin-bottom: 10px;">
+                                    <AppShowHide :title="'Rp. ' + subtotalSelected" style="margin-bottom: 10px;">
                                         <div class="left">
                                             <div style="padding-bottom: 10px;">
                                                 <div class="fonts fonts-10 grey" style="padding-bottom: 5px;">Quantity</div>

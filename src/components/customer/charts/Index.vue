@@ -48,7 +48,7 @@
                     <div class="width width-100 width-mobile">
                         <div class="component-mobile">
                             <div class="component-mobile-content">
-                                <AppShowHide title="Order Summary" style="margin-bottom: 10px;">
+                                <AppShowHide :title="'Rp. ' + subtotalPrice" style="margin-bottom: 10px;">
                                     <div>
                                         <div class="display-flex space-between margin margin-bottom-5-px">
                                             <div class="fonts fonts-10 black">Total price ({{ totalProduct }} products)</div>
