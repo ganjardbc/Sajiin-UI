@@ -31,54 +31,58 @@
                     </div>
                 </div>
 
-                <div v-if="datas.length > 0">
-                    <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                        <div class="display-flex display-mobile space-between border-bottom" style="padding-top: 5px; padding-bottom: 15px;">
-                            <div class="width width-10 width-mobile" style="margin-bottom: 20px;">
-                                <div class="image image-50px image-circle">
-                                    <img :src="'/contents/feedbacks/thumbnails/' + dt.image" alt="" class="post-center">
+                <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
+
+                <div v-else>
+                    <div v-if="datas.length > 0">
+                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                            <div class="display-flex display-mobile space-between border-bottom" style="padding-top: 5px; padding-bottom: 15px;">
+                                <div class="width width-10 width-mobile" style="margin-bottom: 20px;">
+                                    <div class="image image-50px image-circle">
+                                        <img :src="'/contents/feedbacks/thumbnails/' + dt.image" alt="" class="post-center">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="width width-90 width-mobile">
-                                <div class="display-flex" style="margin-bottom: 5px;">
-                                    <div class="fonts fonts-12 semibold">{{ dt.name }}</div>
-                                    <div class="fa fa-1x fa-circle" style="color: #999; font-size: 5px; margin-left: 5px; margin-right: 5px; margin-top: 10px;"></div>
-                                    <div class="fonts fonts-12 grey">{{ dt.work }}</div>
+                                <div class="width width-90 width-mobile">
+                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                        <div class="fonts fonts-12 semibold">{{ dt.name }}</div>
+                                        <div class="fa fa-1x fa-circle" style="color: #999; font-size: 5px; margin-left: 5px; margin-right: 5px; margin-top: 10px;"></div>
+                                        <div class="fonts fonts-12 grey">{{ dt.work }}</div>
+                                    </div>
+                                    <div class="fonts fonts-12 grey">"{{ dt.feedback }}"</div>
                                 </div>
-                                <div class="fonts fonts-12 grey">"{{ dt.feedback }}"</div>
-                            </div>
-                            <div style="position: absolute; top: 15px; right: 10px;">
-                                <!-- <div class="card-capsule active" style="margin-left: 15px; text-transform: capitalize;">{{ dt.status }}</div> -->
-                                <div class="display-flex space-between">
-                                    <div></div>
-                                    <div 
-                                        :class="'card-capsule ' + (
-                                        dt.status === 'active' 
-                                            ? 'active' 
-                                            : ''
-                                        )" 
-                                        style="margin-left: 15px; text-transform: capitalize;">
-                                        {{ dt.status }}
+                                <div style="position: absolute; top: 15px; right: 10px;">
+                                    <!-- <div class="card-capsule active" style="margin-left: 15px; text-transform: capitalize;">{{ dt.status }}</div> -->
+                                    <div class="display-flex space-between">
+                                        <div></div>
+                                        <div 
+                                            :class="'card-capsule ' + (
+                                            dt.status === 'active' 
+                                                ? 'active' 
+                                                : ''
+                                            )" 
+                                            style="margin-left: 15px; text-transform: capitalize;">
+                                            {{ dt.status }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="display-flex space-between" style="padding-top: 15px;">
-                            <div></div>
-                            <div class="display-flex">
-                                <button class="btn btn-white btn-icon btn-radius" @click="onShowEdit(dt.id)">
-                                    <i class="fa fa-lw fa-pencil-alt" />
-                                </button>
-                                <button class="btn btn-white btn-icon btn-radius" @click="onShowHideDelete(dt.id)">
-                                    <i class="fa fa-lw fa-trash-alt" />
-                                </button>
-                                <!-- <AppButtonMenu :onChange="(data) => onChangeMenu(data, dt.id)" :data="[{label: 'Edit'}, {label: 'Hapus'}]" /> -->
+                            <div class="display-flex space-between" style="padding-top: 15px;">
+                                <div></div>
+                                <div class="display-flex">
+                                    <button class="btn btn-white btn-icon btn-radius" @click="onShowEdit(dt.id)">
+                                        <i class="fa fa-lw fa-pencil-alt" />
+                                    </button>
+                                    <button class="btn btn-white btn-icon btn-radius" @click="onShowHideDelete(dt.id)">
+                                        <i class="fa fa-lw fa-trash-alt" />
+                                    </button>
+                                    <!-- <AppButtonMenu :onChange="(data) => onChangeMenu(data, dt.id)" :data="[{label: 'Edit'}, {label: 'Hapus'}]" /> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div v-else>
-                    <AppEmpty />
+                    <div v-else>
+                        <AppEmpty />
+                    </div>
                 </div>
 
             </div>
@@ -116,6 +120,7 @@ import AppButtonMenu from '../../modules/AppButtonMenu'
 import AppAlert from '../../modules/AppAlert'
 import AppEmpty from '../../modules/AppEmpty'
 import AppMobileLayout from '../../modules/AppMobileLayout'
+import AppLoader from '../../modules/AppLoader'
 import FormFeedback from './forms/Feedback'
 
 export default {
@@ -145,6 +150,7 @@ export default {
         this.getData()
     },
     components: {
+        AppLoader,
         AppMobileLayout,
         AppEmpty,
         AppAlert,

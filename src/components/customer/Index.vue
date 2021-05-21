@@ -12,7 +12,7 @@
                     <div style="position: relative; width: calc(100% - 82px;">
                         <div class="display-flex space-between" style="margin-bottom: 5px;">
                             <div class="display-flex">
-                                <div class="fonts fonts-12 semibold" style="margin-right: 10px;">{{ user && user.name }}</div>
+                                <div class="fonts fonts-11 semibold" style="margin-right: 10px;">{{ user && user.name }}</div>
                                 <div class="card-verified not" style="margin-right: 6px;">
                                     <i class="icn fa fa-lw fa-info"></i>
                                 </div>

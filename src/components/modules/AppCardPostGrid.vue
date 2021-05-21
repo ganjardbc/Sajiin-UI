@@ -17,11 +17,11 @@
                     </div>
                     <div class="right">
                         <div style="position: relative; width: 100%; margin-bottom: 10px;">
-                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="fonts fonts-11 semibold black" style="margin-top: 0;">
+                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="fonts fonts-10 semibold black" style="margin-top: 0;">
                                 {{ dt.title }}
                             </router-link>
                             <div class="fonts fonts-9 grey" style="margin-top: 3px;">{{ dt.category }}</div>
-                            <div class="fonts fonts-11 semibold black" style="margin-top: 3px;">Rp {{ dt.price }}</div>
+                            <div class="fonts fonts-10 semibold black" style="margin-top: 3px;">Rp {{ dt.price }}</div>
                         </div>
                         <div class="display-flex space-between">
                             <div class="display-flex">
