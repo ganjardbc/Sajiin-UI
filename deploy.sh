@@ -22,4 +22,6 @@ git commit -m 'deploy'
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:ganjardbc/Sajiin-UI.git main:gh-pages
 
+git push origin master
+
 cd -

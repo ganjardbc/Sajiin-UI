@@ -1,9 +1,9 @@
 <template>
-    <div id="CustomerLayout">
-        <div id="header" class="border-bottom">
-            <div id="header-container" class="header-mobile">
+    <div id="CustomerLayout" class="mobile">
+        <div class="navbar-header border-bottom">
+            <div class="navbar-header-content">
                 <div class="left">
-                    <router-link :to="{name: 'customer-main'}" style="position: relative; width: 100%; top: -10px; left: -7.5px;">
+                    <router-link :to="{name: 'customer-main'}" style="position: relative; width: 100%; top: 0; left: -7.5px;">
                         <img :src="logo" alt="SAJI-IN" style="width: 100%;">
                     </router-link>
                 </div>
@@ -11,13 +11,13 @@
                     <div class="header-menu-content display-flex space-between display-mobile">
                         <div></div>
                         <div class="header-menu-list display-flex">
-                            <router-link v-if="selectedCustomer.id" :to="{name: 'customer-notifications'}" class="btn btn-icon btn-white" style="height: 14px;">
-                                <i class="label-icon fa fa-lg fa-bell" style="font-size: 20px;" />
-                                <span class="notif">0</span>
+                            <router-link v-if="selectedCustomer.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
+                                <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
+                                <span class="notif">{{ cart }}</span>
                             </router-link>
-                            <div class="header-search mobile">
+                            <!-- <div class="header-search mobile">
                                 <SearchField :enableResponsive="true" :placeholder="'Search products ..'" />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -26,30 +26,45 @@
         <div id="body">
             <router-view />
         </div>
-        <div style="padding-bottom: 80px;"></div>
+        <div style="padding-bottom: 70px;"></div>
         <div class="navbar-bottom">
             <div v-if="selectedCustomer.id" class="main-screen display-flex space-between">
-                <router-link :to="{name: 'customer-main'}" class="btn btn-icon btn-mobile btn-white" style="height: 16px;">
-                    <i class="label-icon fa fa-lg fa-home" style="font-size: 18px;" />
-                    <span class="label-text">Home</span>
-                </router-link>
-                <router-link :to="{name: 'customer-chart'}" class="btn btn-icon btn-mobile btn-white" style="height: 16px;">
-                    <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
-                    <span class="label-text">Carts</span>
-                    <span class="notif">{{ cart }}</span>
-                </router-link>
-                <router-link :to="{name: 'customer-layout'}" class="btn btn-icon btn-mobile btn-white" style="height: 16px;">
-                    <i class="label-icon fa fa-lg fa-user" style="font-size: 18px;" />
-                    <span class="label-text">Me</span>
-                    <span class="notif">{{ order }}</span>
-                </router-link>
+                <ul class="menu-navbar">
+                    <router-link :to="{name: 'customer-main'}">
+                        <li>
+                            <div class="icon">
+                                <i class="label-icon fa fa-lg fa-home" />
+                            </div>
+                            <div class="label">
+                                Home
+                            </div>
+                        </li>
+                    </router-link>
+                    <router-link :to="{name: 'customer-search'}">
+                        <li>
+                            <div class="icon">
+                                <i class="label-icon fa fa-lg fa-search" />
+                            </div>
+                            <div class="label">
+                                Search
+                            </div>
+                        </li>
+                    </router-link>
+                    <router-link :to="{name: 'customer-profile'}">
+                        <li>
+                            <div class="icon">
+                                <i class="label-icon fa fa-lg fa-user" />
+                                <span class="notif">{{ order }}</span>
+                            </div>
+                            <div class="label">
+                                Account
+                            </div>
+                        </li>
+                    </router-link>
+                </ul>
             </div>
             <div v-else class="main-screen display-flex space-between">
-                <router-link :to="{name: 'customer-main'}" class="btn btn-icon btn-mobile btn-white" style="height: 13px;">
-                    <i class="label-icon fa fa-lg fa-home" style="font-size: 18px;" />
-                    <span class="label-text">Home</span>
-                </router-link>
-                <AppButtonScanner title="Register Customer" icon="fa fa-lg fa-plus-circle" :isFull="true" :onChange="(data) => onChangeCustomer(data)" style="width: 100%;" />
+                <AppButtonScanner title="Register Customer" icon="fa fa-lg fa-plus-circle" :isFull="true" :onChange="(data) => onChangeCustomer(data)" style="width: 100%; margin-top: 7px;" />
             </div>
         </div>
 

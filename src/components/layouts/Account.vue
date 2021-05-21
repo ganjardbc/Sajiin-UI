@@ -1,51 +1,6 @@
 <template>
-    <div id="App" class="main-screen" style="padding-top: 40px;">
-        <div class="display-flex display-mobile space-between">
-            <div class="width width-25 width-mobile" style="margin-bottom: 30px;">
-                <div class="card box-shadow bg-white">
-                    <div class="display-flex border border-bottoms" style="padding-bottom: 15px;">
-                        <div style="width: 45px; margin-right: 15px;">
-                            <div class="image image-circle image-45px" style="margin: auto; text-align: center;">
-                                <i v-if="!selectedCustomer" class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
-                                <img v-else :src="selectedCustomer && selectedCustomer.image ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="">
-                            </div>
-                        </div>
-                        <div style="width: calc(100% - 125px);">
-                            <div class="fonts fonts-13 semibold">{{ selectedCustomer && selectedCustomer.name }}</div>
-                            <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about }}</div>
-                        </div>
-                        <div class="display-flex space-between" style="width: 65px;">
-                            <button class="btn btn-small-icon btn-sekunder">
-                                <i class="fa fa-1x fa-cog"></i>
-                            </button>
-                            <button class="btn btn-small-icon btn-sekunder" @click="onLogout">
-                                <i class="fa fa-1x fa-power-off"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 15px; padding-bottom: 15px;">
-                        <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
-                            You have a drafts
-                        </div>
-                        <div class="display-flex">
-                            <router-link :to="{name: 'order'}" class="card-capsule active" style="width: 100%; text-align: center; padding-top: 10px; padding-bottom: 8px;">
-                                Continue make order ?
-                            </router-link>
-                        </div>
-                    </div>
-
-                    <div class="border border-bottoms">
-                        <AppShowHide title="Menus" :isVisible="false">
-                            <AppListMenu :data.sync="sidebar" :isSidebarSmall="isSidebarSmall" :disableResponsive="true" />
-                        </AppShowHide>
-                    </div>
-                </div>
-            </div>
-            <div class="width width-70 width-mobile">
-                <router-view />
-            </div>
-        </div>
+    <div id="App" class="main-screen" style="padding-top: 10px;">
+        <router-view />
     </div>
 </template>
 <script>

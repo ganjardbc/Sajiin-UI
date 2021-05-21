@@ -1,179 +1,176 @@
 <template>
     <div id="product" class="main-screen">
-        <AppLoader v-if="visibleLoader" style="padding-top: 80px;" />
-
-        <div style="padding-top: 0;">
-            <div v-if="!visibleLoader" class="display-flex space-between display-mobile" style="padding-top: 40px;">
-                <div class="width width-25 width-mobile">
-                    <div style="width: 100%; margin-bottom: 20px;">
-                        <div style="padding: 0;">
-                            <div class="image image-padding" style="background-color: #000;">
-                                <img alt="" :src="images && images[imageSelected] && images[imageSelected].cover" />
+        <AppMobileLayout :title="'Products'">
+            <div style="padding-top: 0;">
+                <AppLoader v-if="visibleLoader" style="padding-top: 40px;" />
+                <div v-if="!visibleLoader" class="width width-100" style="padding-top: 10px;">
+                    <div class="width width-100">
+                        <div style="width: 100%; margin-bottom: 20px;">
+                            <div style="padding: 0;">
+                                <div class="image image-padding" style="background-color: #000;">
+                                    <img alt="" :src="images && images[imageSelected] && images[imageSelected].cover" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="display-flex" style="margin-top: 5px;">
-                            <div v-for="(dt, index) in images" :key="index" style="width: calc(100% / 4);">
-                                <div style="padding-top: 10px;">
-                                    <div :class="index === imageSelected ? 'image image-padding image-selected' : 'image image-padding'" style="background-color: #000; cursor: pointer;" @click="changeImage(index)">
-                                        <img alt="" :src="dt.thumbnail" />
+                            <div class="display-flex" style="margin-top: 5px;">
+                                <div v-for="(dt, index) in images" :key="index" style="width: calc(100% / 6);">
+                                    <div style="padding-top: 10px;">
+                                        <div :class="index === imageSelected ? 'image image-padding image-selected' : 'image image-padding'" style="background-color: #000; cursor: pointer;" @click="changeImage(index)">
+                                            <img alt="" :src="dt.thumbnail" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="width width-42 width-mobile">
-                    <div style="width: 100%;">
-                        <div class="display-flex space-between" style="margin-bottom: 15px;">
-                            <div>
-                                <h2 class="fonts fonts-28px semibold black">{{ product && product.name }}</h2>
-                                <h2 class="fonts fonts-24px semibold main">Rp. {{ details[detailSelected] ? details[detailSelected].price : 0 }}</h2>
-                                <div class="display-flex" style="margin-top: 10px;">
-                                    <div :class="product && product.is_available ? 'card-capsule active' : 'card-capsule'" style="margin-top: 4px; margin-right: 10px;">
-                                        {{ product && product.is_available ? 'Available' : 'Unavailable' }}
+                    <div class="width width-100">
+                        <div style="width: 100%;">
+                            <div class="display-flex space-between">
+                                <div>
+                                    <h2 class="fonts fonts-14 semibold black">{{ product && product.name }}</h2>
+                                    <h2 class="fonts fonts-14 semibold main">Rp. {{ details[detailSelected] ? details[detailSelected].price : 0 }}</h2>
+                                    <div class="display-flex" style="margin-top: 10px;">
+                                        <div :class="product && product.is_available ? 'card-capsule active' : 'card-capsule'" style="margin-top: 4px; margin-right: 10px;">
+                                            {{ product && product.is_available ? 'Available' : 'Unavailable' }}
+                                        </div>
+                                        <AppLikeButton :productID.sync="product.id" />
                                     </div>
-                                    <AppLikeButton :productID.sync="product.id" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div style="padding-top: 15px; padding-bottom: 15px;">
-                            <div class="fonts fonts-13px semibold black" style="margin-bottom: 5px;">Description</div>
-                            <div class="fonts fonts-14px grey" style="margin-bottom: 15px;">{{ product && product.description }}</div>
-                            <div class="display-flex">
-                                <router-link :to="'/'" class="btn btn-small btn-primary">{{ product && product.ctr_name }}</router-link>
+                            <div style="padding-top: 15px; padding-bottom: 15px;">
+                                <div class="fonts fonts-10 semibold black" style="margin-bottom: 5px;">Description</div>
+                                <div class="fonts fonts-10 grey" style="margin-bottom: 15px;">{{ product && product.description }}</div>
+                                <div class="display-flex">
+                                    <router-link :to="'/'" class="btn btn-small btn-primary">{{ product && product.ctr_name }}</router-link>
+                                </div>
                             </div>
-                        </div>
 
-                        <div v-if="details && details.length > 0 ? true : false" style="padding-top: 15px; padding-bottom: 5px;">
-                            <div class="fonts fonts-13px semibold black" style="margin-bottom: 5px;">Details</div>
-                            <ul class="menu-capsule">
-                                <li v-for="(dt, index) in details" :key="index" :class="dt.is_available ? detailSelected === index ? 'enable' : '' : 'disable'" @click="changeDetail(index)">
-                                    <div class="row">
-                                        <div style="width: 25px;">
-                                            <i class="icn fa fa-1x fa-utensils" />
-                                        </div>
-                                        <div>
-                                            <div class="ttl">{{ dt.name }}</div>
-                                            <div class="val">Rp. {{ dt.price }}</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div v-if="topings && topings.length > 0 ? true : false" style="padding-top: 15px; padding-bottom: 5px;">
-                            <div class="fonts fonts-13px semibold black" style="margin-bottom: 5px;">Topings</div>
-                            <ul class="menu-capsule">
-                                <li v-for="(dt, index) in topings" :key="index" :class="topingSelected === index ? 'enable' : ''" @click="changeToping(index)">
-                                    <div class="row">
-                                        <div style="width: 25px;">
-                                            <i class="icn fa fa-1x fa-info-circle" />
-                                        </div>
-                                        <div>
-                                            <div class="ttl">{{ dt.name }}</div>
-                                            <div class="val">Rp. {{ dt.price }}</div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="display-flexs space-between" style="padding-top: 15px; padding-bottom: 15px;">
-                            <AppShowHide :title="'Shipments (' + (shipment.length) + ')'" :disableSpaceBetween="true" style="padding-bottom: 20px;">
-                                <div class="display-flex" style="padding-bottom: 15px;" v-for="(dt, index) in shipment" :key="index">
-                                    <div style="width: 45px; margin-right: 15px">
-                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0);">
-                                            <img alt="" :src="dt.thumbnail" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="post-top">
-                                            <div class="fonts fonts-10 semibold black">
-                                                {{ dt.name }} <i :class="dt.status === 'active' ? 'fa fa-1x fa-check-circle' : 'fa fa-1x fa-times-circle'" :style="dt.status === 'active' ? 'color: #38c172;' : 'color: #999;'" />
+                            <div v-if="details && details.length > 0 ? true : false" style="padding-top: 0; padding-bottom: 5px;">
+                                <div class="fonts fonts-10 semibold black" style="margin-bottom: 5px;">Details</div>
+                                <ul class="menu-capsule">
+                                    <li v-for="(dt, index) in details" :key="index" :class="dt.is_available ? detailSelected === index ? 'enable' : '' : 'disable'" @click="changeDetail(index)">
+                                        <div class="row">
+                                            <div style="width: 25px;">
+                                                <i class="icn fa fa-1x fa-utensils" />
                                             </div>
-                                            <div class="fonts fonts-10 grey">{{ dt.description }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </AppShowHide>
-                            <AppShowHide :title="'Payments (' + (payment.length) + ')'" :disableSpaceBetween="true">
-                                <div class="display-flex" style="padding-bottom: 15px;" v-for="(dt, index) in payment" :key="index">
-                                    <div style="width: 45px; margin-right: 15px">
-                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0);">
-                                            <img alt="" :src="dt.thumbnail" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="post-top">
-                                            <div class="fonts fonts-10 semibold black">
-                                                {{ dt.name }} <i :class="dt.status === 'active' ? 'fa fa-1x fa-check-circle' : 'fa fa-1x fa-times-circle'" :style="dt.status === 'active' ? 'color: #38c172;' : 'color: #999;'" />
-                                            </div>
-                                            <div class="fonts fonts-10 grey">{{ dt.description }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </AppShowHide>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="width width-23 width-mobile">
-                    <div class="width width-100 width-mobile">
-                        <div class="component-mobile">
-                            <div class="component-mobile-content border-full border-small-radius">
-                                <AppShowHide title="Detail Order" style="margin-bottom: 10px;">
-                                    <div class="left">
-                                        <div style="padding-bottom: 10px;">
-                                            <div class="fonts fonts-10 grey" style="padding-bottom: 5px;">Quantity</div>
                                             <div>
-                                                <AddQtyField :maximumValue="'10'" :onChange="(data) => this.changeQty(data)" />
+                                                <div class="ttl">{{ dt.name }}</div>
+                                                <div class="val">Rp. {{ dt.price }}</div>
                                             </div>
                                         </div>
-                                        <div class="display-flex space-between" style="padding-bottom: 10px;">
-                                            <div class="fonts fonts-10 grey">Product</div>
-                                            <div class="fonts fonts-10 black semibold">Rp. {{ details[detailSelected] ? details[detailSelected].price : 0 }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div v-if="topings && topings.length > 0 ? true : false" style="padding-top: 0; padding-bottom: 5px;">
+                                <div class="fonts fonts-10 semibold black" style="margin-bottom: 5px;">Topings</div>
+                                <ul class="menu-capsule">
+                                    <li v-for="(dt, index) in topings" :key="index" :class="topingSelected === index ? 'enable' : ''" @click="changeToping(index)">
+                                        <div class="row">
+                                            <div style="width: 25px;">
+                                                <i class="icn fa fa-1x fa-info-circle" />
+                                            </div>
+                                            <div>
+                                                <div class="ttl">{{ dt.name }}</div>
+                                                <div class="val">Rp. {{ dt.price }}</div>
+                                            </div>
                                         </div>
-                                        <div class="display-flex space-between border-bottom" style="padding-bottom: 10px;">
-                                            <div class="fonts fonts-10 grey">Toping</div>
-                                            <div class="fonts fonts-10 black semibold">Rp. {{ topings[topingSelected] ? topings[topingSelected].price : 0 }}</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="display-flexs space-between" style="padding-top: 0; padding-bottom: 15px;">
+                                <AppShowHide :title="'Shipments (' + (shipment.length) + ')'" :disableSpaceBetween="true" style="padding-bottom: 10px;">
+                                    <div class="display-flex" style="padding-bottom: 15px;" v-for="(dt, index) in shipment" :key="index">
+                                        <div style="width: 45px; margin-right: 15px">
+                                            <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0);">
+                                                <img alt="" :src="dt.thumbnail" />
+                                            </div>
                                         </div>
-                                        <!-- <div class="display-flex space-between border-bottom" style="padding-top: 10px; padding-bottom: 10px;">
-                                            <div class="fonts fonts-10 grey">PPN (2%)</div>
-                                            <div class="fonts fonts-10 black semibold">Rp. 0</div>
-                                        </div> -->
-                                        <div class="display-flex space-between" style="padding-top: 10px; padding-bottom: 10px;">
-                                            <div class="fonts fonts-10 grey">Subtotal</div>
-                                            <div class="fonts fonts-10 black semibold">Rp. {{ subtotalSelected }}</div>
+                                        <div>
+                                            <div class="post-top">
+                                                <div class="fonts fonts-10 semibold black">
+                                                    {{ dt.name }} <i :class="dt.status === 'active' ? 'fa fa-1x fa-check-circle' : 'fa fa-1x fa-times-circle'" :style="dt.status === 'active' ? 'color: #38c172;' : 'color: #999;'" />
+                                                </div>
+                                                <div class="fonts fonts-10 grey">{{ dt.description }}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </AppShowHide>
-                                <div class="right">
-                                    <div v-if="customer ? true : true">
-                                        <button 
-                                            v-if="!visibleLoaderAction" 
-                                            :class="!visibleButton ? 'btn btn-primary btn-full' : 'btn btn-main btn-full'" 
-                                            @click="addToCart">
-                                            Add to Chart
-                                        </button>
-                                        <button v-else class="btn btn-primary btn-full">
-                                            Please Wait..
-                                        </button>
+                                <AppShowHide :title="'Payments (' + (payment.length) + ')'" :disableSpaceBetween="true">
+                                    <div class="display-flex" style="padding-bottom: 15px;" v-for="(dt, index) in payment" :key="index">
+                                        <div style="width: 45px; margin-right: 15px">
+                                            <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0);">
+                                                <img alt="" :src="dt.thumbnail" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="post-top">
+                                                <div class="fonts fonts-10 semibold black">
+                                                    {{ dt.name }} <i :class="dt.status === 'active' ? 'fa fa-1x fa-check-circle' : 'fa fa-1x fa-times-circle'" :style="dt.status === 'active' ? 'color: #38c172;' : 'color: #999;'" />
+                                                </div>
+                                                <div class="fonts fonts-10 grey">{{ dt.description }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </AppShowHide>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding-bottom: 15px;"></div>
+
+                    <div class="width width-100">
+                        <div class="width width-100 width-mobile">
+                            <div class="component-mobile">
+                                <div class="component-mobile-content">
+                                    <AppShowHide title="Detail Order" style="margin-bottom: 10px;">
+                                        <div class="left">
+                                            <div style="padding-bottom: 10px;">
+                                                <div class="fonts fonts-10 grey" style="padding-bottom: 5px;">Quantity</div>
+                                                <div>
+                                                    <AddQtyField :maximumValue="'10'" :onChange="(data) => this.changeQty(data)" />
+                                                </div>
+                                            </div>
+                                            <div class="display-flex space-between" style="padding-bottom: 10px;">
+                                                <div class="fonts fonts-10 grey">Product</div>
+                                                <div class="fonts fonts-10 black semibold">Rp. {{ details[detailSelected] ? details[detailSelected].price : 0 }}</div>
+                                            </div>
+                                            <div class="display-flex space-between border-bottom" style="padding-bottom: 10px;">
+                                                <div class="fonts fonts-10 grey">Toping</div>
+                                                <div class="fonts fonts-10 black semibold">Rp. {{ topings[topingSelected] ? topings[topingSelected].price : 0 }}</div>
+                                            </div>
+                                            <!-- <div class="display-flex space-between border-bottom" style="padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="fonts fonts-10 grey">PPN (2%)</div>
+                                                <div class="fonts fonts-10 black semibold">Rp. 0</div>
+                                            </div> -->
+                                            <div class="display-flex space-between" style="padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="fonts fonts-10 grey">Subtotal</div>
+                                                <div class="fonts fonts-10 black semibold">Rp. {{ subtotalSelected }}</div>
+                                            </div>
+                                        </div>
+                                    </AppShowHide>
+                                    <div class="right">
+                                        <div v-if="customer ? true : true">
+                                            <button 
+                                                v-if="!visibleLoaderAction" 
+                                                :class="!visibleButton ? 'btn btn-primary btn-full' : 'btn btn-main btn-full'" 
+                                                @click="addToCart">
+                                                Add to Chart
+                                            </button>
+                                            <button v-else class="btn btn-primary btn-full">
+                                                Please Wait..
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button 
-                            class="btn btn-sekunder btn-full" 
-                            style="margin-bottom: 40px; margin-top: 15px;" 
-                            @click="makeToast('Chat Admin')">
-                            Chat Admin
-                        </button>
                     </div>
-                </div>
 
+                </div>
             </div>
-        </div>
+        </AppMobileLayout>
     </div>
 </template>
 
@@ -187,6 +184,7 @@ import AppLoader from '../../modules/AppLoader'
 import AddQtyField from '../../modules/AddQtyField'
 import AppLikeButton from '../../modules/AppLikeButton'
 import AppShowHide from '../../modules/AppShowHide'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 
 const cartPayload = {
     id: '',
@@ -231,6 +229,7 @@ export default {
         }
     },
     components: {
+        AppMobileLayout,
         AppShowHide,
         AppLikeButton,
         AddQtyField,

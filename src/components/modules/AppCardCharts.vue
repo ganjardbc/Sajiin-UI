@@ -1,17 +1,17 @@
 <template>
     <div id="AppCardCharts">
-        <div v-for="(dt, index) in datas" :key="index" class="display-flex border-bottom" style="padding-top: 20px; padding-bottom: 15px;">
-            <div style="margin-right: 20px;">
+        <div v-for="(dt, index) in datas" :key="index" class="display-flex border-bottom" style="padding-top: 10px; padding-bottom: 10px;">
+            <div style="margin-right: 10px;">
                 <AppButtonChecklist 
                     :checked="dt.disableButton"
                     :onChange="(status) => onChangeList(status, dt)" 
                 />
             </div>
             <div style="width: calc(100% - 45px); position: relative;">
-                <div class="display-flex display-mobile">
-                    <div class="width width-17" style="margin-bottom: 15px;">
+                <div class="display-flex">
+                    <div style="width: 60px; margin-right: 10px;">
                         <router-link :to="{name: 'product', params: {id: dt.prod_id}}">
-                            <div class="image image-100px" style="background-color: #000;">
+                            <div class="image image-padding" style="background-color: #000;">
                                 <img 
                                     :src="productImageThumbnailUrl + dt.product_image" 
                                     alt=""
@@ -20,37 +20,31 @@
                             </div>
                         </router-link>
                     </div>
-                    <div class="width width-83">
+                    <div style="width: calc(100% - 70px);">
                         <div class="width width-100">
-                            <router-link :to="{name: 'product', params: {id: dt.prod_id}}" class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">
+                            <router-link :to="{name: 'product', params: {id: dt.prod_id}}" class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">
                                 {{ dt.product_name }}
                             </router-link>
                             <div class="display-flex">
-                                <div style="width: 100px;" class="fonts fonts-11 grey">Detail</div>
-                                <div>
-                                    <div class="fonts fonts-11 black">: {{ dt.product_detail }} (Rp. {{ dt.price }})</div>
-                                </div>
+                                <div class="fonts fonts-9 black">{{ dt.product_detail }} (Rp. {{ dt.price }})</div>
                             </div>
                             <div v-if="dt.toping_id" class="display-flex">
-                                <div style="width: 100px;" class="fonts fonts-11 grey">Toping</div>
-                                <div>
-                                    <div class="fonts fonts-11 black">: {{ dt.product_toping }} (Rp. {{ dt.toping_price }})</div>
-                                </div>
+                                <div class="fonts fonts-9 black">{{ dt.product_toping }} (Rp. {{ dt.toping_price }})</div>
                             </div>
-                            <div class="fonts fonts-12 semibold black" style="margin-top: 10px;">Rp. {{ dt.subtotal }}</div>
+                            <div class="fonts fonts-10 semibold black" style="margin-top: 5px;">Rp. {{ dt.subtotal }}</div>
                         </div>
                     </div>
                     <div style="position: absolute; top: 0; right: 0;">
-                        <div 
-                            :class="'card-capsule ' + (dt.available === 'available' ? 'active' : '')" 
-                            style="display: inline-block; margin-left: 15px; text-transform: capitalize;">
-                            {{ dt.available }}
-                        </div>
+                        
                     </div>
                 </div>
                 <div class="display-flex space-between margin margin-top-15-px">
-                    <div style="padding-top: 10px;">
-                        <!-- <div class="fonts fonts-11 main cursor-pointer">Create a note for this product</div> -->
+                    <div style="padding-top: 5px;">
+                        <div 
+                            :class="'card-capsule ' + (dt.available === 'available' ? 'active' : '')" 
+                            style="display: inline-block; margin-left: 0; text-transform: capitalize;">
+                            {{ dt.available }}
+                        </div>
                     </div>
                     <div class="display-flex">
                         <!-- <AppLikeButton :productID.sync="dt.product_id" :isBigButton="true" /> -->

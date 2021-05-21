@@ -2,7 +2,7 @@
     <div id="AppButtonChecklist">
         <button 
             :class="'btn btn-small-icon ' + (isChecked ? 'btn-main' : 'btn-sekunder')" 
-            style="width: 25px; height: 25px; padding: 0; border-radius: 100%;"
+            style="width: 22px; height: 22px; padding: 0; border-radius: 100%;"
             @click="onChecked">
             <i :class="'post-center ' + (isChecked ? 'fa fa-lw fa-check' : '')"></i>
         </button>

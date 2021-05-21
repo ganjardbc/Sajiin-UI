@@ -1,83 +1,83 @@
 <template>
     <div id="product">
-        <div class="main-screen" style="padding-top: 30px;">
-            <div class="fonts fonts-22 semibold black" style="margin-bottom: 20px;">Carts</div>
-            <div class="display-flex display-mobile">
-                <div class="width width-65 width-mobile">
-                    <div style="width: 100%; margin-bottom: 20px;">
-                        <div class="display-flex space-between border-bottom" style="padding-bottom: 15px; margin-bottom: 15px;">
-                            <div class="display-flex" style="padding-top: 6px;">
-                                <div style="margin-right: 20px;">
-                                    <AppButtonChecklist :onChange="(status) => onChangeAll(status)" />
+        <AppMobileLayout :title="'Carts'">
+            <div style="padding: 10px 0; width: 100%; overflow: unset;">
+                <div class="width width-100">
+                    <div class="width width-100 width-mobile">
+                        <div style="width: 100%; margin-bottom: 10px;">
+                            <div class="display-flex space-between border-bottom" style="padding-bottom: 5px; margin-bottom: 10px;">
+                                <div class="display-flex" style="padding-top: 6px;">
+                                    <div style="margin-right: 10px;">
+                                        <AppButtonChecklist :onChange="(status) => onChangeAll(status)" />
+                                    </div>
+                                    <div class="fonts fonts-11 black" style="padding-top: 2px;">Choose all</div>
                                 </div>
-                                <div class="fonts fonts-11 black" style="padding-top: 3px;">Choose all</div>
+                                <div style="height: 40px;">
+                                    <!-- <button 
+                                        v-if="visibleDeleteButton"
+                                        class="btn btn-small btn-main-reverse with-hover" 
+                                        @click="makeToast('Delete')">
+                                        Delete
+                                    </button> -->
+                                </div>
                             </div>
-                            <div style="height: 40px;">
-                                <!-- <button 
-                                    v-if="visibleDeleteButton"
-                                    class="btn btn-small btn-main-reverse with-hover" 
-                                    @click="makeToast('Delete')">
-                                    Delete
-                                </button> -->
-                            </div>
-                        </div>
-                        
-                        <div v-if="!visibleLoader">
-                            <div v-if="datas.length > 0">
-                                <AppCardCharts 
-                                    :data.sync="datas" :onSave="(data) => onSave(data)" 
-                                    :onDelete="(data) => onShowHideDelete(data)" 
-                                    :onChange="(status, data) => onChangeList(status, data)"
-                                />
+                            
+                            <div v-if="!visibleLoader">
+                                <div v-if="datas.length > 0">
+                                    <AppCardCharts 
+                                        :data.sync="datas" :onSave="(data) => onSave(data)" 
+                                        :onDelete="(data) => onShowHideDelete(data)" 
+                                        :onChange="(status, data) => onChangeList(status, data)"
+                                    />
+                                </div>
+
+                                <div v-else class="main-screen" style="padding-top: 10px;">
+                                    <AppEmpty />
+                                </div>
                             </div>
 
-                            <div v-else class="main-screen" style="padding-top: 50px;">
-                                <AppEmpty />
+                            <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
+
+                            <div v-if="!visibleLoader" class="display-flex center">
+                                <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 10px;" @click="onMore">
+                                    Load More
+                                </button>
                             </div>
-                        </div>
-
-                        <AppLoader v-if="visibleLoader" style="margin-top: 20px;" />
-
-                        <div v-if="!visibleLoader" class="display-flex center">
-                            <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 40px;" @click="onMore">
-                                Load More
-                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="width width-5"></div>
-                <div class="width width-30 width-mobile">
-                    <div class="width width-100 width-mobile" style="position: sticky;">
-                        <div class="border-full padding padding-15-px" style="margin-bottom: 15px;">
-                            <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Order Summary</div>
-                            <div class="display-flex space-between margin margin-bottom-5-px">
-                                <div class="fonts fonts-10 black">Total price ({{ totalProduct }} products)</div>
-                                <div class="fonts fonts-11 grey semibold">Rp {{ totalPrice }}</div>
-                            </div>
-                            <div class="display-flex space-between margin margin-bottom-20-px">
-                                <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
-                                <div class="fonts fonts-11 grey semibold">Rp {{ totalPPN }}</div>
-                            </div>
+                    <div class="width width-100 width-mobile">
+                        <div class="component-mobile">
+                            <div class="component-mobile-content">
+                                <AppShowHide title="Order Summary" style="margin-bottom: 10px;">
+                                    <div>
+                                        <div class="display-flex space-between margin margin-bottom-5-px">
+                                            <div class="fonts fonts-10 black">Total price ({{ totalProduct }} products)</div>
+                                            <div class="fonts fonts-10 grey semibold">Rp {{ totalPrice }}</div>
+                                        </div>
+                                        <div class="display-flex space-between margin margin-bottom-20-px">
+                                            <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
+                                            <div class="fonts fonts-10 grey semibold">Rp {{ totalPPN }}</div>
+                                        </div>
 
-                            <div class="display-flex space-between margin margin-bottom-20-px">
-                                <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Total Payment</div>
-                                <div class="fonts fonts-11 main semibold">Rp {{ subtotalPrice }}</div>
-                            </div>
+                                        <div class="display-flex space-between margin">
+                                            <div class="fonts fonts-11 black semibold" style="margin-bottom: 5px;">Total Payment</div>
+                                            <div class="fonts fonts-11 main semibold">Rp {{ subtotalPrice }}</div>
+                                        </div>
+                                    </div>
+                                </AppShowHide>
 
-                            <button v-if="visibleButton" class="btn btn-main btn-full" @click="makeOrder">
-                                Make Order
-                            </button>
-                            <button v-else class="btn btn-primary btn-full">
-                                Make Order
-                            </button>
+                                <button v-if="visibleButton" class="btn btn-main btn-full" @click="makeOrder">
+                                    Make Order
+                                </button>
+                                <button v-else class="btn btn-primary btn-full">
+                                    Make Order
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-sekunder btn-full" style="margin-bottom: 10px;" @click="makeToast('Chat Admin')">
-                            Chat Admin
-                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </AppMobileLayout>
 
         <AppAlert 
             v-if="visibleAlertDelete" 
@@ -99,6 +99,8 @@ import AppCardCharts from '../../modules/AppCardCharts'
 import AppButtonChecklist from '../../modules/AppButtonChecklist'
 import AppEmpty from '../../modules/AppEmpty'
 import AppLoader from '../../modules/AppLoader'
+import AppShowHide from '../../modules/AppShowHide'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 
 const payloadItem = {
     id: 0,
@@ -177,6 +179,8 @@ export default {
         this.getData(this.limit, this.offset)
     },
     components: {
+        AppShowHide,
+        AppMobileLayout,
         AppLoader,
         AppEmpty,
         AppAlert,

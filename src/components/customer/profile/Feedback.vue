@@ -1,6 +1,7 @@
 <template>
     <div id="App">
-            <div class="card border-full bg-white" style="overflow: unset;">
+        <AppMobileLayout :title="'Feedbacks'">
+            <div style="padding: 10px 0; width: 100%; overflow: unset;">
                 <div class="display-flex row space-between" style="height: 40px; margin-bottom: 20px;">
                     <div class="width width-35">
                         <SearchField :enableResponsive="true" :placeholder="'Search feedbacks ..'" />
@@ -81,6 +82,7 @@
                 </div>
 
             </div>
+        </AppMobileLayout>
 
         <FormFeedback 
             v-if="visiblePopup"
@@ -113,6 +115,7 @@ import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
 import AppAlert from '../../modules/AppAlert'
 import AppEmpty from '../../modules/AppEmpty'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 import FormFeedback from './forms/Feedback'
 
 export default {
@@ -142,6 +145,7 @@ export default {
         this.getData()
     },
     components: {
+        AppMobileLayout,
         AppEmpty,
         AppAlert,
         FormFeedback,

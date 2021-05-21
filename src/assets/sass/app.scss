@@ -358,14 +358,43 @@ a {
         }
     }
 
+    .navbar-header {
+        position: fixed;
+        width: 100%;
+        height: 50px;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background-color: #fff;
+        overflow: hidden;
+        .navbar-header-content {
+            position: relative;
+            width: 700px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+            .left {
+                width: 110px;
+            }
+            @media (max-width: $min-width) {
+                width: calc(100% - 20px);
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+
     .navbar-bottom {
         position: fixed;
         width: 100%;
-        height: 40px;
+        height: 55px;
         bottom: 0;
         left: 0;
-        padding-top: 10px;
-        padding-bottom: 10px;
         background-color: #fff;
         box-shadow: $shadow;
         border-top: $border;
@@ -373,19 +402,33 @@ a {
     }
 
     .component-mobile {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        z-index: 1000;
+        border-top: $border;
         .component-mobile-content {
             position: relative;
-            padding: 15px;
+            width: 700px;
+            margin: auto;
+            padding: 10px;
         }
         @media (max-width: $min-width) {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #fff;
-            z-index: 1000;
             .component-mobile-content {
+                width: calc(100% - 20px);
                 padding: 10px;
+            }
+        }
+    }
+
+    .mobile {
+        .main-screen {
+            width: 700px;
+            @media (max-width: $min-width) {
+                width: calc(100% - 20px);
+                padding: 0 10px;
             }
         }
     }

@@ -1,50 +1,27 @@
 <template>
     <div id="App">
-        <div class="card border-full bg-white" style="overflow: unset;">
-            <div class="display-flex row space-between" style="height: 40px; margin-bottom: 20px;">
-                <div class="width width-35">
-                    <SearchField :enableResponsive="true" :placeholder="'Search wishelists ..'" />
-                </div>
-                <div class="display-flex">
-                    <AppButtonMenu 
-                        icon="fa fa-lg fa-sort"
-                        button="btn btn-white btn-icon btn-radius"
-                        :onChange="(data) => onSingleMenu(data)" 
-                        :data="[
-                            {label: 'Current', icon: 'fa fa-lw fa-sort-numeric-down'}, 
-                            {label: 'Old', icon: 'fa fa-lw fa-sort-numeric-up'}, 
-                            {label: 'A to Z', icon: 'fa fa-lw fa-sort-alpha-down'}, 
-                            {label: 'Z to A', icon: 'fa fa-lw fa-sort-alpha-up'}
-                        ]" />
-                    <AppButtonMenu 
-                        icon="fa fa-lw fa-filter"
-                        button="btn btn-white btn-icon btn-radius"
-                        :onChange="(data) => onSingleMenu(data)" 
-                        :data="[
-                            {label: 'Active'}, 
-                            {label: 'Inactive'}
-                        ]" />
-                </div>
-            </div>
-            <div style="width: 100%;">
-                <AppLoader v-if="visibleLoader" style="margin-top: 40px;" />
+        <AppMobileLayout :title="'Wiselists'">
+            <div style="padding: 10px 0; padding-top: 5px; width: 100%; overflow: unset;">
+                <div style="width: 100%;">
+                    <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
 
-                <div v-else>
-                    <div v-if="products.length > 0">
-                        <AppCardPostGrid :data.sync="products" :isListView="true" />
-                    </div>
                     <div v-else>
-                        <AppEmpty />
+                        <div v-if="products.length > 0">
+                            <AppCardPostGrid :data.sync="products" :isMobileCard="true" />
+                        </div>
+                        <div v-else>
+                            <AppEmpty />
+                        </div>
+                    </div>
+
+                    <div v-if="!visibleLoader" class="display-flex center">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 10px;" @click="onMore">
+                            Load More
+                        </button>
                     </div>
                 </div>
-
-                <div v-if="!visibleLoader" class="display-flex center">
-                    <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 40px;" @click="onMore">
-                        Load More
-                    </button>
-                </div>
             </div>
-        </div>
+        </AppMobileLayout>
     </div>
 </template>
 <script>
@@ -54,6 +31,7 @@ import AppLoader from '../../modules/AppLoader'
 import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
 import AppEmpty from '../../modules/AppEmpty'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 
 export default {
     name: 'App',
@@ -76,6 +54,7 @@ export default {
     },
     components: {
         SearchField,
+        AppMobileLayout,
         AppEmpty,
         AppButtonMenu,
         AppLoader,
@@ -115,7 +94,7 @@ export default {
                     return product.push({
                         id: dt.product.prod_id,
                         product_id: dt.product.product_id,
-                        image: dt.images[0] ? '/contents/products/thumbnails/' + dt.images[0].image : '',
+                        image: dt.images[0] ? this.productImageThumbnailUrl + dt.images[0].image : '',
                         title: dt.product.name,
                         price: dt.details[0] ? dt.details[0].price : 0,
                         is_available: dt.product.is_available,

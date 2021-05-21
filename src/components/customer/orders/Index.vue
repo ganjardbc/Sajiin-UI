@@ -1,209 +1,212 @@
 <template>
     <div id="product">
-        <div class="main-screen" style="padding-top: 30px;">
-            <div class="fonts fonts-22 semibold black" style="margin-bottom: 20px;">Make Order</div>
-            <div class="display-flex display-mobile">
-                <div class="width width-65 width-mobile" style="margin-bottom: 20px;">
-                    <div class="width width-full" style="margin-bottom: 30px;">
-                        <div class="card box-shadow">
-                            <div>
-                                <div class="display-flex">
-                                    <div style="width: calc(100% - 40px);">
-                                        <div v-if="selectedCustomer" class="display-flex">
-                                            <div style="width: 60px; margin-right: 20px;">
-                                                <div class="image image-padding image-circle">
-                                                    <img :src="selectedCustomer ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="" class="post-center">
+        <AppMobileLayout :title="'Make Order'">
+            <div style="padding: 10px 0; width: 100%; overflow: unset;">
+                <div class="width width-100">
+                    <div class="width width-100" style="margin-bottom: 20px;">
+                        <div class="width width-full" style="margin-bottom: 20px;">
+                            <div class="card box-shadow" style="padding: 10px; width: calc(100% - 20px);">
+                                <div>
+                                    <div class="display-flex">
+                                        <div style="width: calc(100% - 40px);">
+                                            <div v-if="selectedCustomer" class="display-flex">
+                                                <div style="width: 60px; margin-right: 20px;">
+                                                    <div class="image image-padding image-circle">
+                                                        <img :src="selectedCustomer ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="" class="post-center">
+                                                    </div>
+                                                </div>
+                                                <div style="width: calc(100% - 80px);">
+                                                    <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ selectedCustomer && selectedCustomer.name ? selectedCustomer.name : '-' }}</div>
+                                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                                        <div style="width: 25px;">
+                                                            <i class="fa fa-lw fa-envelope" style="font-size: 14px; color: #555;" />
+                                                        </div>
+                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.email ? selectedCustomer.email : '-' }}</div>
+                                                    </div>
+                                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                                        <div style="width: 25px;">
+                                                            <i class="fa fa-lw fa-phone" style="font-size: 14px; color: #555;" />
+                                                        </div>
+                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.phone ? selectedCustomer.phone : '-' }}</div>
+                                                    </div>
+                                                    <div class="display-flex">
+                                                        <div style="width: 25px;">
+                                                            <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
+                                                        </div>
+                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about ? selectedCustomer.about : '-' }}</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div style="width: calc(100% - 80px);">
-                                                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ selectedCustomer && selectedCustomer.name ? selectedCustomer.name : '-' }}</div>
-                                                <div class="display-flex" style="margin-bottom: 5px;">
-                                                    <div style="width: 25px;">
-                                                        <i class="fa fa-lw fa-envelope" style="font-size: 14px; color: #555;" />
-                                                    </div>
-                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.email ? selectedCustomer.email : '-' }}</div>
-                                                </div>
-                                                <div class="display-flex" style="margin-bottom: 5px;">
-                                                    <div style="width: 25px;">
-                                                        <i class="fa fa-lw fa-phone" style="font-size: 14px; color: #555;" />
-                                                    </div>
-                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.phone ? selectedCustomer.phone : '-' }}</div>
-                                                </div>
-                                                <div class="display-flex">
-                                                    <div style="width: 25px;">
-                                                        <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
-                                                    </div>
-                                                    <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about ? selectedCustomer.about : '-' }}</div>
-                                                </div>
+                                            <div v-else>
+                                                <div class="fonts fonts-11 semibold" style="margin-top: 12px;">Customer not selected</div>
                                             </div>
                                         </div>
-                                        <div v-else>
-                                            <div class="fonts fonts-11 semibold" style="margin-top: 12px;">Customer not selected</div>
+                                        <div style="width: 40px;">
+                                            <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
+                                                <i class="fa fa-lg fa-arrow-right" />
+                                            </button> -->
                                         </div>
                                     </div>
-                                    <div style="width: 40px;">
-                                        <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
-                                            <i class="fa fa-lg fa-arrow-right" />
-                                        </button> -->
+                                </div>
+                                <div v-if="visibleAddress" class="card border-full" style="margin-top: 15px; padding: 10px; width: calc(100% - 20px);">
+                                    <div class="display-flex">
+                                        <div style="width: calc(100% - 40px)">
+                                            <div v-if="selectedAddress" class="display-flex">
+                                                <div style="width: 40px;">
+                                                    <i class="fa fa-lg fa-map-marker-alt fonts main" style="margin-top: 5px;"></i>
+                                                </div>
+                                                <div style="width: calc(100% - 80px);">
+                                                    <div class="display-flex">
+                                                        <div class="fonts fonts-10">{{ selectedAddress && selectedAddress.name ? selectedAddress.name : '-' }}</div>
+                                                        <AppDote style="margin-top: 8px;" />
+                                                        <div class="fonts fonts-10 grey">{{ selectedAddress && selectedAddress.type ? selectedAddress.type : '-' }}</div>
+                                                    </div>
+                                                    <div class="fonts fonts-10 semibold">{{ selectedAddress && selectedAddress.address ? selectedAddress.address : '-' }}</div>
+                                                </div>
+                                            </div>
+                                            <div v-else>
+                                                <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Address not selected</div>
+                                            </div>
+                                        </div>
+                                        <div style="width: 40px;">
+                                            <button class="btn btn-icon btn-main-reverse with-hover" @click="openAddress">
+                                                <i class="fa fa-lg fa-arrow-right" />
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div v-if="visibleAddress" class="card border-full" style="margin-top: 15px;">
-                                <div class="display-flex">
-                                    <div style="width: calc(100% - 40px)">
-                                        <div v-if="selectedAddress" class="display-flex">
-                                            <div style="width: 40px;">
-                                                <i class="fa fa-lg fa-map-marker-alt fonts main" style="margin-top: 5px;"></i>
-                                            </div>
-                                            <div style="width: calc(100% - 80px);">
-                                                <div class="display-flex">
-                                                    <div class="fonts fonts-10">{{ selectedAddress && selectedAddress.name ? selectedAddress.name : '-' }}</div>
-                                                    <AppDote style="margin-top: 8px;" />
-                                                    <div class="fonts fonts-10 grey">{{ selectedAddress && selectedAddress.type ? selectedAddress.type : '-' }}</div>
-                                                </div>
-                                                <div class="fonts fonts-11 semibold">{{ selectedAddress && selectedAddress.address ? selectedAddress.address : '-' }}</div>
-                                            </div>
-                                        </div>
-                                        <div v-else>
-                                            <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Address not selected</div>
+                        </div>
+                        
+                        <div class="width width-full">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Products</div>
+                            <AppCardOrderItem :data.sync="data" />
+                        </div>
+
+                        <div class="width width-100 margin margin-top-20-px">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Shipments</div>
+                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
+                                <div class="display-flex space-between">
+                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose shipment method</div>
+                                    <div style="width: 40px;">
+                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
+                                            <i class="fa fa-lg fa-arrow-right" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                    <div style="width: 45px; margin-right: 15px">
+                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                            <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
                                         </div>
                                     </div>
+                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">
+                                                {{ selectedShipment && selectedShipment.name }}
+                                            </div>
+                                            <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
+                                        </div>
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="width width-100 margin margin-top-20-px">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Payments</div>
+                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
+                                <div class="display-flex space-between">
+                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose payment method</div>
                                     <div style="width: 40px;">
-                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openAddress">
+                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
                                             <i class="fa fa-lg fa-arrow-right" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-if="selectedPayment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                    <div style="width: 45px; margin-right: 15px">
+                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                            <img alt="" :src="selectedPayment ? (paymentImageThumbnailUrl + selectedPayment.image) : ''" />
+                                        </div>
+                                    </div>
+                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">
+                                                {{ selectedPayment && selectedPayment.name }}
+                                            </div>
+                                            <div class="fonts fonts-10 grey">{{ selectedPayment && selectedPayment.description }}</div>
+                                        </div>
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="width width-100 margin margin-top-20-px">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Notes</div>
+                            <textarea 
+                                name="note" 
+                                id="note" 
+                                class="field field-sekunder field-textarea" 
+                                v-model="formPayload.order.note"
+                                ></textarea>
+                        </div>
+
+                        <div style="padding-bottom: 80px;"></div>
+                    </div>
+
+                    <div class="width width-100">
+                        <div class="component-mobile">
+                            <div class="component-mobile-content">
+                                <AppShowHide title="Order Summary" style="margin-bottom: 10px;">
+                                    <div class="display-flex space-between margin margin-bottom-5-px">
+                                        <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
+                                        <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
+                                    </div>
+                                    <div class="display-flex space-between margin margin-bottom-5-px">
+                                        <div class="fonts fonts-10 black">Delivery fee</div>
+                                        <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.delivery_fee }}</div>
+                                    </div>
+                                    <div class="display-flex space-between margin margin-bottom-20-px">
+                                        <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
+                                        <div class="fonts fonts-10 grey semibold">Rp {{ totalPPN }}</div>
+                                    </div>
+
+                                    <div class="display-flex space-between margin margin-bottom-20-px">
+                                        <div class="fonts fonts-11 black semibold" style="margin-bottom: 5px;">Total Payment</div>
+                                        <div class="fonts fonts-10 main semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
+                                    </div>
+                                </AppShowHide>
+
+                                <div class="display-flex space-between" style="margin-top: 10px;">
+                                    <div class="width width-49">
+                                        <button class="btn btn-sekunder btn-full" @click="onShowHideCancel">
+                                            Cancel Order ?
+                                        </button>
+                                    </div>
+                                    <div class="width width-49">
+                                        <button 
+                                            v-if="selectedPayment && selectedShipment && selectedCustomer" 
+                                            class="btn btn-main btn-full" 
+                                            @click="onShowHideSave">
+                                            Order Now
+                                        </button>
+                                        <button v-else class="btn btn-primary btn-full">
+                                            Order Now
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="width width-full">
-                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Products</div>
-                        <AppCardOrderItem :data.sync="data" />
-                        <!-- <AppShowHide v-if="data.length > 1" :title="'View More Products (' + (data.length - 1) + ')'">
-                            <AppCardOrderItem :data.sync="data" :from="0" :to="data.length" />
-                        </AppShowHide> -->
-                    </div>
-
-                    <div class="width width-100 margin margin-top-30-px">
-                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Shipments</div>
-                        <div class="card border-full">
-                            <div class="display-flex space-between">
-                                <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Choose shipment method</div>
-                                <div style="width: 40px;">
-                                    <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
-                                        <i class="fa fa-lg fa-arrow-right" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
-                                <div style="width: 45px; margin-right: 15px">
-                                    <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
-                                        <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
-                                    </div>
-                                </div>
-                                <div class="display-flex space-between" style="width: calc(100% - 60px);">
-                                    <div class="post-tops">
-                                        <div class="fonts fonts-10 semibold black">
-                                            {{ selectedShipment && selectedShipment.name }}
-                                        </div>
-                                        <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
-                                    </div>
-                                    <div class="post-tops">
-                                        <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="width width-100 margin margin-top-30-px">
-                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Payments</div>
-                        <div class="card border-full">
-                            <div class="display-flex space-between">
-                                <div class="fonts fonts-11 semibold" style="margin-top: 10px;">Choose payment method</div>
-                                <div style="width: 40px;">
-                                    <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
-                                        <i class="fa fa-lg fa-arrow-right" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div v-if="selectedPayment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
-                                <div style="width: 45px; margin-right: 15px">
-                                    <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
-                                        <img alt="" :src="selectedPayment ? (paymentImageThumbnailUrl + selectedPayment.image) : ''" />
-                                    </div>
-                                </div>
-                                <div class="display-flex space-between" style="width: calc(100% - 60px);">
-                                    <div class="post-tops">
-                                        <div class="fonts fonts-10 semibold black">
-                                            {{ selectedPayment && selectedPayment.name }}
-                                        </div>
-                                        <div class="fonts fonts-10 grey">{{ selectedPayment && selectedPayment.description }}</div>
-                                    </div>
-                                    <div class="post-tops">
-                                        <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="width width-100 margin margin-top-30-px">
-                        <div class="fonts fonts-12 semibold black" style="margin-bottom: 5px;">Notes</div>
-                        <textarea 
-                            name="note" 
-                            id="note" 
-                            class="field field-sekunder field-textarea" 
-                            v-model="formPayload.order.note"
-                            ></textarea>
-                    </div>
-                </div>
-                <div class="width width-5"></div>
-                <div class="width width-30 width-mobile">
-                    <div class="width width-100">
-                        <div class="border-full padding padding-15-px">
-                            <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Order Summary</div>
-                            <div class="display-flex space-between margin margin-bottom-5-px">
-                                <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
-                                <div class="fonts fonts-11 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
-                            </div>
-                            <div class="display-flex space-between margin margin-bottom-5-px">
-                                <div class="fonts fonts-10 black">Delivery fee</div>
-                                <div class="fonts fonts-11 grey semibold">Rp {{ formPayload && formPayload.order.delivery_fee }}</div>
-                            </div>
-                            <div class="display-flex space-between margin margin-bottom-20-px">
-                                <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
-                                <div class="fonts fonts-11 grey semibold">Rp {{ totalPPN }}</div>
-                            </div>
-
-                            <div class="display-flex space-between margin margin-bottom-20-px">
-                                <div class="fonts fonts-12 black semibold" style="margin-bottom: 5px;">Total Payment</div>
-                                <div class="fonts fonts-11 main semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
-                            </div>
-
-                            <button 
-                                v-if="selectedPayment && selectedShipment && selectedCustomer" 
-                                class="btn btn-main btn-full" 
-                                @click="onShowHideSave">
-                                Order Now
-                            </button>
-                            <button v-else class="btn btn-primary btn-full">
-                                Order Now
-                            </button>
-
-                            <button class="btn btn-sekunder btn-full" style="margin-top: 15px;" @click="onShowHideCancel">
-                                Cancel Order ?
-                            </button>
-                        </div>
-                        <button class="btn btn-sekunder btn-full" style="margin-top: 15px;" @click="makeToast('Chat Admin')">
-                            Chat Admin 
-                        </button>
-                    </div>
                 </div>
             </div>
-        </div>
+        </AppMobileLayout>
 
         <FormCustomer 
             v-if="visiblePopupCustomer" 
@@ -263,6 +266,7 @@ import AppCardCharts from '../../modules/AppCardCharts'
 import AppCardOrderItem from '../../modules/AppCardOrderItem'
 import AppShowHide from '../../modules/AppShowHide'
 import AppDote from '../../modules/AppDote'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 import FormCustomer from './FormCustomer'
 import FormAddress from './FormAddress'
 import FormShipment from './FormShipment'
@@ -324,6 +328,7 @@ export default {
         FormShipment,
         FormCustomer,
         FormAddress,
+        AppMobileLayout,
         AppDote,
         AppShowHide,
         AppCardOrderItem,

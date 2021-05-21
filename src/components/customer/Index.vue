@@ -1,112 +1,91 @@
 <template>
-    <div id="App" class="main-screen" style="padding-top: 20px;">
-        <div class="card card-banner box-shadow border-radius" style="margin-top: 20px; margin-bottom: 40px;">
-            <div class="display-flex display-mobile" style="padding-top: 15px; padding-bottom: 15px;">
-                <div class="width width-70 width-mobile">
-                    <div class="display-flex space-between display-mobile">
-                        <div class="card-banner-padding card-banner-center width width-20 width-mobile">
-                            <div class="image image-100px image-center border border-full" style="text-align: center; overflow: hidden;">
-                                <i v-if="!user.image" class="post-top fa fa-lg fa-user-circle" style="font-size: 32px; color: #999;" />
-                                <img v-else :src="user && user.image ? (adminImageThumbnailUrl + user.image) : ''" alt="">
-                                <!-- <div class="status"></div> -->
-                            </div>
+    <div id="App" class="main-screen">
+        <div style="width: 100%; margin-bottom: 15px;">
+            <div style="padding-top: 15px; padding-bottom: 10px;">
+                <div class="display-flex space-between">
+                    <div style="width: 70px; margin-right: 12px;">
+                        <div class="image image-padding image-center border border-full" style="text-align: center; overflow: hidden;">
+                            <i v-if="!user.image" class="post-top fa fa-lg fa-user-circle" style="font-size: 32px; color: #999;" />
+                            <img v-else :src="user && user.image ? (adminImageThumbnailUrl + user.image) : ''" alt="">
                         </div>
-                        <div class="card-banner-padding width width-75 width-mobile">
-                            <div class="card-banner-center display-flex" style="margin-bottom: 10px;">
-                                <div class="fonts fonts-12 semibold" style="margin-right: 13px;">{{ user && user.name }}</div>
-                                <div class="card-verified" style="margin-right: 6px;">
-                                    <i class="icn fa fa-lw fa-check"></i>
-                                </div>
-                                <div class="card-verified not">
+                    </div>
+                    <div style="position: relative; width: calc(100% - 82px;">
+                        <div class="display-flex space-between" style="margin-bottom: 5px;">
+                            <div class="display-flex">
+                                <div class="fonts fonts-12 semibold" style="margin-right: 10px;">{{ user && user.name }}</div>
+                                <div class="card-verified not" style="margin-right: 6px;">
                                     <i class="icn fa fa-lw fa-info"></i>
                                 </div>
                             </div>
-                            <div class="display-flex display-mobile" style="margin-bottom: 15px;">
-                                <div class="card-banner-padding card-banner-center display-flex">
-                                    <div class="card-capsule active" style="margin-right: 10px;">Open</div>
-                                </div>
-                                <div class="card-banner-center display-flex">
-                                    <div class="btn btn-micro btn-white btn-no-hover" style="margin-right: 5px;">
-                                        <i class="icn icn-left far fa-lg fa-clock"></i> 7:00 - 22:00 WIB
-                                    </div>
-                                    <div class="btn btn-micro btn-white btn-no-hover">
-                                        <i class="icn icn-left fa fa-lg fa-map-marker-alt"></i> Jl. mana we lah
-                                    </div>
-                                </div>
-                                <!-- <div class="fonts fonts-10 grey">Customer About</div> -->
-                            </div>
-                            <div class="display-flex space-between">
-                                <button class="btn btn-sekunder" style="margin-right: 10px;">
-                                    Restaurant Info
-                                </button>
-                                <div class="display-flex">
-                                    <button class="btn btn-icon btn-sekunder" style="margin-right: 10px;">
-                                        <i class="far fa-lg fa-comment-alt"></i>
-                                    </button>
-                                    <button class="btn btn-icon btn-sekunder">
-                                        <i class="fa fa-lg fa-phone"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <div style="position: absolute; top: 0; right: 0;" class="card-capsule active">Open</div>
                         </div>
-                        <div class="width width-5"></div>
+                        <div style="padding-bottom: 10px;">
+                            <ul class="menu-info">
+                                <li>
+                                    <div class="icn">
+                                        <i class="icn-left far fa-lg fa-clock" />
+                                    </div>
+                                    <div class="label">
+                                        7:00 - 22:00 WIB
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icn">
+                                        <i class="icn-left fa fa-lg fa-map-marker-alt" />
+                                    </div>
+                                    <div class="label">
+                                        Jl. mana we lah
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="width width-30 width-mobile display-flex border border-left border-mobile-none">
-                    <div style="width: calc(100% - 30px); padding: 10px 15px;">
-                        <div class="display-flex space-between">
-                            <div v-for="(dt, index) in infos" :key="index" style="width: 100%;">
-                                <div class="display-flex column space-between" style="text-align: center; height: 85px;">
-                                    <div class="fonts fonts-10 grey">{{ dt.title }}</div>
-                                    <div class="fonts fonts-42 semibold" style="line-height: 0.5">{{ dt.qty }}</div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+
+            <div class="display-flex space-between">
+                <div v-for="(dt, index) in infos" :key="index" style="width: 100%; text-align: center;">
+                    <div class="display-flex column">
+                        <div class="fonts fonts-8 grey">{{ dt.title }}</div>
+                        <div class="fonts fonts-16 semibold">{{ dt.qty }}</div>
                     </div>
-                    
                 </div>
             </div>
         </div>
 
-        <!-- <div class="display-flex space-between display-mobile" style="margin-bottom: 40px;">
-            <div style="width: 100%;">
-                <div class="card border border-full" style="max-height: 200px; overflow-y: auto;">
-                    <div class="fonts fonts-10 semibold" style="padding-bottom: 0px;">Notes</div>
-                    <div v-for="(dt, index) in notes" :key="index" class="card-notes">
-                        <div class="icon">
-                            <i :class="dt.icon"></i>
-                        </div>
-                        <div class="desc">
-                            <div class="fonts fonts-10 black">{{ dt.description }}</div>
-                        </div>
+        <div style="margin-bottom: 20px;">
+            <div style="margin-bottom: 10px;">
+                <div class="fonts fonts-10 black semibold">Categories</div>
+            </div>
+            <div class="display-flex space-between">
+                <div style="width: 31%;">
+                    <div class="image image-padding box-shadow">
+                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
+                    </div>
+                </div>
+                <div style="width: 31%;">
+                    <div class="image image-padding box-shadow">
+                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
+                    </div>
+                </div>
+                <div style="width: 31%;">
+                    <div class="image image-padding box-shadow">
+                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
                     </div>
                 </div>
             </div>
-            <div style="width: 100%;"></div>
-        </div> -->
+        </div>
 
         <div>
-            <div class="display-flex space-between">
-                <div class="display-flex">
-                    <button class="btn btn-sekunder" style="margin-right: 10px;">
-                        Category <i class="icn fa fa-lg fa-list"></i>
-                    </button>
-                    <button class="btn btn-sekunder">
-                        Higher Price <i class="icn fa fa-lg fa-arrow-up"></i>
-                    </button>
-                </div>
-                <div>
-                    <button class="btn btn-sekunder">
-                        Sort By <i class="icn fa fa-lg fa-sort"></i>
-                    </button>
-                </div>
+            <div>
+                <div class="fonts fonts-10 black semibold">Products</div>
             </div>
-            <AppCardPostGrid :data="products" />
-            <AppLoader v-if="visibleLoader" style="margin-top: 20px;" />
+            <AppCardPostGrid :data="products" :isMobileCard="true" />
+            <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
         </div>
 
         <div v-if="!visibleLoader" class="display-flex center">
-            <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 20px;" @click="onMore">
+            <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 10px;" @click="onMore">
                 Load More
             </button>
         </div>
@@ -125,9 +104,9 @@ import AppCardList from '../modules/AppCardList'
 import AppLoader from '../modules/AppLoader'
 
 const infos = [
-    {title: 'Ordered Products', qty: '120'},
+    {title: 'Orders', qty: '120'},
     {title: 'Visitors', qty: '34'},
-    // {title: 'On Orders', qty: '12'}
+    {title: 'Visble Table', qty: '2'}
 ]
 
 const notes = [

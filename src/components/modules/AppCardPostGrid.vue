@@ -1,13 +1,13 @@
 <template>
-    <div :class="isListView ? '' : 'display-flex wrap'" id="AppCardGrid">
+    <div :class="isMobileCard ? '' : 'display-flex wrap'" id="AppCardGrid">
         <div 
             v-for="(dt, index) in datas" 
             :key="index" 
-            :class="(isListView ? 'column-1' : 'column-4')"
+            :class="(isMobileCard ? 'column-1' : 'column-3')"
             :style="'position: relative; padding: 0;'"
         >
-            <div class="column-margin">
-                <div :class="'card no-padding box-shadow ' + (isListView && 'mobile-grid')" style="margin-top: 30px;">
+            <div :class="isMobileCard ? '' : 'column-margin'">
+                <div :class="'card no-padding ' + (isMobileCard && 'card-mobile ') + ' box-shadow'" :style="isMobileCard ? 'margin-top: 15px;' : 'margin-top: 30px;'">
                     <div class="left">
                         <router-link :to="{name: 'product', params: {id: dt.product_id}}">
                             <div class="cover">
@@ -16,12 +16,12 @@
                         </router-link>
                     </div>
                     <div class="right">
-                        <div style="position: relative; width: 100%; margin-bottom: 15px;">
+                        <div style="position: relative; width: 100%; margin-bottom: 10px;">
                             <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="fonts fonts-11 semibold black" style="margin-top: 0;">
                                 {{ dt.title }}
                             </router-link>
-                            <div class="fonts fonts-9 grey" style="margin-top: 5px;">{{ dt.category }}</div>
-                            <div class="fonts fonts-11 semibold black" style="margin-top: 5px;">Rp {{ dt.price }}</div>
+                            <div class="fonts fonts-9 grey" style="margin-top: 3px;">{{ dt.category }}</div>
+                            <div class="fonts fonts-11 semibold black" style="margin-top: 3px;">Rp {{ dt.price }}</div>
                         </div>
                         <div class="display-flex space-between">
                             <div class="display-flex">
@@ -30,7 +30,7 @@
                             <!-- <div>
                                 <AppLikeButton :productID.sync="dt.id" />
                             </div> -->
-                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="btn btn-main-reverse" style="padding-left: 0; padding-right: 0">
+                            <router-link :to="{name: 'product', params: {id: dt.product_id}}" class="btn btn-main-reverse" style="padding-left: 0; padding-right: 0, padding-bottom: 5px; padding-top: 5px;">
                                 Detail <i class="icn fa fa-1x fa-arrow-right" />
                             </router-link>
                         </div>
@@ -63,6 +63,10 @@ export default {
         AppText
     },
     props: {
+        isMobileCard: {
+            type: Boolean,
+            required: false
+        },
         isListView: {
             type: Boolean,
             required: false
@@ -71,9 +75,6 @@ export default {
             required: true
         }
     },
-    // mounted() {
-    //     console.log('data', this.data)
-    // },
     methods: {
         ...mapActions({
             setToast: 'toast/setToast'

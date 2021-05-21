@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div style="width: 100%;">
-                <div class="fonts fonts-12 semibold" style="margin-bottom: 5px;">
+                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">
                     {{ detail.product_name }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_detail }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_toping }}
                 </div>
                 <div class="fonts fonts-10 grey">

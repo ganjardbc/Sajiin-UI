@@ -75,6 +75,27 @@
             justify-content: center;
         }
     }
+    &.card-mobile {
+        position: relative;
+        width: calc(100% - 20px);
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        .left {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 0;
+        }
+        .right {
+            width: calc(100% - 90px);
+            padding: 0 10px;
+            padding-bottom: 0;
+        }
+        .cover {
+            height: 70px;
+            border-radius: 8px;
+        }
+    }
 }
 
 .card-popup {
