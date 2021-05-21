@@ -131,7 +131,7 @@ export default {
         }
     },
     mounted () {
-        this.dataUser = this.$cookies.get('user')
+        this.dataUser = this.$cookies.get('admin')
         // this.getDataTable()
         this.getData()
     },
