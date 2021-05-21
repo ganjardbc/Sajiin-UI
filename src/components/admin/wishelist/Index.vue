@@ -44,7 +44,7 @@
                                 <td>{{ row.product_id }}</td>
                                 <td>{{ row.name }}</td>
                                 <td>{{ row.user_name }}</td>
-                                <td>{{ row.customer.name }}</td>
+                                <td>{{ row.customer && row.customer.name }}</td>
                                 <td class="normal-col">
                                     <div 
                                         :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 

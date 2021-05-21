@@ -54,7 +54,7 @@ export default {
 
     actions: {
         async getCountCustomer ({ commit }, token = '') {
-            const customerData = $cookies.get('customer')
+            const customerData = $cookies.get('table')
             const payload = {
                 owner_id: customerData.id
             }
@@ -73,6 +73,8 @@ export default {
                     shipping: count.shipping,
                     unconfirmed: count.unconfirmed
                 }
+
+                console.log('getcountcustomer', rest)
 
                 commit('SET_COUNT_CUSTOMER', count.all)
                 commit('SET_ALL_CUSTOMER', newPayload)

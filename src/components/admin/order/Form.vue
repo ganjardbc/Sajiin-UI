@@ -2,7 +2,7 @@
     <div id="form">
         <AppSideForm 
             :title="title" 
-            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 5 ? true : false : false"
+            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 6 ? true : false : false"
             :enableSaveButton="this.title !== 'VIEW' ? true : false"
             :onCreate="onButtonCreate"
             :onSave="onButtonSave"
@@ -286,38 +286,27 @@
             <div v-if="selectedIndex === 1">
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
+                    <div class="card-search full">
                         <input 
                             type="search" 
                             placeholder="" 
                             class="field"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
+                            name="table_id" 
+                            id="table_id" 
+                            v-model="formData.order.table_id"
                             readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonCustomer">
+                        <button class="btn btn-icon btn-white" @click="onButtonTable">
                             <i class="fa fa-1x fa-search" />
                         </button>
                     </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
-                            readonly>
-                    </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
+                        {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
                     </div>
                 </div>
-                <FormCustomer
-                    :data.sync="formData.customer"
-                    :enablePopup="openCreateCustomer"
-                    :onChange="(data) => onChangeCustomer(data)"
+                <FormTable 
+                    :data.sync="formData.table"
+                    :enablePopup="openCreateTable"
+                    :onChange="(data) => onChangeTable(data)"
                 />
             </div>
 
@@ -329,11 +318,11 @@
                             type="search" 
                             placeholder="" 
                             class="field"
-                            name="address_id" 
-                            id="address_id" 
-                            v-model="formData.order.address_id"
+                            name="payment_id" 
+                            id="payment_id" 
+                            v-model="formData.order.payment_id"
                             readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonAddress">
+                        <button class="btn btn-icon btn-white" @click="onButtonPayment">
                             <i class="fa fa-1x fa-search" />
                         </button>
                     </div>
@@ -343,20 +332,19 @@
                             placeholder="" 
                             class="field field-sekunder"
                             style="width: 100%;"
-                            name="address_id" 
-                            id="address_id" 
-                            v-model="formData.order.address_id"
+                            name="payment_id" 
+                            id="payment_id" 
+                            v-model="formData.order.payment_id"
                             readonly>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.address_id && formMessage.address_id[0] }}
+                        {{ formMessage && formMessage.payment_id && formMessage.payment_id[0] }}
                     </div>
                 </div>
-                <FormAddress
-                    :data.sync="formData.address"
-                    :customerId.sync="formData.customer.customer_id"
-                    :enablePopup="openCreateAddress"
-                    :onChange="(data) => onChangeAddress(data)"
+                <FormPayment
+                    :data.sync="formData.payment"
+                    :enablePopup="openCreatePayment"
+                    :onChange="(data) => onChangePayment(data)"
                 />
             </div>
 
@@ -406,11 +394,11 @@
                             type="search" 
                             placeholder="" 
                             class="field"
-                            name="payment_id" 
-                            id="payment_id" 
-                            v-model="formData.order.payment_id"
+                            name="customer_id" 
+                            id="customer_id" 
+                            v-model="formData.order.customer_id"
                             readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonPayment">
+                        <button class="btn btn-icon btn-white" @click="onButtonCustomer">
                             <i class="fa fa-1x fa-search" />
                         </button>
                     </div>
@@ -420,50 +408,62 @@
                             placeholder="" 
                             class="field field-sekunder"
                             style="width: 100%;"
-                            name="payment_id" 
-                            id="payment_id" 
-                            v-model="formData.order.payment_id"
+                            name="customer_id" 
+                            id="customer_id" 
+                            v-model="formData.order.customer_id"
                             readonly>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.payment_id && formMessage.payment_id[0] }}
+                        {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
                     </div>
                 </div>
-                <FormPayment
-                    :data.sync="formData.payment"
-                    :enablePopup="openCreatePayment"
-                    :onChange="(data) => onChangePayment(data)"
+                <FormCustomer
+                    :data.sync="formData.customer"
+                    :enablePopup="openCreateCustomer"
+                    :onChange="(data) => onChangeCustomer(data)"
                 />
             </div>
 
-            <!-- <div v-if="selectedIndex === 5">
+            <div v-if="selectedIndex === 5">
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
-                    <div class="card-search full">
+                    <div v-if="this.title !== 'VIEW'" class="card-search full">
                         <input 
                             type="search" 
                             placeholder="" 
                             class="field"
-                            name="config_id" 
-                            id="config_id" 
-                            v-model="formData.order.config_id"
+                            name="address_id" 
+                            id="address_id" 
+                            v-model="formData.order.address_id"
                             readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonConfig">
+                        <button class="btn btn-icon btn-white" @click="onButtonAddress">
                             <i class="fa fa-1x fa-search" />
                         </button>
                     </div>
+                    <div v-else>
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field field-sekunder"
+                            style="width: 100%;"
+                            name="address_id" 
+                            id="address_id" 
+                            v-model="formData.order.address_id"
+                            readonly>
+                    </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.config_id && formMessage.config_id[0] }}
+                        {{ formMessage && formMessage.address_id && formMessage.address_id[0] }}
                     </div>
                 </div>
-                <FormConfig 
-                    :data.sync="formData.config"
-                    :enablePopup="openCreateConfig"
-                    :onChange="(data) => onChangeConfig(data)"
+                <FormAddress
+                    :data.sync="formData.address"
+                    :customerId.sync="formData.customer.customer_id"
+                    :enablePopup="openCreateAddress"
+                    :onChange="(data) => onChangeAddress(data)"
                 />
-            </div> -->
+            </div>
 
-            <div v-if="selectedIndex === 5">
+            <div v-if="selectedIndex === 6">
                 <FormProduct 
                     :selectedId.sync="formData.order.id"
                     :selectedOrderId.sync="formData.order.order_id"
@@ -484,17 +484,17 @@ import FormCustomer from './FormCustomer'
 import FormAddress from './FormAddress'
 import FormShipment from './FormShipment'
 import FormPayment from './FormPayment'
-import FormConfig from './FormConfig'
+import FormTable from './FormTable'
 import FormProduct from './FormProduct'
 
 const tabs = [
     {label: 'Data', status: 'active'},
+    {label: 'Table', status: ''},
+    {label: 'Payment', status: ''},
+    {label: 'Shipment', status: ''},
     {label: 'Customer', status: ''},
     {label: 'Address', status: ''},
-    {label: 'Shipment', status: ''},
-    {label: 'Payment', status: ''},
-    // {label: 'Configuration', status: ''},
-    {label: 'Products', status: ''},
+    {label: 'Products', status: ''}
 ]
 
 const time = new Date().getTime()
@@ -511,7 +511,7 @@ const payload = {
         status: 'unconfirmed',
         type: '',
         note: '',
-        config_id: null,
+        table_id: '',
         customer_id: '',
         address_id: '',
         shipment_id: '',
@@ -522,7 +522,7 @@ const payload = {
     address: {},
     shipment: {},
     payment: {},
-    config: {}
+    table: {}
 }
 
 export default {
@@ -530,7 +530,7 @@ export default {
     data () {
         return {
             image: '',
-            openCreateConfig: false,
+            openCreateTable: false,
             openCreatePayment: false,
             openCreateShipment: false,
             openCreateAddress: false,
@@ -552,8 +552,8 @@ export default {
     },
     components: {
         AppImage,
+        FormTable,
         FormProduct,
-        FormConfig,
         FormPayment,
         FormShipment,
         FormAddress,
@@ -596,8 +596,8 @@ export default {
         }
     },
     methods: {
-        onButtonConfig () {
-            this.openCreateConfig = !this.openCreateConfig
+        onButtonTable () {
+            this.openCreateTable = !this.openCreateTable
         },
         onButtonPayment () {
             this.openCreatePayment = !this.openCreatePayment
@@ -669,14 +669,14 @@ export default {
                 }
             }
         },
-        onChangeConfig (data) {
+        onChangeTable (data) {
             this.formData = {
                 ...this.formData,
                 order: {
                     ...this.formData.order,
-                    config_id: data.id
+                    table_id: data.id
                 },
-                config: {
+                table: {
                     ...data
                 }
             }
@@ -725,7 +725,7 @@ export default {
                         status: props.order.status,
                         type: props.order.type,
                         note: props.order.note,
-                        config_id: props.order.config_id,
+                        table_id: props.order.table_id,
                         customer_id: props.order.customer_id,
                         address_id: props.order.address_id,
                         shipment_id: props.order.shipment_id,
@@ -746,8 +746,8 @@ export default {
                     payment: {
                         ...props.payment
                     },
-                    config: {
-                        ...props.config
+                    table: {
+                        ...props.table
                     }
                 }
             } else {

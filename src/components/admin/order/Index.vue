@@ -38,7 +38,7 @@
                             <v-th class="small-col hide-icon">NO</v-th>
                             <v-th sortKey="order.order_id">Order ID</v-th>
                             <v-th sortKey="order.total_price">Total Price</v-th>
-                            <v-th sortKey="customer.name">Customer</v-th>
+                            <v-th sortKey="table.name">Table</v-th>
                             <v-th sortKey="order.payment_status">Payment Status</v-th>
                             <v-th sortKey="order.status" class="normal-col">Order Status</v-th>
                             <th class="medium-col"></th>
@@ -48,9 +48,9 @@
 
                             <tr v-for="(row, index) in displayData" :key="index">
                                 <td class="small-col">{{ (index + 1) }}</td>
-                                <td>{{ row.order.order_id }}</td>
-                                <td>{{ row.order.total_price }}</td>
-                                <td>{{ row.customer.name }}</td>
+                                <td>{{ row.order && row.order.order_id }}</td>
+                                <td>{{ row.order && row.order.total_price }}</td>
+                                <td>{{ row.table && row.table.name }}</td>
                                 <td>
                                     <AppCapsuleMenu 
                                         :title="row.order.payment_status ? 'Paid' : 'Unpaid'"
@@ -270,7 +270,6 @@ export default {
         onFormSave (data = null) {
             this.onShowHideSave()
             this.selectedForm = data && data.order ? data.order : null
-            console.log('onFormSave', data.order)
         },
         onChangeStatus (index, id, type) {
             let data = null
@@ -403,7 +402,6 @@ export default {
                 const data = rest.data.data
                 this.datas = data
                 this.visibleLoader = false 
-                console.log('getdata', data)
             } else {
                 this.visibleLoader = false
             }
@@ -427,7 +425,6 @@ export default {
                 const data = rest.data.data
                 this.datas = data
                 this.visibleLoader = false 
-                console.log('getdata', data)
             } else {
                 this.visibleLoader = false
             }
@@ -457,7 +454,6 @@ export default {
                         label: dt.value
                     }
                 })
-                console.log('data', data)
             }
         }
     }

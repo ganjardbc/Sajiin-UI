@@ -35023,6 +35023,12 @@ a.btn {
 .fonts.no-line-height {
   line-height: 1.2;
 }
+.fonts.link {
+  color: #f1863b;
+}
+.fonts.link:hover {
+  text-decoration: underline;
+}
 .fonts.fonts-0 {
   font-size: 0pt;
 }

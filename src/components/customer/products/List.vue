@@ -1,35 +1,39 @@
 <template>
-    <div class="main-screen" style="padding-top: 40px;">
-        <div style="position: fixed; top: 70px; left: 0; width: 100%; background-color: #fff; z-index: 100;">
-            <div class="main-screen" style="padding-top: 10px;">
-                <div class="display-flex space-between" style="margin-left: 20px; margin-right: 20px; margin-bottom: 15px;">
-                    <div class="display-flex">
-                        <button class="btn btn-sekunder" style="margin-right: 10px;">
-                            Category <i class="icn fa fa-lg fa-list"></i>
-                        </button>
-                        <button class="btn btn-sekunder">
-                            Higher Price <i class="icn fa fa-lg fa-arrow-up"></i>
-                        </button>
-                    </div>
-                    <div>
-                        <button class="btn btn-sekunder">
-                            Sort By <i class="icn fa fa-lg fa-sort"></i>
-                        </button>
+    <div id="ProductList">
+        <AppMobileLayout :title="'Products'">
+            <div style="padding: 10px 0; width: 100%; overflow: unset;">
+                <div style="position: fixed; top: 50px; left: 0; width: 100%; background-color: #fff; z-index: 100;">
+                    <div class="main-screen" style="padding-top: 10px;">
+                        <div class="display-flex space-between" style="margin-bottom: 15px;">
+                            <div class="display-flex">
+                                <button class="btn btn-sekunder" style="margin-right: 10px;">
+                                    Category <i class="icn fa fa-lg fa-list"></i>
+                                </button>
+                                <button class="btn btn-sekunder">
+                                    Higher Price <i class="icn fa fa-lg fa-arrow-up"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <button class="btn btn-sekunder">
+                                    Sort By <i class="icn fa fa-lg fa-sort"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div style="padding-top: 50px;">
+                    <AppCardPostGrid :data="products" :isMobileCard="true" />
+                    <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
+                </div>
+
+                <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 10px;">
+                    <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="onMore">
+                        Load More
+                    </button>
+                </div>
             </div>
-        </div>
-
-        <div style="padding-top: 30px;">
-            <AppCardPostGrid :data="products" />
-            <AppLoader v-if="visibleLoader" style="margin-top: 40px;" />
-        </div>
-
-        <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 40px;">
-            <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="onMore">
-                Load More
-            </button>
-        </div>
+        </AppMobileLayout>
     </div>
 </template>
 
@@ -42,9 +46,12 @@ import AppCardPostGrid from '../../modules/AppCardPostGrid'
 import AppCardGrid from '../../modules/AppCardGrid'
 import AppCardList from '../../modules/AppCardList'
 import AppLoader from '../../modules/AppLoader'
+import AppMobileLayout from '../../modules/AppMobileLayout'
 
 export default {
+    name: 'ProductList',
     components: {
+        AppMobileLayout,
         AppLoader,
         AppCardPostGrid,
         AppCardList,

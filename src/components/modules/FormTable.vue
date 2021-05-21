@@ -1,0 +1,251 @@
+<template>
+    <div id="FormTable">
+        <AppPopupForm
+            v-if="visiblePopup"
+            :enableRadius="true"
+            :title="'Choose Table'"
+            :onClose="onClose"
+        >
+            <div style="position: absolute; top: 20px; right: 70px;" @click="onRefresh">
+                <button class="btn btn-icon btn-white">
+                    <i class="fa fa-lg fa-retweet" />
+                </button>
+            </div>
+
+            <div v-if="visibleLoader">
+                <AppLoader />
+            </div>
+
+            <div v-else>
+                <div v-if="datas.length > 0" style="padding-left: 10px; padding-right: 10px;">
+                    <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                        <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 20px;">
+                            <div style="width: 60px; margin-right: 20px;">
+                                <div class="image image-padding image-circle">
+                                    <img :src="tableImageThumbnailUrl + dt.image" alt="" class="post-center">
+                                </div>
+                            </div>
+                            <div style="width: calc(100% - 150px);">
+                                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ dt.name }}</div>
+                                <div class="display-flex" style="margin-bottom: 5px;">
+                                    <div style="width: 25px;">
+                                        <i class="fa fa-lw fa-th-large" style="font-size: 14px; color: #555;" />
+                                    </div>
+                                    <div class="fonts fonts-10 grey">{{ dt.name }}</div>
+                                </div>
+                                <div class="display-flex">
+                                    <div style="width: 25px;">
+                                        <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
+                                    </div>
+                                    <div class="fonts fonts-10 grey">{{ dt.description }}</div>
+                                </div>
+                            </div>
+                            <div class="display-flex column space-between" style="width: 110px; height: 100px;">
+                                <div class="display-flex space-between">
+                                    <div></div>
+                                    <div 
+                                        :class="'card-capsule ' + (
+                                        dt.status === 'active' 
+                                            ? 'active' 
+                                            : ''
+                                        )" 
+                                        style="margin-left: 15px; text-transform: capitalize;">
+                                        {{ dt.status }}
+                                    </div>
+                                </div>
+                                <div class="display-flex space-between">
+                                    <div></div>
+                                    <div v-if="data" class="display-flex">
+                                        <button v-if="data.id !== dt.id" class="btn btn-small-icon btn-sekunder" @click="onShowHideChoose(dt)">
+                                            <i class="fa fa-1x fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div v-else>
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideChoose(dt)">
+                                            <i class="fa fa-1x fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </AppPopupForm>
+
+        <AppAlert 
+            v-if="visibleAlertDelete" 
+            :isLoader="visibleLoaderAction"
+            :title="'This action will remove data permanently, delete this data ?'" 
+            :onClose="onShowHideDelete" 
+            :onSave="removeData" />
+        
+        <AppAlert 
+            v-if="visibleAlertChoose" 
+            :isLoader="visibleLoaderAction"
+            :title="'Choose this data ?'" 
+            :onClose="onShowHideChoose" 
+            :onSave="chooseData" />
+        
+        <AppAlert 
+            v-if="visibleAlertSave" 
+            :isLoader="visibleLoaderAction"
+            :title="'Proceed this data ?'" 
+            :onClose="onShowHideSave" 
+            :onSave="saveData" />
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+import AppPopupForm from './AppPopupForm'
+import AppAlert from './AppAlert'
+import AppEmpty from './AppEmpty'
+import Apploader from './AppLoader'
+import SearchField from './SearchField'
+
+const payload = {}
+
+export default {
+    name: 'FormTable',
+    data () {
+        return {
+            visibleAlertSave: false,
+            visibleAlertDelete: false,
+            visibleAlertChoose: false,
+            visibleLoader: false,
+            visibleLoaderAction: false,
+            visiblePopupCustomer: false,
+            visiblePopup: false,
+            selectedData: null,
+            selectedMessage: null,
+            selectedTable: null,
+            selectedID: 0,
+            formTitle: 'CREATE',
+            formData: null,
+            datas: [],
+            formMessage: [],
+            payload: {...payload},
+            dataUser: null
+        }
+    },
+    mounted () {
+        this.dataUser = this.$cookies.get('user')
+        // this.getDataTable()
+        this.getData()
+    },
+    components: {
+        SearchField,
+        Apploader,
+        AppEmpty,
+        AppPopupForm,
+        AppAlert
+    },
+    props: {
+        onChange: {
+            type: Function,
+            requred: true
+        },
+        enablePopup: {
+            type: Boolean,
+            requred: false
+        },
+        data: {
+            requred: true
+        }
+    },
+    computed: {
+        ...mapGetters({
+            table: 'table/data'
+        })
+    },
+    methods: {
+        ...mapActions({
+            getDataTable: 'table/getData'
+        }),
+        onShowHideSave () {
+            this.visibleAlertSave = !this.visibleAlertSave
+        },
+        onFormSave (data = null) {
+            this.onShowHideSave()
+            this.selectedForm = data ? data : null
+        },
+        onShowHideDelete (index = null) {
+            this.visibleAlertDelete = !this.visibleAlertDelete
+            this.payload = this.datas[index] ? this.datas[index] : payload
+            this.formMessage = []
+        },
+        onShowHideChoose (index = null) {
+            this.visibleAlertChoose = !this.visibleAlertChoose
+            this.selectedID = index
+            this.formMessage = []
+        },
+        onChoose: function (index) {
+            this.onChange(index)
+            this.visiblePopup = false
+        },
+        onClose: function () {
+            this.visiblePopup = false
+            this.payload = {...payload}
+            // this.datas = {}
+        },
+        chooseData: function () {
+            this.onChange(this.selectedID)
+            this.onShowHideChoose()
+            this.visiblePopup = false
+        },
+        onRefresh () {
+            this.getData()
+        },
+        async getData () {
+            this.visibleLoader = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.dataUser.role_name === 'admin' ? {
+                limit: 1000,
+                offset: 0,
+                status: 'active'
+            } : {
+                limit: 1000,
+                offset: 0,
+                user_id: this.dataUser.id,
+                status: 'active'
+            }
+            const rest = await axios.post('/api/table/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.datas = data
+                this.visibleLoader = false
+                // console.log('table', this.datas)
+            } else {
+                this.visibleLoader = false
+            }
+        }
+    },
+    watch: {
+        // table: function (props) {
+        //     if (props) {
+        //         this.datas = props
+        //     } else {
+        //         this.datas = []
+        //     }
+        // },
+        data: function (props, prevProps) {
+            if (props) {
+                this.formData = props
+            } else {
+                this.formData = null
+            }
+        },
+        enablePopup: function (props, prevProps) {
+            if (!this.visiblePopup) {
+                this.visiblePopup = true
+            } else {
+                this.visiblePopup = false
+            }
+        }
+    }
+}
+</script>

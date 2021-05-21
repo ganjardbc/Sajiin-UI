@@ -43,12 +43,13 @@ export default {
             visibleLoadMore: false,
             products: [],
             dataUser: null,
-            selectedCustomer: null 
+            selectedCustomer: null,
+            selectedTable: null
         }
     },
     mounted() {
-        const customerData = this.$cookies.get('customer')
-        this.selectedCustomer = customerData ? customerData : customer
+        this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.dataUser = this.$cookies.get('user')
         this.getProduct(this.limit, this.offset)
     },
@@ -74,7 +75,7 @@ export default {
             const payload = {
                 limit: limit,
                 offset: offset,
-                owner_id: this.selectedCustomer.id
+                owner_id: this.selectedTable.id
             }
 
             let product = []

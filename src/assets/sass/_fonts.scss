@@ -49,6 +49,12 @@
     &.no-line-height {
         line-height: 1.2;
     }
+    &.link {
+        color: $main-color;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
     @for $var from 0 to 1000 {
         &.fonts-#{$var} {
             font-size: #{$var} + 'pt';

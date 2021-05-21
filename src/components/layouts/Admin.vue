@@ -93,11 +93,11 @@ const sidebarAdmin = [
         {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'}
     ]},
     {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
+        {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
         {icon: 'fa fa-lg fa-th-large', label: 'Tables', value: 0, link: 'table', permission: 'tables'},
         {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
     ]},
     {icon: 'fa fa-lg fa-database', label: 'ORDERS', value: 0, menu: [
-        {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
         {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
         {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
         {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'wishelist', permission: 'wiselists'},

@@ -41,7 +41,7 @@
                                 <div class="fonts fonts-10 semibold black" style="margin-bottom: 5px;">Description</div>
                                 <div class="fonts fonts-10 grey" style="margin-bottom: 15px;">{{ product && product.description }}</div>
                                 <div class="display-flex">
-                                    <router-link :to="'/'" class="btn btn-small btn-primary">{{ product && product.ctr_name }}</router-link>
+                                    <router-link :to="{name: 'product-list'}" class="btn btn-small btn-primary">{{ product && product.ctr_name }}</router-link>
                                 </div>
                             </div>
 
@@ -225,7 +225,8 @@ export default {
             topingSelected: null,
             payment: null,
             shipment: null,
-            selectedCustomer: null 
+            selectedCustomer: null,
+            selectedTable: null 
         }
     },
     components: {
@@ -240,12 +241,14 @@ export default {
     },
     mounted () {
         this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.getProduct()
     },
     computed: {
         ...mapGetters({
             user: 'auth/user',
             customer: 'customer/data',
+            table: 'table/selected',
             status: 'wishelist/status'
         })
     },
@@ -293,7 +296,7 @@ export default {
             }
         },
         addToCart () {
-            if (this.customer) {
+            if (this.table) {
                 const time = new Date().getTime()
                 let topingPrice = this.topings[this.topingSelected] ? this.topings[this.topingSelected].price : 0
                 let detailPrice = this.details[this.detailSelected] ? this.details[this.detailSelected].price : 0
@@ -307,7 +310,7 @@ export default {
                 let payload = {
                     ...cartPayload,
                     cart_id: 'CR-' + time,
-                    owner_id: this.selectedCustomer.id,
+                    owner_id: this.selectedTable.id,
                     product_image: this.rawData.images[0].image,
                     product_name: this.product.name,
                     product_detail: detailName,
@@ -320,6 +323,8 @@ export default {
                     proddetail_id: detailID,
                     toping_id: topingID
                 }
+
+                console.log('payload', payload)
 
                 if (this.visibleButton) this.saveData(payload)
             } else {

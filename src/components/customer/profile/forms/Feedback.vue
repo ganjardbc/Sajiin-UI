@@ -153,15 +153,17 @@ export default {
             image: '',
             formData: {...payload},
             formMessage: [],
-            selectedCustomer: null
+            selectedCustomer: null,
+            selectedTable: null 
         }
     },
     mounted () {
         this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.formData = this.data ? {...this.data} : {...payload}
         this.formData = {
             ...this.formData,
-            owner_id: this.selectedCustomer.id
+            owner_id: this.selectedTable.id
         }
         this.image = this.data && this.data.image ? '/contents/feedbacks/thumbnails/' + this.data.image : ''
     },
@@ -224,7 +226,7 @@ export default {
                 this.formData = {...payload}
                 this.image = ''
             }
-            console.log('data', props)
+            // console.log('data', props)
         },
         message: function (props, prevProps) {
             if (props) {
@@ -232,7 +234,7 @@ export default {
             } else {
                 this.formMessage = []
             }
-            console.log('message', props)
+            // console.log('message', props)
         }
     }
 }

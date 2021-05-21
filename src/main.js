@@ -15,6 +15,7 @@ import "./assets/sass/app.css";
 import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
+// const api = "http://localhost:8000"; 
 const api = "https://kebunbegonialembang.com/sajiin-v2/public/";
 const deploy = "https://ganjardbc.github.io/Sajiin-UI/";
 

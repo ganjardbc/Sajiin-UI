@@ -63,7 +63,7 @@ import CustomerDetail from '@/components/customer/orders/Detail.vue';
 import CustomerTracking from '@/components/customer/tracking/Index.vue';
 import CustomerFinding from '@/components/customer/tracking/Finding.vue';
 import CustomerProduct from '@/components/customer/products/Index.vue';
-// import CustomerProductList from '@/components/customer/products/List.vue';
+import CustomerProductList from '@/components/customer/products/List.vue';
 
 export const routes = [
     // admin
@@ -289,6 +289,11 @@ export const routes = [
                 name: 'product',
                 path: 'product/:id',
                 component: CustomerProduct
+            },
+            {
+                name: 'product-list',
+                path: 'product-list',
+                component: CustomerProductList
             },
 
             // notification

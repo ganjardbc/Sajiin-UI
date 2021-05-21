@@ -29,12 +29,13 @@ export default {
                 user_id: 0,
                 product_id: 0
             },
-            selectedCustomer: null
+            selectedCustomer: null,
+            selectedTable: null
         }
     },
     mounted() {
-        const customerData = this.$cookies.get('customer')
-        this.selectedCustomer = customerData ? customerData : customer
+        this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
 
         const token = 'Bearer '.concat(this.$cookies.get('token'))
         const user = this.$cookies.get('user')
@@ -42,7 +43,7 @@ export default {
         this.payloadWishelist = {
             ...this.payloadWishelist,
             token: token,
-            owner_id: this.selectedCustomer ? this.selectedCustomer.id : 0,
+            owner_id: this.selectedTable ? this.selectedTable.id : 0,
             user_id: uID
         }
         this.id = this.productID
@@ -83,8 +84,8 @@ export default {
             }
         },
         setStatusWishelist (type) {
-            const customer = this.$cookies.get('customer')
-            if (customer) {
+            const table = this.$cookies.get('table')
+            if (table) {
                 if (type === 'save') {
                     this.postStatus({
                         ...this.payloadWishelist,
@@ -99,7 +100,7 @@ export default {
                     this.setToastWishelist()
                 }
             } else {
-                this.makeToast('you have to login first')
+                this.makeToast('you have to choose table first')
             }
         },
         getStatusWisheList (prodID, ownerID) {

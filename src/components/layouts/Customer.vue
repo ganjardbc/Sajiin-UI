@@ -11,13 +11,10 @@
                     <div class="header-menu-content display-flex space-between display-mobile">
                         <div></div>
                         <div class="header-menu-list display-flex">
-                            <router-link v-if="selectedCustomer.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
+                            <router-link v-if="selectedTable.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
                                 <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
                                 <span class="notif">{{ cart }}</span>
                             </router-link>
-                            <!-- <div class="header-search mobile">
-                                <SearchField :enableResponsive="true" :placeholder="'Search products ..'" />
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -28,7 +25,7 @@
         </div>
         <div style="padding-bottom: 70px;"></div>
         <div class="navbar-bottom">
-            <div v-if="selectedCustomer.id" class="main-screen display-flex space-between">
+            <div v-if="selectedTable.id" class="main-screen display-flex space-between">
                 <ul class="menu-navbar">
                     <router-link :to="{name: 'customer-main'}">
                         <li>
@@ -57,14 +54,17 @@
                                 <span class="notif">{{ order }}</span>
                             </div>
                             <div class="label">
-                                Account
+                                Customer
                             </div>
                         </li>
                     </router-link>
                 </ul>
             </div>
             <div v-else class="main-screen display-flex space-between">
-                <AppButtonScanner title="Register Customer" icon="fa fa-lg fa-plus-circle" :isFull="true" :onChange="(data) => onChangeCustomer(data)" style="width: 100%; margin-top: 7px;" />
+                <AppButtonTable 
+                    :isFull="true" 
+                    :onChange="(data) => onChangeTable(data)" 
+                    style="width: 100%; margin-top: 7px;" />
             </div>
         </div>
 
@@ -82,7 +82,7 @@ import AppMenu from "../modules/AppMenu"
 import AppText from "../modules/AppText"
 import SearchField from '../modules/SearchField'
 import AppToast from '../modules/AppToast'
-import AppButtonScanner from '../modules/AppButtonScanner'
+import AppButtonTable from '../modules/AppButtonTable'
 
 const customer = {
     id: '',
@@ -93,6 +93,17 @@ const customer = {
     phone: '',
     about: '',
     status: ''
+}
+
+const table = {
+    id: '',
+    table_id: '',
+    image: '',
+    name: '',
+    code: '',
+    description: '',
+    status: '',
+    is_available: ''
 }
 
 const navbar = [
@@ -107,6 +118,7 @@ export default {
         return {
             visibleMenu: false,
             selectedCustomer: {...customer},
+            selectedTable: {...table},
             dataUser: null,
             logo: logo,
             logo2: logo2,
@@ -123,15 +135,19 @@ export default {
         this.selectedCustomer = customerData ? customerData : customer
         this.dataUser = this.$cookies.get('admin')
 
+        const tableData = this.$cookies.get('table')
+        this.selectedTable = tableData ? tableData : table
+        this.setDataTableSelected(this.selectedTable)
+
         const token = this.$cookies.get('token')
         console.log('token', token)
 
         this.getLocalCartCount()
         this.getLocalOrderCount()
-        this.getDataTable()
+        // this.getDataTable()
     },
     components: {
-        AppButtonScanner,
+        AppButtonTable,
         AppToast,
         AppWrapper,
         AppButton,
@@ -141,6 +157,7 @@ export default {
     },
     methods: {
         ...mapActions({
+            setDataTableSelected: 'table/setData',
             getDataTable: 'table/getData',
             getCount: 'cart/getCountCustomer',
             getCountOrder: 'order/getCountCustomer'
@@ -148,11 +165,11 @@ export default {
         onOpenMenu () {
             this.visibleMenu = !this.visibleMenu
         },
-        onChangeCustomer (data) {
+        onChangeTable (data) {
             this.getLocalCartCount()
             this.getLocalOrderCount()
             this.$router.push({ name: 'customer-main' })
-            console.log('onChangeCustomer', data)
+            // console.log('onChangeTable', data)
         },
         getLocalCartCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
@@ -171,10 +188,18 @@ export default {
             token: 'auth/token',
             cart: 'cart/countCustomer',
             order: 'order/countCustomer',
-            customer: 'customer/data'
+            customer: 'customer/data',
+            selectTable: 'table/selected'
         })
     },
     watch: {
+        selectTable (props) {
+            if (props) {
+                this.selectedTable = props
+            } else {
+                this.selectedTable = null
+            }
+        },
         customer (props) {
             if (props) {
                 this.selectedCustomer = props

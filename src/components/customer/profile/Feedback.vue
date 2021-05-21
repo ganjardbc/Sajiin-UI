@@ -36,10 +36,11 @@
                 <div v-else>
                     <div v-if="datas.length > 0">
                         <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                            <div class="display-flex display-mobile space-between border-bottom" style="padding-top: 5px; padding-bottom: 15px;">
+                            <div class="display-flex display-mobile space-between" style="padding-top: 5px; padding-bottom: 5px;">
                                 <div class="width width-10 width-mobile" style="margin-bottom: 20px;">
                                     <div class="image image-50px image-circle">
-                                        <img :src="'/contents/feedbacks/thumbnails/' + dt.image" alt="" class="post-center">
+                                        <i v-if="!dt.image" class="post-middle-absolute fa fa-lg fa-user-circle" style="font-size: 22px; color: #999;" />
+                                        <img v-else :src="feedbackImageThumbnailUrl + dt.image" alt="" class="post-center">
                                     </div>
                                 </div>
                                 <div class="width width-90 width-mobile">
@@ -66,7 +67,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="display-flex space-between" style="padding-top: 15px;">
+                            <!-- <div class="display-flex space-between" style="padding-top: 15px;">
                                 <div></div>
                                 <div class="display-flex">
                                     <button class="btn btn-white btn-icon btn-radius" @click="onShowEdit(dt.id)">
@@ -75,9 +76,8 @@
                                     <button class="btn btn-white btn-icon btn-radius" @click="onShowHideDelete(dt.id)">
                                         <i class="fa fa-lw fa-trash-alt" />
                                     </button>
-                                    <!-- <AppButtonMenu :onChange="(data) => onChangeMenu(data, dt.id)" :data="[{label: 'Edit'}, {label: 'Hapus'}]" /> -->
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div v-else>
@@ -140,12 +140,13 @@ export default {
             visibleAlertSave: false,
             dataUser: null,
             datas: [],
-            selectedCustomer: null 
+            selectedCustomer: null,
+            selectedTable: null 
         }
     },
     mounted () {
-        const customerData = this.$cookies.get('customer')
-        this.selectedCustomer = customerData ? customerData : customer
+        this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.dataUser = this.$cookies.get('user')
         this.getData()
     },
@@ -203,7 +204,7 @@ export default {
         onFormSave (data = null) {
             this.onShowHideSave()
             this.selectedForm = data ? data : null
-            console.log('onFormSave', data)
+            // console.log('onFormSave', data)
         },
         onChangeImage (data) {
             this.selectedData = {
@@ -221,7 +222,7 @@ export default {
             }
 
             const rest = await axios.post('/api/feedback/delete', payload, { headers: { Authorization: token } })
-            console.log('rest', rest)
+            // console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -324,7 +325,7 @@ export default {
             const payload = {
                 limit: 1000,
                 offset: 0,
-                owner_id: this.selectedCustomer.id
+                owner_id: this.selectedTable.id
             }
             
             const rest = await axios.post('/api/feedback/getAll', payload, { headers: { Authorization: token } })
@@ -337,7 +338,7 @@ export default {
                 this.visibleLoader = false 
             }
 
-            console.log('rest', rest)
+            // console.log('rest', rest)
         }
     }
 }

@@ -3,7 +3,7 @@
         <div class="width width-100">
             <div class="width width-100 width-mobile" style="margin-bottom: 15px;">
                 <div style="padding: 0; width: 100%;">
-                    <div class="display-flex border border-bottoms" style="padding-bottom: 15px;">
+                    <!-- <div class="display-flex border border-bottoms" style="padding-bottom: 15px;">
                         <div style="width: 45px; margin-right: 15px;">
                             <div class="image image-circle image-45px" style="margin: auto; text-align: center;">
                                 <i v-if="!selectedCustomer" class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
@@ -19,9 +19,9 @@
                                 <i class="fa fa-1x fa-cog"></i>
                             </button>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <AppShowHide :isVisible="false" title="Check In / Out" class="card box-shadow" style="margin-bottom: 15px;">
+                    <!-- <AppShowHide :isVisible="false" title="Check In / Out" class="card box-shadow" style="margin-bottom: 15px;">
                         <AppLoader v-if="visibleLoaderCheck" />
 
                         <div v-else>
@@ -89,15 +89,24 @@
                                 </div>
                             </div>
                         </div>
-                    </AppShowHide>
+                    </AppShowHide> -->
 
-                    <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 15px; padding-bottom: 15px;">
+                    <div style="margin-top: 0;">
+                        <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+                        <AppButtonTable 
+                            :enableDetail="true"
+                            :isFull="true" 
+                            :onChange="(data) => onChangeSelectedTable(data)" 
+                            style="width: 100%; margin-bottom: 15px;" />
+                    </div>
+
+                    <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 5px; padding-bottom: 15px;">
                         <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
-                            You have a drafts
+                            You have an order
                         </div>
                         <div class="display-flex">
                             <router-link :to="{name: 'order'}" class="card-capsule active" style="width: 100%; text-align: center; padding-top: 10px; padding-bottom: 8px;">
-                                Continue make order ?
+                                Continue to check out ?
                             </router-link>
                         </div>
                     </div>
@@ -127,6 +136,7 @@ import AppListMenu from '../../modules/AppListMenu'
 import AppShowHide from '../../modules/AppShowHide'
 import AppLoader from '../../modules/AppLoader'
 import AppCardTable from '../../modules/AppCardTable'
+import AppButtonTable from '../../modules/AppButtonTable'
 
 const payload = {
     id: '',
@@ -164,9 +174,10 @@ export default {
         this.dataOrder = this.$cookies.get('orderItem')
         this.dataUser = this.$cookies.get('user')
         this.sidebar[0].value = this.order
-        this.getData()
+        // this.getData()
     },
     components: {
+        AppButtonTable,
         AppCardTable,
         AppLoader,
         AppShowHide,
@@ -228,6 +239,11 @@ export default {
                 this.saveData(this.formData)
                 // console.log('onCheckOut', this.formData)
             }
+        },
+        onChangeSelectedTable (data) {
+            // this.getLocalCartCount()
+            // this.getLocalOrderCount()
+            console.log('onChangeSelectedTable', data)
         },
         onChangeTable (data) {
             this.formData = {

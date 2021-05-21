@@ -44,7 +44,7 @@
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.cart_id }}</td>
                                 <td>{{ row.product_name }}</td>
-                                <td class="normal-col">{{ row.customer.name }}</td>
+                                <td class="normal-col">{{ row.customer && row.customer.name }}</td>
                                 <td class="normal-col">{{ row.product_detail }}</td>
                                 <td class="normal-col">{{ row.product_toping }}</td>
                                 <td class="normal-col">{{ row.subtotal }}</td>

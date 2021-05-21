@@ -5,7 +5,7 @@
                 <div class="display-flex space-between">
                     <div style="width: 70px; margin-right: 12px;">
                         <div class="image image-padding image-center border border-full" style="text-align: center; overflow: hidden;">
-                            <i v-if="!user.image" class="post-top fa fa-lg fa-user-circle" style="font-size: 32px; color: #999;" />
+                            <i v-if="!user.image" class="post-middle-absolute fa fa-lg fa-user-circle" style="font-size: 32px; color: #999;" />
                             <img v-else :src="user && user.image ? (adminImageThumbnailUrl + user.image) : ''" alt="">
                         </div>
                     </div>
@@ -59,36 +59,43 @@
             </div>
             <div class="display-flex space-between">
                 <div style="width: 31%;">
-                    <div class="image image-padding box-shadow">
-                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
-                    </div>
+                    <router-link :to="{name: 'product-list'}">
+                        <div class="image image-padding box-shadow">
+                            <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
+                        </div>
+                    </router-link>
                 </div>
                 <div style="width: 31%;">
-                    <div class="image image-padding box-shadow">
-                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
-                    </div>
+                    <router-link :to="{name: 'product-list'}">
+                        <div class="image image-padding box-shadow">
+                            <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
+                        </div>
+                    </router-link>
                 </div>
                 <div style="width: 31%;">
-                    <div class="image image-padding box-shadow">
-                        <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
-                    </div>
+                    <router-link :to="{name: 'product-list'}">
+                        <div class="image image-padding box-shadow">
+                            <img src="https://kebunbegonialembang.com/sajiin-v2/public//contents/products/thumbnails/PI-16214114183701621412013dobeldough1067901232049356907930866164640464645857646n.jpeg" alt="">
+                        </div>
+                    </router-link>
                 </div>
             </div>
         </div>
 
         <div>
-            <div>
+            <div class="display-flex space-between">
                 <div class="fonts fonts-10 black semibold">Products</div>
+                <router-link :to="{name: 'product-list'}" class="fonts fonts-10 semibold link">View All</router-link>
             </div>
             <AppCardPostGrid :data="products" :isMobileCard="true" />
             <AppLoader v-if="visibleLoader" style="margin-top: 10px;" />
         </div>
 
-        <div v-if="!visibleLoader" class="display-flex center">
+        <!-- <div v-if="!visibleLoader" class="display-flex center">
             <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 10px;" @click="onMore">
                 Load More
             </button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -120,7 +127,7 @@ export default {
     data () {
         return {
             visibleLoader: false,
-            limit: 9,
+            limit: 4,
             offset: 0,
             visibleLoadMore: false,
             products: [],

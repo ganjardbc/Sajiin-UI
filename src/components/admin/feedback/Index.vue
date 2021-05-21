@@ -42,7 +42,7 @@
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td class="normal-col">{{ row.feedback_id }}</td>
                                 <td>{{ row.name }}</td>
-                                <td>{{ row.customer.name }}</td>
+                                <td>{{ row.customer && row.customer.name }}</td>
                                 <td class="normal-col">
                                     <div 
                                         :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 

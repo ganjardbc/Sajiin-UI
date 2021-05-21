@@ -103,6 +103,7 @@ export default {
       $cookies.remove('admin')
       $cookies.remove('role_name')
       $cookies.remove('rawUser')
+      $cookies.remove('table')
 
       commit('SET_AUTHENTICATED', false)
       commit('SET_ADMIN', null)

@@ -1,10 +1,10 @@
 <template>
     <div id="product">
-        <AppMobileLayout :title="'Make Order'">
+        <AppMobileLayout :title="'Check Out'">
             <div style="padding: 10px 0; width: 100%; overflow: unset;">
                 <div class="width width-100">
                     <div class="width width-100" style="margin-bottom: 20px;">
-                        <div class="width width-full" style="margin-bottom: 20px;">
+                        <!-- <div class="width width-full" style="margin-bottom: 20px;">
                             <div class="card box-shadow" style="padding: 10px; width: calc(100% - 20px);">
                                 <div>
                                     <div class="display-flex">
@@ -42,9 +42,9 @@
                                             </div>
                                         </div>
                                         <div style="width: 40px;">
-                                            <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
+                                            <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
                                                 <i class="fa fa-lg fa-arrow-right" />
-                                            </button> -->
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -76,6 +76,15 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+
+                        <div style="margin-top: 0; padding-bottom: 15px;">
+                            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+                            <AppButtonTable 
+                                :enableDetail="true"
+                                :isFull="true" 
+                                :onChange="(data) => onChangeTable(data)" 
+                                style="width: 100%; margin-bottom: 15px;" />
                         </div>
                         
                         <div class="width width-full">
@@ -83,38 +92,6 @@
                             <AppCardOrderItem :data.sync="data" />
                         </div>
 
-                        <div class="width width-100 margin margin-top-20-px">
-                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Shipments</div>
-                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
-                                <div class="display-flex space-between">
-                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose shipment method</div>
-                                    <div style="width: 40px;">
-                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
-                                            <i class="fa fa-lg fa-arrow-right" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
-                                    <div style="width: 45px; margin-right: 15px">
-                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
-                                            <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
-                                        </div>
-                                    </div>
-                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
-                                        <div class="post-tops">
-                                            <div class="fonts fonts-10 semibold black">
-                                                {{ selectedShipment && selectedShipment.name }}
-                                            </div>
-                                            <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
-                                        </div>
-                                        <div class="post-tops">
-                                            <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="width width-100 margin margin-top-20-px">
                             <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Payments</div>
                             <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
@@ -147,8 +124,41 @@
                             </div>
                         </div>
 
+                        <!-- <div class="width width-100 margin margin-top-20-px">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Shipments</div>
+                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
+                                <div class="display-flex space-between">
+                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose shipment method</div>
+                                    <div style="width: 40px;">
+                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
+                                            <i class="fa fa-lg fa-arrow-right" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                    <div style="width: 45px; margin-right: 15px">
+                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                            <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
+                                        </div>
+                                    </div>
+                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">
+                                                {{ selectedShipment && selectedShipment.name }}
+                                            </div>
+                                            <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
+                                        </div>
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+
                         <div class="width width-100 margin margin-top-20-px">
                             <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Notes</div>
+                            <div class="fonts fonts-10 grey" style="margin-bottom: 10px;">You can put your initial name order</div>
                             <textarea 
                                 name="note" 
                                 id="note" 
@@ -191,7 +201,7 @@
                                     </div>
                                     <div class="width width-49">
                                         <button 
-                                            v-if="selectedPayment && selectedShipment && selectedCustomer" 
+                                            v-if="selectedPayment && selectedTable" 
                                             class="btn btn-main btn-full" 
                                             @click="onShowHideSave">
                                             Order Now
@@ -267,6 +277,7 @@ import AppCardOrderItem from '../../modules/AppCardOrderItem'
 import AppShowHide from '../../modules/AppShowHide'
 import AppDote from '../../modules/AppDote'
 import AppMobileLayout from '../../modules/AppMobileLayout'
+import AppButtonTable from '../../modules/AppButtonTable'
 import FormCustomer from './FormCustomer'
 import FormAddress from './FormAddress'
 import FormShipment from './FormShipment'
@@ -300,34 +311,39 @@ export default {
             selectedCustomer: null,
             selectedAddress: null,
             selectedShipment: null,
-            selectedPayment: null 
+            selectedPayment: null ,
+            selectedTable: null
         }
     },
     mounted () {
         const orderItem = this.$cookies.get('orderItem')
+
         this.data = orderItem.details
         this.dataUser = this.$cookies.get('user')
         this.formPayload = {...orderItem}
-        this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : this.$cookies.get('customer')
+        this.selectedTable = orderItem && orderItem.table ? orderItem.table : this.$cookies.get('table')
+        this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : null
         this.selectedAddress = orderItem && orderItem.address ? orderItem.address : null
         this.visibleAddress = this.selectedCustomer ? true : false
         this.selectedShipment = orderItem && orderItem.shipment ? orderItem.shipment : null
         this.selectedPayment = orderItem && orderItem.payment ? orderItem.payment : null
         const csID = this.selectedCustomer ? this.selectedCustomer.customer_id : null
-        this.onChangeOnlyCustomer(this.selectedCustomer)
+
+        this.onChangeOnlyTable(this.selectedTable)
         this.onTotal(this.data)
         this.getDataCustomer()
         this.getDataAddress(csID)
         this.getDataPayment()
         this.getDataShipment()
 
-        // console.log('orderItem', orderItem)
+        console.log('orderItem', orderItem)
     },
     components: {
         FormPayment,
         FormShipment,
         FormCustomer,
         FormAddress,
+        AppButtonTable,
         AppMobileLayout,
         AppDote,
         AppShowHide,
@@ -406,6 +422,18 @@ export default {
                 this.visibleButton = false 
             }
         },
+        onChangeOnlyTable (data) {
+            this.formPayload = {
+                ...this.formPayload,
+                table: data,
+                order: {
+                    ...this.formPayload.order,
+                    table_id: data.id,
+                }
+            }
+            // console.log('onChangeOnlyTable', this.formPayload)
+            this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+        },
         onChangeOnlyCustomer (data) {
             this.visibleAddress = true 
             this.selectedAddress = null 
@@ -420,6 +448,11 @@ export default {
                 }
             }
             this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
+        },
+        onChangeTable (data) {
+            // this.getLocalCartCount()
+            // this.getLocalOrderCount()
+            this.onChangeOnlyTable (data)
         },
         onChangeCustomer (data) {
             this.selectedCustomer = data.customer

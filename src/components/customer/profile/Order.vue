@@ -76,12 +76,9 @@ export default {
     },
     mounted () {
         this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.dataOrder = this.$cookies.get('orderItem')
         this.dataUser = this.$cookies.get('user')
-        this.formData = {
-            ...this.formData,
-            owner_id: this.selectedCustomer.id
-        }
         this.getDataOrder()
     },
     components: {
@@ -141,16 +138,17 @@ export default {
             const payload = {
                 limit: 1000,
                 offset: 0,
-                owner_id: this.selectedCustomer.id
+                owner_id: this.selectedTable.id
             }
             
-            const rest = await axios.post('/api/order/getAll', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/order/getByTableID', payload, { headers: { Authorization: token } })
+
+            console.log('getDataOrder', rest)
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.formOrder = data
                 this.visibleLoader = false 
-                console.log('getDataOrder', data)
             } else {
                 this.visibleLoader = false
             }

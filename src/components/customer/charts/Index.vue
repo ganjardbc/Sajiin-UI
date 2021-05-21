@@ -134,12 +134,14 @@ const payloadOrder = {
         note: '',
         config_id: null,
         customer_id: '',
+        table_id: '',
         address_id: '',
         shipment_id: '',
         payment_id: ''
     },
     details: null,
     customer: null,
+    table: null,
     address: null,
     shipment: null,
     payment: null,
@@ -169,12 +171,13 @@ export default {
             datas: [],
             dataItems: [],
             dataUser: null,
-            selectedCustomer: null 
+            selectedCustomer: null,
+            selectedTable: null
         }
     },
     mounted () {
-        const customerData = this.$cookies.get('customer')
-        this.selectedCustomer = customerData ? customerData : customer
+        this.selectedCustomer = this.$cookies.get('customer')
+        this.selectedTable = this.$cookies.get('table')
         this.dataUser = this.$cookies.get('user')
         this.getData(this.limit, this.offset)
     },
@@ -409,7 +412,7 @@ export default {
             const payload = {
                 limit: limit,
                 offset: offset,
-                owner_id: this.selectedCustomer.id
+                owner_id: this.selectedTable.id
             }
             let carts = []
 
