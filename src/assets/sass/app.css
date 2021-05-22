@@ -993,6 +993,12 @@ a.btn {
   width: 100%;
   padding: 0;
 }
+@media (max-width: 720px) {
+  .card.no-padding-mobile {
+    width: calc(100% - 20px);
+    padding: 10px;
+  }
+}
 .card.mobile-grid {
   display: flex;
   flex-direction: row;

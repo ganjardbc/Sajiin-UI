@@ -1,6 +1,6 @@
 <template>
     <div id="App">
-        <button class="btn btn-main" style="margin-left: 0; margin-right: 10px;" @click="onButtonCustomer">
+        <button :class="'btn btn-main ' + (buttonFull ? 'btn-full' : '')" style="margin-left: 0; margin-right: 10px;" @click="onButtonCustomer">
             {{ title ? title : 'Scan Restaurant QR'}} <i :class="'icn ' + (icon ? icon : 'fa fa-lg fa-qrcode')" />
         </button>
 
@@ -62,6 +62,10 @@ export default {
         AppPopupForm,
     },
     props: {
+        buttonFull: {
+            type: Boolean,
+            required: false,
+        },
         code: {
             type: String,
             required: false

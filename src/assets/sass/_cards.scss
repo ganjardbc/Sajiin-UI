@@ -8,6 +8,12 @@
         width: 100%;
         padding: 0;
     }
+    &.no-padding-mobile {
+        @media (max-width: $min-width) {
+            width: calc(100% - 20px);
+            padding: 10px;
+        }
+    }
     &.mobile-grid {
         display: flex;
         flex-direction: row;

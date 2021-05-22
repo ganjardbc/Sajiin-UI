@@ -1,8 +1,8 @@
 <template>
-    <div id="App">
-        <div class="display-flex display-mobile space-between" style="padding: 15px;">
+    <div id="Profile" class="width width-97 width-mobile" style="margin: auto; padding-top: 10px; padding-bottom: 10px;">
+        <div class="display-flex display-mobile space-between">
             <div class="width width-25 width-mobile" style="margin-bottom: 30px;">
-                <div class="card box-shadow bg-white">
+                <div class="card no-padding-mobile box-shadow bg-white">
                     <div class="content-center" style="margin-bottom: 20px;">
                         <div class="image image-padding" style="margin: auto; text-align: center;">
                             <i v-if="!image" class="post-top fa fa-lg fa-user-circle" style="font-size: 58px; color: #999;" />
@@ -13,6 +13,13 @@
                         </div>
                     </div>
 
+                    <AppButtonQR 
+                        :buttonFull="true"
+                        :onChange="(data) => onChangeCustomer(data)" 
+                        :code="code"
+                        title="Show QR Restaurant" 
+                    />
+
                     <div class="border border-bottom margin margin-top-20-px"></div>
 
                     <button class="btn btn-primary btn-full" style="margin-top: 20px;" @click="onLogout">
@@ -20,37 +27,33 @@
                     </button>
                 </div>
             </div>
+
             <div class="width width-73 width-mobile">
-                <div class="card box-shadow bg-white">
+                <div class="card no-padding-mobile box-shadow bg-white">
                     <div class="width width-100">
-                        <div class="display-flex space-between">
+                        <div class="display-flex display-mobile space-between">
                             <div class="fonts bold big margin margin-bottom-20-px">Biodata</div>
-                            <AppButtonQR 
-                                :onChange="(data) => onChangeCustomer(data)" 
-                                :code="code"
-                                title="Show QR Restaurant" 
-                            />
                         </div>
 
                         <div class="margin margin-bottom-20-px">
                             <div class="fonts bold">Profil</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
-                            <div class="width width-300-px fonts fonts-11">ID</div>
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
+                            <div class="width width-300-px width-mobile fonts fonts-11">ID</div>
                             <div class="fonts fonts-11 semibold">{{ formData && formData.id }}</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
-                            <div class="width width-300-px fonts fonts-11">Nama</div>
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
+                            <div class="width width-300-px width-mobile fonts fonts-11">Nama</div>
                             <div class="fonts fonts-11 semibold">{{ formData && formData.name }}</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
-                            <div class="width width-300-px fonts fonts-11">Role</div>
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
+                            <div class="width width-300-px width-mobile fonts fonts-11">Role</div>
                             <div class="fonts fonts-11 semibold">{{ formData && formData.role_name }}</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
                             <div class="width width-300-px">
                                 <div class="fonts fonts-11">Enabled</div>
-                                <div class="fonts micro black">Is this user enable ?</div>
+                                <div class="fonts micro black" style="margin-bottom: 10px;">Is this user enable ?</div>
                             </div>
                             <!-- <div class="fonts semibold">{{ user && user.enabled ? 'Enable' : 'Disable' }}</div> -->
                             <div>
@@ -64,58 +67,56 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
                             <div class="width width-300-px">
                                 <div class="fonts fonts-11">Status</div>
-                                <div class="fonts micro black">Is this user active ?</div>
+                                <div class="fonts micro black" style="margin-bottom: 10px;">Is this user active ?</div>
                             </div>
                             <!-- <div class="fonts semibold">{{ user && user.status && user.status === 'active' ? 'Active' : 'Inactive' }}</div> -->
-                            <div>
-                                <div class="display-flex">
-                                    <label class="radio">
-                                        <input 
-                                            type="radio" 
-                                            name="status"
-                                            id="active"
-                                            value="active"
-                                            v-model="formData.status" />
-                                        <span class="checkmark" />
-                                        <span class="fonts micro">
-                                            Active
-                                        </span>
-                                    </label>
+                            <div class="display-flex">
+                                <label class="radio">
+                                    <input 
+                                        type="radio" 
+                                        name="status"
+                                        id="active"
+                                        value="active"
+                                        v-model="formData.status" />
+                                    <span class="checkmark" />
+                                    <span class="fonts micro">
+                                        Active
+                                    </span>
+                                </label>
 
-                                    <label class="radio">
-                                        <input 
-                                            type="radio" 
-                                            name="status"
-                                            id="inactive"
-                                            value="inactive"
-                                            v-model="formData.status" />
-                                        <span class="checkmark" />
-                                        <span class="fonts micro">
-                                            Inactive
-                                        </span>
-                                    </label>
-                                </div>
+                                <label class="radio">
+                                    <input 
+                                        type="radio" 
+                                        name="status"
+                                        id="inactive"
+                                        value="inactive"
+                                        v-model="formData.status" />
+                                    <span class="checkmark" />
+                                    <span class="fonts micro">
+                                        Inactive
+                                    </span>
+                                </label>
                             </div>
                         </div>
 
                         <div class="margin margin-bottom-20-px margin-top-40-px">
                             <div class="fonts fonts-11 bold">Kontak</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
-                            <div class="width width-300-px fonts fonts-11">Email</div>
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
+                            <div class="width width-300-px width-mobile fonts fonts-11">Email</div>
                             <div class="fonts fonts-11 semibold">{{ formData && formData.email }}</div>
                         </div>
-                        <div class="width width-100 display-flex margin margin-bottom-20-px">
-                            <div class="width width-300-px fonts fonts-11">No. Handphone</div>
+                        <div class="width width-100 display-flex display-mobile margin margin-bottom-20-px">
+                            <div class="width width-300-px width-mobile fonts fonts-11">No. Handphone</div>
                             <div class="fonts fonts-11 semibold">-</div>
                         </div>
 
                         <div class="width width-100 width-mobile margin margin-top-40-px margin-bottom-40-px">
-                            <div class="display-flex">
-                                <div class="width width-300-px"></div>
+                            <div class="display-flex display-mobile">
+                                <div class="width width-300-px width-mobile"></div>
                                 <div>
                                     <button class="btn btn-main">
                                         UPDATE PROFIL
@@ -174,7 +175,7 @@ const payload = {
 }
 
 export default {
-    name: 'App',
+    name: 'Profile',
     data () {
         return {
             visiblePopup: false,

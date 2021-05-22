@@ -70,9 +70,9 @@
             <div class="inner">
                 <router-view />
             </div>
-            <div class="footer display-flex space-between">
+            <div class="footer display-flex display-mobile space-between">
                 <div>Version 0.0.1 - Beta</div>
-                <div style="cursor: default;">
+                <div class="mobile-hidden" style="cursor: default;">
                     <router-link to="/" class="link-text bold small">About us</router-link> -
                     <router-link to="/" class="link-text bold small">Helps</router-link> -
                     <router-link to="/" class="link-text bold small">Terms & conditions</router-link>
