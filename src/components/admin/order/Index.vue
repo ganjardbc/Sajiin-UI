@@ -16,6 +16,7 @@
                     </div>
                     <div class="display-flex">
                         <AppButtonMenu 
+                            class="mobile-hidden"
                             :icon="'fa fa-lw fa-filter'"
                             :button="'btn btn-icon btn-white'"
                             :onChange="(data) => onChangeMenu(data)" 

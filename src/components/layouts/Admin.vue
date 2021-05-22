@@ -12,9 +12,11 @@
                             style="font-size: 18px; margin-top: 0;" />
                     </button>
                     <div class="mobile-visible" style="width: calc(100% - 8px); padding-left: 4px; padding-right: 4px;">
-                        <div class="image image-padding">
-                            <img :src="icon" alt="">
-                        </div>
+                        <router-link :to="{name: 'home'}">
+                            <div class="image image-padding">
+                                <img :src="icon" alt="">
+                            </div>
+                        </router-link>
                     </div>
                 </div>
             </div>
