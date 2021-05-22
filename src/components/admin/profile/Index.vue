@@ -4,42 +4,21 @@
             <div class="width width-25 width-mobile" style="margin-bottom: 30px;">
                 <div class="card box-shadow bg-white">
                     <div class="content-center" style="margin-bottom: 20px;">
-                        <div class="image image-circle image-150px" style="margin: auto; text-align: center;">
-                            <i v-if="!user.image" class="post-top fa fa-lg fa-user-circle" style="font-size: 58px; color: #999;" />
-                            <img v-else :src="user && user.image ? (adminImageThumbnailUrl + user.image) : ''" alt="">
+                        <div class="image image-padding" style="margin: auto; text-align: center;">
+                            <i v-if="!image" class="post-top fa fa-lg fa-user-circle" style="font-size: 58px; color: #999;" />
+                            <img v-else :src="image ? image : ''" alt="">
+                            <button class="btn btn-sekunder btn-icon" style="position: absolute; bottom: 10px; right: 10px; border-radius: 100%;" @click="onButtonUpload">
+                                <i class="post-center fa fa-lg fa-pencil-alt" style="font-size: 16px;" />
+                            </button>
                         </div>
                     </div>
 
-                    <AppButton
-                        style="width: 100%; margin-top: 20px;"
-                        :onPress="onBuilded"
-                        title="UPDATE FOTO PROFIL"
-                        type="sekunder"
-                    />
-
                     <div class="border border-bottom margin margin-top-20-px"></div>
 
-                    <AppButton
-                        style="width: 100%; margin-top: 20px;"
-                        :onPress="onLogout"
-                        title="LOGOUT"
-                        type="primary"
-                    />
+                    <button class="btn btn-primary btn-full" style="margin-top: 20px;" @click="onLogout">
+                        LOGOUT 
+                    </button>
                 </div>
-
-                <AppButton
-                    style="width: 100%; margin-top: 30px;"
-                    :onPress="onBuilded"
-                    title="CHANGE EMAIL"
-                    type="sekunder"
-                />
-
-                <AppButton
-                    style="width: 100%; margin-top: 10px;"
-                    :onPress="onBuilded"
-                    title="CHANGE PASSWORD"
-                    type="sekunder"
-                />
             </div>
             <div class="width width-73 width-mobile">
                 <div class="card box-shadow bg-white">
@@ -58,15 +37,15 @@
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px fonts fonts-11">ID</div>
-                            <div class="fonts fonts-11 semibold">{{ user && user.id }}</div>
+                            <div class="fonts fonts-11 semibold">{{ formData && formData.id }}</div>
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px fonts fonts-11">Nama</div>
-                            <div class="fonts fonts-11 semibold">{{ user && user.name }}</div>
+                            <div class="fonts fonts-11 semibold">{{ formData && formData.name }}</div>
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px fonts fonts-11">Role</div>
-                            <div class="fonts fonts-11 semibold">{{ user && user.role_name }}</div>
+                            <div class="fonts fonts-11 semibold">{{ formData && formData.role_name }}</div>
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px">
@@ -80,7 +59,7 @@
                                         type="checkbox" 
                                         name="enabled" 
                                         id="enabled" 
-                                        v-model="user.enabled" />
+                                        v-model="formData.enabled" />
                                     <span class="slider round" />
                                 </label>
                             </div>
@@ -99,7 +78,7 @@
                                             name="status"
                                             id="active"
                                             value="active"
-                                            v-model="user.status" />
+                                            v-model="formData.status" />
                                         <span class="checkmark" />
                                         <span class="fonts micro">
                                             Active
@@ -112,7 +91,7 @@
                                             name="status"
                                             id="inactive"
                                             value="inactive"
-                                            v-model="user.status" />
+                                            v-model="formData.status" />
                                         <span class="checkmark" />
                                         <span class="fonts micro">
                                             Inactive
@@ -127,14 +106,14 @@
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px fonts fonts-11">Email</div>
-                            <div class="fonts fonts-11 semibold">{{ user && user.email }}</div>
+                            <div class="fonts fonts-11 semibold">{{ formData && formData.email }}</div>
                         </div>
                         <div class="width width-100 display-flex margin margin-bottom-20-px">
                             <div class="width width-300-px fonts fonts-11">No. Handphone</div>
                             <div class="fonts fonts-11 semibold">-</div>
                         </div>
 
-                        <div class="width width-80 width-mobile margin margin-top-40-px margin-bottom-40-px">
+                        <div class="width width-100 width-mobile margin margin-top-40-px margin-bottom-40-px">
                             <div class="display-flex">
                                 <div class="width width-300-px"></div>
                                 <div>
@@ -143,19 +122,32 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- <div class="fonts light-grey">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eligendi labore dolores dolorem beatae. Dolorum tempore nam temporibus!
-                            </div> -->
                         </div>
 
                     </div>
                 </div>
             </div>
         </div>
+
+        <AppPopupForm 
+            v-if="visiblePopup"
+            :title="'Update Profile'"
+            :onClose="onButtonUpload"
+        >
+            <div class="field-group" style="padding-top: 10px;">
+                <AppImage 
+                    :image.sync="image"
+                    :isEnable="true"
+                    :onUpload="(data) => uploadImage(data)"
+                    :onRemove="removeImage"
+                />
+            </div>
+        </AppPopupForm>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 import AppWrapper from '../../modules/AppWrapper'
 import AppButton from '../../modules/AppButton'
@@ -163,19 +155,54 @@ import AppText from '../../modules/AppText'
 import AppForm from '../../modules/AppForm'
 import AppCardCharts from '../../modules/AppCardCharts'
 import AppButtonQR from '../../modules/AppButtonQR'
+import AppImage from '../../modules/AppImage'
+import AppPopupForm from '../../modules/AppPopupForm'
+
+const payload = {
+    id: '',
+    image: '',
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    email_verified_at: '',
+    provider: '',
+    enabled: '',
+    status: '',
+    role_id: '',
+    role_name: ''
+}
 
 export default {
     name: 'App',
     data () {
         return {
-            code: ''
+            visiblePopup: false,
+            image: '',
+            code: '',
+            formData: {...payload},
         }
     },
     mounted () {
         const token = this.$cookies.get('token')
+        this.formData = {
+            ...payload,
+            id: this.user.id,
+            name: this.user.name,
+            role_name: this.user.role_name,
+            enabled: this.user.enabled,
+            status: this.user.status,
+            email: this.user.email,
+            image: this.user.image
+        }
+        this.image = this.user.image ? this.adminImageThumbnailUrl + this.user.image : ''
         this.code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + token
+
+        console.log('user', this.user)
     },
     components: {
+        AppPopupForm,
+        AppImage,
         AppButtonQR,
         AppWrapper,
         AppButton,
@@ -186,11 +213,28 @@ export default {
     methods: {
         ...mapActions({
             removeCookieAuth: 'auth/removeCookieAuth',
-            signOut: 'auth/signOut'
+            signOut: 'auth/signOut',
+            setUser: 'auth/setUser'
         }),
 
         onChangeCustomer (data) {
             console.log('onChangecustomer', data)
+        },
+
+        onButtonUpload () {
+            this.visiblePopup = !this.visiblePopup
+        },
+
+        onChangeImage (data) {
+            this.formData = {
+                ...this.formData,
+                image: data
+            }
+            this.image = data ? this.adminImageThumbnailUrl + data : ''
+            this.setUser({
+                ...this.user,
+                image: data
+            })
         },
 
         async onLogout () {
@@ -205,6 +249,61 @@ export default {
                 }
 
                 console.log('LOGOUT', rest)
+            }
+        },
+
+        async uploadImage (data) {
+            this.visibleLoaderAction = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.formData
+            const url = '/api/user/uploadImage' 
+
+            let formData = new FormData();
+            formData.append('id', payload.id);
+            formData.append('image', data);
+
+            const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
+
+            if (rest && rest.status === 200) {
+                this.visibleLoaderAction = false
+
+                const data = rest.data.data
+                if (data && data.image) {
+                    this.onChangeImage(data && data.image)
+                    this.onButtonUpload()
+                    this.selectedMessage = []
+                } else {
+                    this.selectedMessage = rest.data.message
+                }
+            } else {
+                alert('Proceed failed')
+            }
+        },
+
+        async removeImage () {
+            this.visibleLoaderAction = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.formData
+            const url = '/api/user/removeImage' 
+
+            let formData = new FormData();
+            formData.append('id', payload.id);
+
+            var a = confirm('remove this image ?')
+            if (a) {
+                const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
+
+                if (rest && rest.status === 200) {
+                    this.visibleLoaderAction = false
+
+                    const data = rest.data.data
+                    this.onChangeImage(data && data.image)
+                    this.onButtonUpload()
+                } else {
+                    alert('Proceed failed')
+                }
             }
         },
 

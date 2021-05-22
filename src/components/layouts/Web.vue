@@ -30,13 +30,6 @@
                             </div>
                             <div class="display-flex display-mobile">
                                 <div class="header-menu-list display-flex display-mobile">
-                                    <div v-if="!user ? false : true">
-                                        <router-link v-if="!customer ? false : true" :to="{name: 'customer-main'}" style="display: block;" class="header-menu-mobile">
-                                            <button class="btn btn-small btn-sekunder btn-mobile">
-                                                CUSTOMER
-                                            </button>
-                                        </router-link>
-                                    </div>
                                     <router-link v-if="!user ? false : true" :to="{name: 'dashboard'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
                                         <button class="btn btn-small btn-sekunder btn-mobile">
                                             DASHBOARD

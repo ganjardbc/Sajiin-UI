@@ -41956,6 +41956,15 @@ a {
   }
 }
 
+.mobile-visible {
+  display: none;
+}
+@media (max-width: 720px) {
+  .mobile-visible {
+    display: block;
+  }
+}
+
 .show-app {
   display: block;
   -webkit-transition: all 0.25s ease;

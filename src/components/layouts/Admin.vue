@@ -6,11 +6,16 @@
                     <router-link :to="{name: 'home'}" class="logo" style="width: 150px; margin-left: -5px; margin-top: -8px;">
                         <img :src="logo" alt="SAJI-IN" style="width: 100%;">
                     </router-link>
-                    <button class="close btn btn-white btn-icon" @click="onSidebar()">
+                    <button class="close btn btn-white btn-icon mobile-hidden" @click="onSidebar()">
                         <i 
                             :class="isSidebarSmall ? 'fa fa-lg fa-bars' : 'fa fa-lg fa-times'" 
                             style="font-size: 18px; margin-top: 0;" />
                     </button>
+                    <div class="mobile-visible" style="width: calc(100% - 8px); padding-left: 4px; padding-right: 4px;">
+                        <div class="image image-padding">
+                            <img :src="icon" alt="">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="content">
@@ -81,6 +86,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import AppListMenu from '../modules/AppListMenu'
 import logo from '@/assets/img/logo.png'
+import icon from '@/assets/img/icon.png'
 import AppToast from '../modules/AppToast'
 
 const sidebarAdmin = [
@@ -125,6 +131,7 @@ export default {
         return {
             permissions: null,
             logo: logo,
+            icon: icon,
             sidebar: null,
             isSidebarSmall: false,
             classSidebar: 'sidebar smalls',

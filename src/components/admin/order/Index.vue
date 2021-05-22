@@ -23,7 +23,7 @@
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search orders ..'" style="width: 280px; margin-left: 10px;" />
+                        <SearchField :placeholder="'Search orders ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
                 

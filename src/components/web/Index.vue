@@ -18,11 +18,8 @@
                                 <router-link :to="{name: 'how-to-orders'}" class="btn btn-sekunder" style="margin-left: 0; margin-right: 10px;">
                                     How to Create Orders ?
                                 </router-link>
-                                <router-link v-if="!admin" :to="{name: 'how-to-join'}" class="btn btn-main" style="margin-left: 0; margin-right: 10px;">
+                                <router-link :to="{name: 'how-to-join'}" class="btn btn-main" style="margin-left: 0; margin-right: 10px;">
                                     How to Join ?
-                                </router-link>
-                                <router-link v-else :to="{name: 'customer-main'}" class="btn btn-main" style="margin-left: 0; margin-right: 10px;">
-                                    Visit {{ admin && admin.name }} <i class="icn fa fa-lg fa-arrow-right" />
                                 </router-link>
                             </div>
                         </div>

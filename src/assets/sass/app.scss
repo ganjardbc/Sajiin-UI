@@ -664,6 +664,13 @@ a {
     }
 }
 
+.mobile-visible {
+    display: none;
+    @media (max-width: $min-width) {
+        display: block;
+    }
+}
+
 .show-app {
     display: block;
     @include animate_1();

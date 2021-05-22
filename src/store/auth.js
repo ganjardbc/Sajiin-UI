@@ -78,6 +78,11 @@ export default {
       commit('SET_TOKEN', token)
     },
 
+    setUser ({ commit }, data = '') {
+      commit('SET_USER', data)
+      $cookies.set('user', data)
+    },
+
     setCookieCustomerAuth ({commit}, data) {
       console.log('setCookieCustomerAuth', data)
 
