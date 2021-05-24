@@ -71,28 +71,15 @@
                     </div>
                 </div>
             </div>
-        </AppPopupForm>
+        </AppPopupForm> 
 
-        <AppAlert 
-            v-if="visibleAlertDelete" 
-            :isLoader="visibleLoaderAction"
-            :title="'This action will remove data permanently, delete this data ?'" 
-            :onClose="onShowHideDelete" 
-            :onSave="removeData" />
-        
         <AppAlert 
             v-if="visibleAlertChoose" 
             :isLoader="visibleLoaderAction"
-            :title="'Choose this data ?'" 
+            :title="datatable ? 'Change to this table ? It will remove your carts and wiselists.' : 'Choose this table ?'" 
             :onClose="onShowHideChoose" 
             :onSave="chooseData" />
-        
-        <AppAlert 
-            v-if="visibleAlertSave" 
-            :isLoader="visibleLoaderAction"
-            :title="'Proceed this data ?'" 
-            :onClose="onShowHideSave" 
-            :onSave="saveData" />
+
     </div>
 </template>
 
@@ -111,8 +98,6 @@ export default {
     name: 'FormTable',
     data () {
         return {
-            visibleAlertSave: false,
-            visibleAlertDelete: false,
             visibleAlertChoose: false,
             visibleLoader: false,
             visibleLoaderAction: false,
@@ -127,11 +112,13 @@ export default {
             datas: [],
             formMessage: [],
             payload: {...payload},
-            dataUser: null
+            dataUser: null,
+            datatable: null 
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('admin')
+        this.datatable = this.$cookies.get('table')
         // this.getDataTable()
         this.getData()
     },
@@ -164,18 +151,6 @@ export default {
         ...mapActions({
             getDataTable: 'table/getData'
         }),
-        onShowHideSave () {
-            this.visibleAlertSave = !this.visibleAlertSave
-        },
-        onFormSave (data = null) {
-            this.onShowHideSave()
-            this.selectedForm = data ? data : null
-        },
-        onShowHideDelete (index = null) {
-            this.visibleAlertDelete = !this.visibleAlertDelete
-            this.payload = this.datas[index] ? this.datas[index] : payload
-            this.formMessage = []
-        },
         onShowHideChoose (index = null) {
             this.visibleAlertChoose = !this.visibleAlertChoose
             this.selectedID = index
@@ -191,12 +166,36 @@ export default {
             // this.datas = {}
         },
         chooseData: function () {
-            this.onChange(this.selectedID)
-            this.onShowHideChoose()
-            this.visiblePopup = false
+            const data = this.selectedID
+            const table = this.datatable
+            const payload = {
+                prev_table_id: table ? table.id : 0,
+                next_table_id: data ? data.id : 0
+            }
+            this.saveTable(payload)
         },
         onRefresh () {
             this.getData()
+        },
+        async saveTable (payload) {
+            this.visibleLoaderAction = true 
+            
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const rest = await axios.post('/api/table/saveTable', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data 
+
+                this.getData()
+                this.onChange(data)
+                this.onShowHideChoose()
+                this.visiblePopup = false
+                this.visibleLoaderAction = false
+            } else {
+                this.onShowHideChoose()
+                this.visiblePopup = false
+                this.visibleLoaderAction = false
+            }
         },
         async getData () {
             this.visibleLoader = true

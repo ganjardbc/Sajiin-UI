@@ -79,40 +79,26 @@
                         <span style="font-size: 10pt;">This Site All Right Reserved @2020</span>
                     </AppText>
                 </div>
+
                 <div class="width width-70 width-mobile display-flex space-between display-mobile">
                     <div class="width width-60 width-mobile display-flex space-between" style="padding-bottom: 15px;">
-                        <div class="width width-100">
-                            <div class="fonts fonts-13px semibold grey" style="margin-bottom: 15px;">Products</div>
-                            <ul class="menu-list">
-                                <li class="ml-list">
-                                    <a href="#" class="ml-link">
-                                        Catalogs
-                                    </a>
-                                </li>
-                                <li class="ml-list">
-                                    <a href="#" class="ml-link">
-                                        Topings
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="width width-100">
                             <div class="fonts fonts-13px semibold grey" style="margin-bottom: 15px;">About</div>
                             <ul class="menu-list">
                                 <li class="ml-list">
-                                    <a href="#" class="ml-link">
+                                    <router-link :to="{name: 'about-us'}" class="ml-link">
                                         About Us
-                                    </a>
+                                    </router-link>
                                 </li>
                                 <li class="ml-list">
-                                    <a href="#" class="ml-link">
+                                    <router-link :to="{name: 'articles'}" class="ml-link">
                                         Our Team
-                                    </a>
+                                    </router-link>
                                 </li>
                                 <li class="ml-list">
-                                    <a href="#" class="ml-link">
-                                        Articles
-                                    </a>
+                                    <router-link :to="{name: 'pricing'}" class="ml-link">
+                                        Pricing
+                                    </router-link>
                                 </li>
                             </ul>
                         </div>
@@ -120,19 +106,35 @@
                             <div class="fonts fonts-13px semibold grey" style="margin-bottom: 15px;">Blogs</div>
                             <ul class="menu-list">
                                 <li class="ml-list">
-                                    <a href="#" class="ml-link">
-                                        News
-                                    </a>
+                                    <router-link :to="{name: 'articles'}" class="ml-link">
+                                        Articles
+                                    </router-link>
                                 </li>
                                 <li class="ml-list">
-                                    <a href="#" class="ml-link">
+                                    <router-link :to="{name: 'articles'}" class="ml-link">
                                         Events
-                                    </a>
+                                    </router-link>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="width width-100">
+                            <div class="fonts fonts-13px semibold grey" style="margin-bottom: 15px;">Helps</div>
+                            <ul class="menu-list">
+                                <li class="ml-list">
+                                    <router-link :to="{name: 'how-to-orders'}" class="ml-link">
+                                        How to create orders ?
+                                    </router-link>
+                                </li>
+                                <li class="ml-list">
+                                    <router-link :to="{name: 'how-to-join'}" class="ml-link">
+                                        How to join ?
+                                    </router-link>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="width width-20 width-mobile">
+
+                    <div class="width width-30 width-mobile">
                         <div class="fonts fonts-13px semibold grey" style="margin-bottom: 15px;">Contacts</div>
                         <div class="display-flex" style="margin-bottom: 15px;">
                             <button class="btn btn-icon btn-small-radius btn-sekunder" style="margin-right: 10px;">
@@ -178,10 +180,9 @@ import AppToast from '../modules/AppToast'
 
 const navbar = [
     {label: 'Home', link: 'home'},
-    // {label: 'Catalogs', link: 'product-list'},
     {label: 'Articles', link: 'articles'},
-    // {label: 'About Us', link: 'about-us'},
-    {label: 'How to Create Orders ?', link: 'how-to-orders'},
+    {label: 'About Us', link: 'about-us'},
+    {label: 'Pricing', link: 'pricing'},
     {label: 'How to Join ?', link: 'how-to-join'}
 ]
 
