@@ -45,7 +45,7 @@
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">DELIVERY FEE</div>
                     <input 
-                        v-if="dataUser.role_name === 'admin'"
+                        v-if="dataUser.role_name === 'owner'"
                         type="number" 
                         placeholder="" 
                         class="field field-sekunder" 
@@ -132,7 +132,7 @@
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">PAYMENT STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
-                        <div v-if="dataUser.role_name === 'admin'" class="display-flex">
+                        <div v-if="dataUser.role_name === 'owner'" class="display-flex">
                             <label class="radio">
                                 <input 
                                     type="radio" 
@@ -203,7 +203,7 @@
                     <div class="field-label">ORDER STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
                         <select 
-                            v-if="dataUser.role_name === 'admin'"
+                            v-if="dataUser.role_name === 'owner'"
                             class="cf-input slc slc-sekunder"
                             name="status" 
                             id="status" 

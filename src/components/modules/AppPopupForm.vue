@@ -3,7 +3,7 @@
         <div class="post-center" style="padding-top: 15px; padding-bottom: 15px;">
             <div 
                 class="card-popup bg-white box-shadow" 
-                :style="enableRadius ? 'border-radius: 10px;' : 'border-radius: 0;'">
+                :style="enableRadius ? 'border-radius: 10px;' : 'border-radius: 10px;'">
                 <div class="width width-100 width-center width-mobile">
                     <div class="display-flex justify-content">
                         <div style="width: calc(100% - 90px); margin-top: 8px;">

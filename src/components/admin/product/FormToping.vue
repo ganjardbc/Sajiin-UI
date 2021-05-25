@@ -1,36 +1,40 @@
 <template>
     <div id="FormToping">
-        <div class="card box-shadow" v-for="(dt, index) in datas" :key="index">
-            <div class="display-flex">
-                <div>
-                    <div class="display-flex margin margin-bottom-5-px">
-                        <div class="fonts micro black width width-100-px">ID</div>
-                        <div class="fonts micro black semibold">{{ dt.id }}</div>
-                    </div>
-                    <div class="display-flex margin margin-bottom-5-px">
-                        <div class="fonts micro black width width-100-px">Toping ID</div>
-                        <div class="fonts micro black semibold">{{ dt.toping_id }}</div>
-                    </div>
-                    <div class="display-flex margin margin-bottom-5-px">
-                        <div class="fonts micro black width width-100-px">Name</div>
-                        <div class="fonts micro black semibold">{{ dt.name }}</div>
-                    </div>
-                    <div class="display-flex margin margin-bottom-5-px">
-                        <div class="fonts micro black width width-100-px">Price</div>
-                        <div class="fonts micro black semibold">{{ dt.price }}</div>
-                    </div>
-                    <div class="display-flex margin margin-bottom-10-px">
-                        <div class="fonts micro black width width-100-px">Description</div>
-                        <div class="fonts micro black semibold">{{ dt.description }}</div>
+        <AppLoader v-if="visibleLoader" />
+
+        <div v-else>
+            <div class="card box-shadow" v-for="(dt, index) in datas" :key="index">
+                <div class="display-flex">
+                    <div>
+                        <div class="display-flex margin margin-bottom-5-px">
+                            <div class="fonts micro black width width-100-px">ID</div>
+                            <div class="fonts micro black semibold">{{ dt.id }}</div>
+                        </div>
+                        <div class="display-flex margin margin-bottom-5-px">
+                            <div class="fonts micro black width width-100-px">Toping ID</div>
+                            <div class="fonts micro black semibold">{{ dt.toping_id }}</div>
+                        </div>
+                        <div class="display-flex margin margin-bottom-5-px">
+                            <div class="fonts micro black width width-100-px">Name</div>
+                            <div class="fonts micro black semibold">{{ dt.name }}</div>
+                        </div>
+                        <div class="display-flex margin margin-bottom-5-px">
+                            <div class="fonts micro black width width-100-px">Price</div>
+                            <div class="fonts micro black semibold">{{ dt.price }}</div>
+                        </div>
+                        <div class="display-flex margin margin-bottom-10-px">
+                            <div class="fonts micro black width width-100-px">Description</div>
+                            <div class="fonts micro black semibold">{{ dt.description }}</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div v-if="enableButton" class="display-flex space-between margin margin-bottom-0-px">
-                <div></div>
-                <div class="display-flex content-right">
-                    <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(index)">
-                        <i class="fa fa-1x fa-trash-alt"></i>
-                    </button>
+                <div v-if="enableButton" class="display-flex space-between margin margin-bottom-0-px">
+                    <div></div>
+                    <div class="display-flex content-right">
+                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(index)">
+                            <i class="fa fa-1x fa-trash-alt"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -82,6 +86,7 @@
 import axios from 'axios'
 import AppPopupForm from '../../modules/AppPopupForm'
 import AppAlert from '../../modules/AppAlert'
+import AppLoader from '../../modules/AppLoader'
 
 const payload = {
     id: 0,
@@ -113,8 +118,9 @@ export default {
         this.getToping()
     },
     components: {
-        AppPopupForm: AppPopupForm,
-        AppAlert: AppAlert
+        AppLoader,
+        AppPopupForm,
+        AppAlert
     },
     props: {
         selectedId: {
@@ -214,6 +220,8 @@ export default {
             }
         },
         async getData (id) {
+            this.visibleLoader = true 
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = {
                 limit: 1000,
@@ -226,6 +234,9 @@ export default {
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.datas = data
+                this.visibleLoader = false
+            } else {
+                this.visibleLoader = false
             }
         },
         async getToping () {

@@ -5,7 +5,7 @@
                 <div class="card no-padding-mobile box-shadow bg-white">
                     <div class="content-center" style="margin-bottom: 20px;">
                         <div class="image image-padding" style="margin: auto; text-align: center;">
-                            <i v-if="!image" class="post-top fa fa-lg fa-user-circle" style="font-size: 58px; color: #999;" />
+                            <i v-if="!image" class="post-middle-absolute fa fa-lg fa-user-circle" style="font-size: 58px; color: #999;" />
                             <img v-else :src="image ? image : ''" alt="">
                             <button class="btn btn-sekunder btn-icon" style="position: absolute; bottom: 10px; right: 10px; border-radius: 100%;" @click="onButtonUpload">
                                 <i class="post-center fa fa-lg fa-pencil-alt" style="font-size: 16px;" />

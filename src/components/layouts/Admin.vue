@@ -36,23 +36,18 @@
                         </form>
                     </div>
                     <div style="width: 100%;" class="display-flex right">
-                        <router-link :to="{name: 'home'}" class="mobile-hidden" style="margin-left: 5px; margin-top: 1px;">
+                        <!-- <router-link :to="{name: 'home'}" class="mobile-hidden" style="margin-left: 5px; margin-top: 1px;">
                             <button class="btn btn-white btn-radius">
                                 WEBSITE
                             </button>
-                        </router-link>
-                        <router-link v-if="user && user.role_name === 'admin'" :to="{name: '404'}" style="margin-left: 5px;">
-                            <button class="btn btn-white btn-icon btn-radius">
-                                <i class="fa fa-lg fa-store" />
-                            </button>
-                        </router-link>
-                        <router-link v-if="user && user.role_name === 'admin'" :to="{name: '404'}" style="margin-left: 5px;">
-                            <button class="btn btn-white btn-icon btn-radius">
+                        </router-link> -->
+                        <router-link v-if="user && user.role_name === 'owner'" :to="{name: '404'}" style="margin-left: 5px;">
+                            <button class="btn btn-white btn-icon btn-radius" title="Reports">
                                 <i class="fa fa-lg fa-calendar-alt" />
                             </button>
                         </router-link>
                         <router-link :to="{name: '404'}" style="margin-left: 5px;">
-                            <button class="btn btn-white btn-icon btn-radius">
+                            <button class="btn btn-white btn-icon btn-radius" title="Notifications">
                                 <i class="fa fa-lg fa-bell" />
                                 <span class="notif">0</span>
                             </button>
@@ -100,11 +95,6 @@ const sidebarAdmin = [
         {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
         {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'}
     ]},
-    {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
-        {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
-        {icon: 'fa fa-lg fa-th-large', label: 'Tables', value: 0, link: 'table', permission: 'tables'},
-        {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
-    ]},
     {icon: 'fa fa-lg fa-database', label: 'ORDERS', value: 0, menu: [
         {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
         {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
@@ -115,6 +105,11 @@ const sidebarAdmin = [
         {icon: 'fa fa-lg fa-list-ol', label: 'Categories', value: 0, link: 'category', permission: 'categories'},
         {icon: 'fa fa-lg fa-bars', label: 'Toppings', value: 0, link: 'toping', permission: 'toppings'},
         {icon: 'fa fa-lg fa-utensils', label: 'Products', value: 0, link: 'listing', permission: 'products'}
+    ]},
+    {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
+        {icon: 'fa fa-lg fa-th-large', label: 'Tables/Desks', value: 0, link: 'table', permission: 'tables'},
+        {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
+        {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
     ]},
     {icon: 'fa fa-lg fa-database', label: 'WEBSITE', value: 0, menu: [
         {icon: 'fa fa-lg fa-newspaper', label: 'Articles', value: 0, link: 'articlelist', permission: 'articles'},

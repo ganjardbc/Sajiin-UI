@@ -19,9 +19,6 @@
                             :button="'btn btn-icon btn-white'"
                             :onChange="(data) => onChangeMenu(data)" 
                             :data="[{label: 'By ID'}, {label: 'By Total Price'}, {label: 'By Payment Status'}, {label: 'By Order Status'}]" />
-                        <button class="btn btn-white btn-icon btn-radius" @click="onChangeTabs(selectedTabIndex)">
-                            <i class="fa fa-lw fa-retweet" />
-                        </button>
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
@@ -29,18 +26,89 @@
                     </div>
                 </div>
                 
-                <div class="content-body">
-                    <AppLoader v-if="visibleLoader" />
-                    <div v-else style="padding-left: 15px; padding-right: 15px;">
-                        <AppCardOrder 
-                            :data.sync="datas" 
-                            :type="'owner'" 
-                            :onView="(id) => onShow('VIEW', id)"
-                            :onEdit="(id) => onShow('EDIT', id)"
-                            :onDelete="(id) => onShowHideDelete(id)"
-                            :onChangeStatus="(data, id, status) => onChangeStatus(data, id, status)" 
-                        />
-                    </div>
+                <div class="table-container">
+                    <v-table 
+                        :data="datas ? datas : []" 
+                        :filters="filters" 
+                        :currentPage.sync="currentPage" 
+                        :pageSize="limitPage" 
+                        @totalPagesChanged="totalPages = $event">
+                        <thead slot="head">
+                            <v-th class="small-col hide-icon">NO</v-th>
+                            <v-th sortKey="order.order_id">Order ID</v-th>
+                            <v-th sortKey="order.total_price">Total Price</v-th>
+                            <v-th sortKey="table.name">Table</v-th>
+                            <v-th sortKey="order.payment_status">Payment Status</v-th>
+                            <v-th sortKey="order.status" class="normal-col">Order Status</v-th>
+                            <th class="medium-col"></th>
+                        </thead>
+                        <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
+
+                            <tr v-for="(row, index) in displayData" :key="index">
+                                <td class="small-col">{{ (index + 1) }}</td>
+                                <td>{{ row.order && row.order.order_id }}</td>
+                                <td>{{ row.order && row.order.total_price }}</td>
+                                <td>{{ row.table && row.table.name }}</td>
+                                <td>
+                                    <AppCapsuleMenu 
+                                        :title="row.order.payment_status ? 'Paid' : 'Unpaid'"
+                                        :status="row.order.payment_status ? 'active' : ''"
+                                        :onChange="(data) => onChangeStatus(data, row.order.order_id, 'payment')" 
+                                        :data="[{label: 'Paid'}, {label: 'Unpaid'}]"
+                                    />
+                                </td>
+                                <td class="normal-col">
+                                    <AppCapsuleMenu 
+                                        :title="row.order.status"
+                                        :status="(
+                                        row.order.status === 'canceled' 
+                                            ? '' 
+                                            : row.order.status === 'done' 
+                                                ? 'active' 
+                                                : row.order.status === 'unconfirmed' || row.order.status === 'confirmed'
+                                                    ? 'inactive' 
+                                                    : 'active'
+                                        )"
+                                        :onChange="(data) => onChangeStatus(data, row.order.order_id, 'status')" 
+                                        :data="bizparCapsule"
+                                    />
+                                </td>
+                                <td class="medium-col">
+                                    <div class="display-flex justify-content">
+                                        <button 
+                                            v-if="user.role_name === 'admin'" 
+                                            class="btn btn-transparent btn-small-icon btn-radius" 
+                                            @click="onShow('EDIT', row.order.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
+                                        </button>
+                                        <button 
+                                            v-if="user.role_name === 'admin'"
+                                            class="btn btn-transparent btn-small-icon btn-radius" 
+                                            @click="onShowHideDelete(row.order.id)">
+                                            <i class="fa fa-lw fa-trash-alt" />
+                                        </button>
+                                        <button 
+                                            v-if="user.role_name === 'customer' && row.order.status === 'unconfirmed'" 
+                                            class="btn btn-transparent btn-small-icon btn-radius" 
+                                            @click="onShow('EDIT', row.order.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.order.id)">
+                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
+
+                <div class="padding padding-10-px" style="height: 40px;">
+                    <smart-pagination
+                        :currentPage.sync="currentPage"
+                        :totalPages="totalPages"
+                    />
                 </div>
             </div>
         </div>
@@ -82,7 +150,6 @@ import AppAlert from '../../modules/AppAlert'
 import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
 import AppCapsuleMenu from '../../modules/AppCapsuleMenu'
-import AppCardOrder from '../../modules/AppCardOrder'
 import Form from './Form'
 
 export default {
@@ -124,7 +191,6 @@ export default {
         this.getBizpar()
     },
     components: {
-        AppCardOrder,
         AppTabs,
         AppAlert,
         AppLoader,
@@ -231,7 +297,7 @@ export default {
                 const rest = await axios.post('/api/order/postOrderStatus', payload, { headers: { Authorization: token } })
 
                 if (rest && rest.status === 200) {
-                    this.onChangeTabs(this.selectedTabIndex)
+                    this.getData()
                     this.visibleLoader = false 
                 } else {
                     this.visibleLoader = false
@@ -252,7 +318,7 @@ export default {
                 const rest = await axios.post('/api/order/postOrderPaymentStatus', payload, { headers: { Authorization: token } })
 
                 if (rest && rest.status === 200) {
-                    this.onChangeTabs(this.selectedTabIndex)
+                    this.getData()
                     this.visibleLoader = false 
                 } else {
                     this.visibleLoader = false

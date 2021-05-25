@@ -35014,6 +35014,9 @@ a.btn {
 .fonts.main {
   color: #f1863b;
 }
+.fonts.orange {
+  color: #f1863b;
+}
 .fonts.black {
   color: #151f2d;
 }
@@ -41825,20 +41828,6 @@ a {
   width: 100%;
   overflow: hidden;
 }
-#admin .main .inner .content-form .left {
-  position: relative;
-  width: calc(100% - 430px);
-  padding: 15px;
-  transition: 0.2s;
-}
-#admin .main .inner .content-form .right {
-  position: relative;
-  width: 400px;
-  right: 0;
-  transition: 0.2s;
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  transition: 0.2s;
-}
 #admin .main .inner .content-form.hide {
   transition: 0.2s;
 }
@@ -41849,6 +41838,33 @@ a {
 #admin .main .inner .content-form.hide .right {
   width: 0;
   right: -400px;
+  transition: 0.2s;
+}
+#admin .main .inner .content-form.no-padding .left {
+  width: 100%;
+  padding: 0;
+}
+#admin .main .inner .content-form.no-padding .left .content-body {
+  height: calc(100vh - 162px);
+}
+#admin .main .inner .content-form .left {
+  position: relative;
+  width: calc(100% - 430px);
+  padding: 15px;
+  transition: 0.2s;
+}
+#admin .main .inner .content-form .left .content-body {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 195px);
+  overflow-y: auto;
+}
+#admin .main .inner .content-form .right {
+  position: relative;
+  width: 400px;
+  right: 0;
+  transition: 0.2s;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
   transition: 0.2s;
 }
 @media (max-width: 720px) {
