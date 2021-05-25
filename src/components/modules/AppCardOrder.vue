@@ -74,7 +74,7 @@
             <div class="display-flex display-mobile" style="padding-top: 5px; padding-bottom: 20px;">
                 <div class="width width-76 width-mobile border-right border-mobile-none">
                     <AppImageProduct :data.sync="dt.details" :to="1" />
-                    <AppShowHide v-if="dt.details.length > 1" :title="'View More Products (' + (dt.details.length - 1) + ')'">
+                    <AppShowHide v-if="dt.details.length > 1" :title="'More Products (' + (dt.details.length - 1) + ')'">
                         <AppImageProduct :data.sync="dt.details" :from="1" :to="dt.details.length" />
                     </AppShowHide>
                 </div>
@@ -90,28 +90,27 @@
             <div v-if="type === 'owner'" class="display-flex row space-between">
                 <div>
                     <button 
-                        class="btn btn-main-reverse with-hover mobile-hidden" 
+                        class="btn btn-grey with-hover" 
                         style="margin-right: 15px;" 
                         @click="onButtonDetail(dt)">
                         View Transaction Detail
                     </button>
                 </div>
                 <div class="display-flex">
-                    <button class="btn btn-icon btn-sekunder with-hover mobile-hidden" style="margin-right: 10px;" @click="onEdit(dt.order.id)">
-                        <i class="fa fa-lg fa-pencil-alt"></i>
+                    <button 
+                        v-if="!dt.order.payment_status" 
+                        class="btn btn-main-reverse mobile-hidden" 
+                        style="margin-right: 15px;"
+                        @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
+                        Waiting for Payment
                     </button>
-                    <button class="btn btn-icon btn-sekunder with-hover mobile-hidden" style="margin-right: 10px;" @click="onDelete(dt.order.id)">
-                        <i class="fa fa-lg fa-trash-alt"></i>
-                    </button>
-                    <button class="btn btn-icon btn-sekunder with-hover mobile-hidden" style="margin-right: 10px;" @click="onView(dt.order.id)">
-                        <i class="fa fa-lg fa-ellipsis-h"></i>
-                    </button>
+                    <AppButtonMenu :onChange="(data) => onChangeMenuOwner(data, dt.order.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                 </div>
             </div>
             <div v-else class="display-flex row space-between">
                 <div>
                     <button 
-                        class="btn btn-main-reverse with-hover mobile-hidden" 
+                        class="btn btn-grey with-hover" 
                         style="margin-right: 15px;"
                         @click="onButtonDetail(dt)">
                         View Transaction Detail
@@ -119,10 +118,11 @@
                 </div>
                 <div class="display-flex">
                     <button 
-                        class="btn btn-main-reverse with-hover mobile-hidden" 
+                        v-if="!dt.order.payment_status" 
+                        class="btn btn-main-reverse mobile-hidden" 
                         style="margin-right: 15px;"
-                        @click="onButtonDetail(dt)">
-                        View Transaction Detail
+                        @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
+                        Waiting for Payment
                     </button>
                     <AppButtonMenu :onChange="(data) => onChangeMenu(data)" :data="[{label: 'Buy again'}, {label: 'Chat admin'}, {label: 'Help'}]" />
                 </div>
@@ -344,6 +344,22 @@ export default {
                 title: title
             }
             this.setToast(payload)
+        },
+        onChangeMenuOwner (data, id) {
+            switch (data) {
+                case 1:
+                    this.onDelete(id)
+                    break
+                case 2:
+                    this.onView(id)
+                    break
+                default:
+                    this.onEdit(id)
+                    break
+            }
+        },
+        onChangeMenu (data) {
+            console.log('index', data)
         },
         onButtonDetail (data) {
             this.visibleDetail = !this.visibleDetail
