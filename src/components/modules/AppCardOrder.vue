@@ -111,11 +111,10 @@
             <div v-else class="display-flex row space-between">
                 <div>
                     <button 
-                        v-if="!dt.order.payment_status" 
-                        class="btn btn-main with-hover" 
+                        class="btn btn-main-reverse with-hover mobile-hidden" 
                         style="margin-right: 15px;"
-                        @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
-                        Waiting for Payment
+                        @click="onButtonDetail(dt)">
+                        View Transaction Detail
                     </button>
                 </div>
                 <div class="display-flex">
