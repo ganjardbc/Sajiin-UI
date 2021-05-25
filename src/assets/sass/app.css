@@ -1092,15 +1092,44 @@ a.btn {
   border-radius: 8px;
 }
 
+.card-container-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+@media (max-width: 720px) {
+  .card-container-popup {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    top: unset;
+    width: 100%;
+  }
+}
+
 .card-popup {
   position: relative;
   width: 600px;
-  padding: 20px;
+  padding: 15px;
   margin: auto;
+  border-radius: 8px;
 }
 @media (max-width: 720px) {
   .card-popup {
-    width: calc(100% - 50px);
+    width: calc(100% - 30px);
+    border-radius: 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
 }
 
@@ -1560,7 +1589,6 @@ a.btn {
   height: 100vh;
   z-index: 10000;
   background-color: rgba(0, 0, 0, 0.4);
-  overflow-y: auto;
 }
 
 .column-4 {

@@ -1,9 +1,7 @@
 <template>
     <div id="AppPopupForm" class="display-popup">
-        <div class="post-center" style="padding-top: 15px; padding-bottom: 15px;">
-            <div 
-                class="card-popup bg-white box-shadow" 
-                :style="enableRadius ? 'border-radius: 10px;' : 'border-radius: 10px;'">
+        <div class="card-container-popup">
+            <div class="card-popup bg-white box-shadow">
                 <div class="width width-100 width-center width-mobile">
                     <div class="display-flex justify-content">
                         <div style="width: calc(100% - 90px); margin-top: 8px;">
