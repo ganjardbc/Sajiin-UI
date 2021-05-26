@@ -11,10 +11,13 @@
                     <div class="header-menu-content display-flex space-between display-mobile">
                         <div></div>
                         <div class="header-menu-list display-flex">
-                            <router-link v-if="selectedTable.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
+                            <!-- <router-link v-if="selectedTable.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
                                 <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
                                 <span class="notif">{{ cart }}</span>
-                            </router-link>
+                            </router-link> -->
+                            <button class="btn btn-icon btn-white" @click="onLogout">
+                                <i class="fa fa-lg fa-power-off"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -37,6 +40,17 @@
                             </div>
                         </li>
                     </router-link>
+                    <router-link :to="{name: 'customer-chart'}">
+                        <li>
+                            <div class="icon">
+                                <i class="label-icon fa fa-lg fa-shopping-basket" />
+                                <span class="notif">{{ cart }}</span>
+                            </div>
+                            <div class="label">
+                                Charts
+                            </div>
+                        </li>
+                    </router-link>
                     <router-link :to="{name: 'customer-order-list'}">
                         <li>
                             <div class="icon">
@@ -48,23 +62,13 @@
                             </div>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'customer-profile'}">
-                        <li>
-                            <div class="icon">
-                                <i class="label-icon fa fa-lg fa-user" />
-                            </div>
-                            <div class="label">
-                                Customer
-                            </div>
-                        </li>
-                    </router-link>
                 </ul>
             </div>
             <div v-else class="main-screen display-flex space-between">
                 <AppButtonTable 
                     :isFull="true" 
                     :onChange="(data) => onChangeTable(data)" 
-                    style="width: 100%; margin-top: 7px;" />
+                    style="width: 100%; margin-top: 8px;" />
             </div>
         </div>
 
@@ -157,11 +161,21 @@ export default {
     },
     methods: {
         ...mapActions({
+            removeCookieAuth: 'auth/removeCookieCustomerAuth',
+            signOut: 'customer/removeData',
             setDataTableSelected: 'table/setData',
             getDataTable: 'table/getData',
             getCount: 'cart/getCountCustomer',
             getCountOrder: 'order/getCountCustomer'
         }),
+        onLogout() {
+            var a = confirm('Logout customer ?')
+            if (a) {
+                this.removeCookieAuth()
+                this.signOut()
+                this.$router.push({ name: 'home' })
+            }
+        },
         onOpenMenu () {
             this.visibleMenu = !this.visibleMenu
         },

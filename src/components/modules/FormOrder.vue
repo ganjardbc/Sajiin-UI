@@ -1,15 +1,12 @@
 <template>
     <div id="App">
-        <AppMobileLayout :title="'Order Detail'">
-            <AppLoader v-if="visibleLoader" style="margin-top: 20px;" />
-
-            <div v-else style="padding: 15px 0; width: 100%; overflow: unset;">
+            <div style="padding: 15px 0;">
                 <div style="margin-bottom: 15px;">
                     <div class="fonts fonts-10 grey">
                         ID
                     </div>
                     <div class="fonts fonts-10 semibold orange">
-                        {{ formOrder.order.order_id }}
+                        {{ data.order.order_id }}
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
@@ -17,7 +14,7 @@
                         Status 
                     </div>
                     <div class="fonts fonts-10 semibold orange" style="text-transform: capitalize;">
-                        {{ formOrder.order.status  }}
+                        {{ data.order.status  }}
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
@@ -25,7 +22,7 @@
                         Order Date
                     </div>
                     <div class="fonts fonts-10 black semibold orange">
-                        {{ formOrder.order.created_at  }}
+                        {{ data.order.created_at  }}
                     </div>
                 </div>
                 <div style="margin-bottom: 15px;">
@@ -33,7 +30,7 @@
                         Note
                     </div>
                     <div class="fonts fonts-10 black semibold orange">
-                        # {{ formOrder.order.note  }}
+                        # {{ data.order.note  }}
                     </div>
                 </div>
 
@@ -47,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div v-for="(dt, index) in formOrder.details" :key="index" class="display-flex space-between" style="margin-bottom: 15px;">
+                    <div v-for="(dt, index) in data.details" :key="index" class="display-flex space-between" style="margin-bottom: 15px;">
                         <div class="width width-70 display-flex">
                             <div style="width: 60px; margin-right: 15px;">
                                 <div class="image image-padding">
@@ -81,10 +78,10 @@
                     </div>
                     <div class="display-flex space-between" style="margin-bottom: 5px;">
                         <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Total Price ({{ formOrder.order.total_item }} Product)</div>
+                            <div class="fonts fonts-10 grey">Total Price ({{ data.order.total_item }} Product)</div>
                         </div>
                         <div class="width width-30">
-                            <div class="fonts fonts-10 black">Rp. {{ formOrder.order.total_price }}</div>
+                            <div class="fonts fonts-10 black">Rp. {{ data.order.total_price }}</div>
                         </div>
                     </div>
                     <div class="display-flex space-between" style="margin-bottom: 5px;">
@@ -100,7 +97,7 @@
                             <div class="fonts fonts-10 grey">Total Payment</div>
                         </div>
                         <div class="width width-30">
-                            <div class="fonts fonts-10 semibold orange">Rp. {{ formOrder.order.total_price }}</div>
+                            <div class="fonts fonts-10 semibold orange">Rp. {{ data.order.total_price }}</div>
                         </div>
                     </div>
                     <div class="display-flex space-between">
@@ -108,12 +105,12 @@
                             <div class="fonts fonts-10 grey">Payment Method</div>
                         </div>
                         <div class="width width-30">
-                            <div class="fonts fonts-10 black">{{ formOrder.payment.name }}</div>
+                            <div class="fonts fonts-10 black">{{ data.payment.name }}</div>
                         </div>
                     </div>
                 </div>
 
-                <div v-if="formOrder.table" class="border-top" style="padding-top: 15px;">
+                <div v-if="data.table" class="border-top" style="padding-top: 15px;">
                     <div class="display-flex space-between" style="margin-bottom: 10px;">
                         <div class="width width-70">
                             <div class="fonts fonts-10 grey">Table</div>
@@ -124,15 +121,15 @@
                         <div class="width width-70 display-flex">
                             <div style="width: 60px; margin-right: 15px;">
                                 <div class="image image-padding">
-                                    <img :src="tableImageThumbnailUrl + formOrder.table.image" alt="" class="post-center">
+                                    <img :src="tableImageThumbnailUrl + data.table.image" alt="" class="post-center">
                                 </div>
                             </div>
                             <div style="width: calc(100% - 75px);">
                                 <div class="fonts fonts-11 semibold black">
-                                    {{ formOrder.table.name }}
+                                    {{ data.table.name }}
                                 </div>
                                 <div class="fonts fonts-10 grey">
-                                    {{ formOrder.table.code }} | {{ formOrder.table.description }}
+                                    {{ data.table.code }} | {{ data.table.description }}
                                 </div>
                             </div>
                         </div>
@@ -140,86 +137,20 @@
                     </div>
                 </div>
             </div>
-        </AppMobileLayout>
     </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import axios from 'axios'
-import AppCardOrder from '../../modules/AppCardOrder'
-import SearchField from '../../modules/SearchField'
-import AppCardTable from '../../modules/AppCardTable'
-import AppButtonMenu from '../../modules/AppButtonMenu'
-import AppDote from '../../modules/AppDote'
-import AppEmpty from '../../modules/AppEmpty'
-import AppShowHide from '../../modules/AppShowHide'
-import AppLoader from '../../modules/AppLoader'
-import AppMobileLayout from '../../modules/AppMobileLayout'
+import AppDote from './AppDote'
 
 export default {
     name: 'App',
-    data () {
-        return {
-            visibleLoaderCheck: false,
-            visibleLoader: false,
-            selectedVisitor: null,
-            formOrder: null,
-            dataVisitor: null
-        }
-    },
-    mounted () {
-        this.getDataOrder()
-    },
     components: {
-        SearchField,
-        AppMobileLayout,
-        AppLoader,
-        AppCardOrder,
-        AppButtonMenu,
-        AppDote,
-        AppEmpty,
-        AppShowHide,
-        AppCardTable
+        AppDote
     },
-    methods: {
-        ...mapActions({
-            setToast: 'toast/setToast'
-        }),
-        makeToast (title) {
-            const payload = {
-                visible: true,
-                title: title
-            }
-            this.setToast(payload)
-        },
-        onChangeMenu (index) {
-            console.log('onChange', index)
-        },
-        getRefresh () {
-            this.getDataOrder()
-        },
-        async getDataOrder () {
-            this.visibleLoader = true 
-
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: 1000,
-                offset: 0,
-                order_id: this.$route.params.id
-            }
-            
-            const rest = await axios.post('/api/order/getByID', payload, { headers: { Authorization: token } })
-
-            console.log('getDataOrder', rest)
-
-            if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.formOrder = data
-                this.visibleLoader = false 
-            } else {
-                this.visibleLoader = false
-            }
-        },
+    props: {
+        data: {
+            required: true
+        }
     }
 }
 </script>

@@ -56,7 +56,7 @@ import CustomerFeedback from '@/components/customer/profile/Feedback.vue';
 import CustomerWhiselist from '@/components/customer/profile/Whiselist.vue';
 import CustomerNotifications from '@/components/customer/notifications/Index.vue';
 import CustomerSearch from '@/components/customer/search/Index.vue';
-import CustomerOrderList from '@/components/customer/profile/Home.vue';
+import CustomerOrderList from '@/components/customer/orders/List.vue';
 import CustomerChart from '@/components/customer/charts/Index.vue';
 import CustomerOrder from '@/components/customer/orders/Index.vue';
 import CustomerDetail from '@/components/customer/orders/Detail.vue';
@@ -318,7 +318,7 @@ export const routes = [
             },
             {
                 name: 'order-detail', 
-                path: 'order-detail',
+                path: 'order-detail/:id',
                 component: CustomerDetail
             },
             {

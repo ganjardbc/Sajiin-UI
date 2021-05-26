@@ -296,7 +296,8 @@ export default {
             }
         },
         addToCart () {
-            if (this.table) {
+            const table = this.$cookies.get('table')
+            if (table) {
                 const time = new Date().getTime()
                 let topingPrice = this.topings[this.topingSelected] ? this.topings[this.topingSelected].price : 0
                 let detailPrice = this.details[this.detailSelected] ? this.details[this.detailSelected].price : 0
@@ -328,7 +329,7 @@ export default {
 
                 if (this.visibleButton) this.saveData(payload)
             } else {
-                this.makeToast('Please login to your cutomer account')
+                this.makeToast('You have to choose table first')
             }
         },
         async saveData (payload) {

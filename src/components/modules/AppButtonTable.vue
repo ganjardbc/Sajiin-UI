@@ -15,7 +15,7 @@
                 <div style="width: calc(100% - 100px);">
                     <div class="post-top">
                         <div class="fonts fonts-10 semibold black">
-                            {{ selectedTable && selectedTable.name }}
+                            {{ selectedTable && selectedTable.name ? selectedTable.name : 'Choose Visible Table' }}
                         </div>
                         <div class="fonts fonts-10 grey">{{ selectedTable && selectedTable.description }}</div>
                     </div>

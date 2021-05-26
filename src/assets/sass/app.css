@@ -264,6 +264,17 @@ a.btn {
 .btn.router-link-active {
   background-color: #ededf1;
 }
+.btn.btn-route-link {
+  display: block;
+  color: #151f2d;
+  background-color: #ededf1;
+  border: 1px #fff solid;
+}
+.btn.btn-route-link:hover {
+  background-color: #f1863b;
+  color: #fff;
+  border: 1px #f1863b solid;
+}
 .btn.btn-mobile {
   width: 100%;
 }

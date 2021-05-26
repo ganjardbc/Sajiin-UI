@@ -149,6 +149,17 @@ a {
     &.router-link-active {
         background-color: $white-grey;
     }
+    &.btn-route-link {
+        display: block;
+        color: $black;
+        background-color: $white-grey;
+        border: 1px #fff solid;
+        &:hover {
+            background-color: $main-color;
+            color: #fff;
+            border: 1px $main-color solid;
+        }
+    }
     &.btn-mobile {
         width: 100%;
         .label {

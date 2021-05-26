@@ -89,41 +89,41 @@
             </div>
             <div v-if="type === 'owner'" class="display-flex row space-between">
                 <div>
-                    <button 
-                        class="btn btn-grey with-hover" 
-                        style="margin-right: 15px;" 
-                        @click="onButtonDetail(dt)">
+                    <router-link 
+                        :to="{name: 'order-detail', params: {id: dt.order.order_id}}"
+                        class="btn btn-route-link"
+                        style="margin-right: 15px;">
                         View Transaction Detail
-                    </button>
+                    </router-link>
                 </div>
                 <div class="display-flex">
-                    <button 
+                    <!-- <button 
                         v-if="!dt.order.payment_status" 
                         class="btn btn-main-reverse mobile-hidden" 
                         style="margin-right: 15px;"
                         @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
                         Waiting for Payment
-                    </button>
+                    </button> -->
                     <AppButtonMenu :onChange="(data) => onChangeMenuOwner(data, dt.order.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                 </div>
             </div>
             <div v-else class="display-flex row space-between">
                 <div>
-                    <button 
-                        class="btn btn-grey with-hover" 
-                        style="margin-right: 15px;"
-                        @click="onButtonDetail(dt)">
+                    <router-link 
+                        :to="{name: 'order-detail', params: {id: dt.order.order_id}}" 
+                        class="btn btn-route-link"
+                        style="margin-right: 15px;">
                         View Transaction Detail
-                    </button>
+                    </router-link>
                 </div>
                 <div class="display-flex">
-                    <button 
+                    <!-- <button 
                         v-if="!dt.order.payment_status" 
                         class="btn btn-main-reverse mobile-hidden" 
                         style="margin-right: 15px;"
                         @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
                         Waiting for Payment
-                    </button>
+                    </button> -->
                     <AppButtonMenu :onChange="(data) => onChangeMenu(data)" :data="[{label: 'Buy again'}, {label: 'Chat admin'}, {label: 'Help'}]" />
                 </div>
             </div>
@@ -135,143 +135,7 @@
             :title="'Transaction Detail'"
             :onClose="onButtonDetail"
         >
-            <div style="padding: 15px 0;">
-                <div style="margin-bottom: 15px;">
-                    <div class="fonts fonts-10 grey">
-                        ID
-                    </div>
-                    <div class="fonts fonts-10 semibold orange">
-                        {{ selectedData.order.order_id }}
-                    </div>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <div class="fonts fonts-10 grey">
-                        Status 
-                    </div>
-                    <div class="fonts fonts-10 semibold orange" style="text-transform: capitalize;">
-                        {{ selectedData.order.status  }}
-                    </div>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <div class="fonts fonts-10 grey">
-                        Order Date
-                    </div>
-                    <div class="fonts fonts-10 black semibold orange">
-                        {{ selectedData.order.created_at  }}
-                    </div>
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <div class="fonts fonts-10 grey">
-                        Note
-                    </div>
-                    <div class="fonts fonts-10 black semibold orange">
-                        # {{ selectedData.order.note  }}
-                    </div>
-                </div>
-
-                <div class="border-top" style="padding-top: 15px; padding-bottom: 0;">
-                    <div class="display-flex space-between" style="margin-bottom: 10px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Product</div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-10 grey">Price</div>
-                        </div>
-                    </div>
-
-                    <div v-for="(dt, index) in selectedData.details" :key="index" class="display-flex space-between" style="margin-bottom: 15px;">
-                        <div class="width width-70 display-flex">
-                            <div style="width: 60px; margin-right: 15px;">
-                                <div class="image image-padding">
-                                    <img :src="productImageThumbnailUrl + dt.product_image" alt="" class="post-center">
-                                </div>
-                            </div>
-                            <div style="width: calc(100% - 75px);">
-                                <div class="fonts fonts-10 semibold black">
-                                    {{ dt.product_name }}<AppDote style="position: relative; top: -2px;" />{{ dt.product_detail }}
-                                </div>
-                                <div class="fonts fonts-10 grey">
-                                    {{ dt.quantity }} product x Rp {{ dt.price }}
-                                </div>
-                                <div v-if="dt.product_toping" class="fonts fonts-10 grey">
-                                    {{ dt.quantity }} {{ dt.product_toping }} x Rp. {{ dt.toping_price }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-11 semibold orange">Rp. {{ dt.subtotal }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-top" style="padding-top: 15px; padding-bottom: 15px;">
-                    <div class="display-flex space-between" style="margin-bottom: 10px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Payment</div>
-                        </div>
-                        <div class="width width-30"></div>
-                    </div>
-                    <div class="display-flex space-between" style="margin-bottom: 5px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Total Price ({{ selectedData.order.total_item }} Product)</div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-10 black">Rp. {{ selectedData.order.total_price }}</div>
-                        </div>
-                    </div>
-                    <div class="display-flex space-between" style="margin-bottom: 5px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">PPN (0%)</div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-10 black">Rp. 0</div>
-                        </div>
-                    </div>
-                    <div class="display-flex space-between" style="margin-bottom: 5px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Total Payment</div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-10 semibold orange">Rp. {{ selectedData.order.total_price }}</div>
-                        </div>
-                    </div>
-                    <div class="display-flex space-between">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Payment Method</div>
-                        </div>
-                        <div class="width width-30">
-                            <div class="fonts fonts-10 black">{{ selectedData.payment.name }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div v-if="selectedData.table" class="border-top" style="padding-top: 15px;">
-                    <div class="display-flex space-between" style="margin-bottom: 10px;">
-                        <div class="width width-70">
-                            <div class="fonts fonts-10 grey">Table</div>
-                        </div>
-                        <div class="width width-30"></div>
-                    </div>
-                    <div class="display-flex space-between">
-                        <div class="width width-70 display-flex">
-                            <div style="width: 60px; margin-right: 15px;">
-                                <div class="image image-padding">
-                                    <img :src="tableImageThumbnailUrl + selectedData.table.image" alt="" class="post-center">
-                                </div>
-                            </div>
-                            <div style="width: calc(100% - 75px);">
-                                <div class="fonts fonts-11 semibold black">
-                                    {{ selectedData.table.name }}
-                                </div>
-                                <div class="fonts fonts-10 grey">
-                                    {{ selectedData.table.code }} | {{ selectedData.table.description }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="width width-30"></div>
-                    </div>
-                </div>
-            </div>
+            <FormOrder :data.sync="selectedData" />
         </AppPopupForm>
     </div>
 </template>
@@ -284,6 +148,7 @@ import AppDote from './AppDote'
 import AppShowHide from './AppShowHide'
 import AppImageProduct from './AppImageProduct'
 import AppCapsuleMenu from './AppCapsuleMenu'
+import FormOrder from './FormOrder'
 
 export default {
     name: 'AppCardOrder',
@@ -300,6 +165,7 @@ export default {
         this.getBizpar()
     },
     components: {
+        FormOrder,
         AppPopupForm,
         AppCapsuleMenu,
         AppButtonMenu,

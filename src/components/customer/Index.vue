@@ -53,6 +53,15 @@
             </div>
         </div>
 
+        <div style="margin-bottom: 20px; padding-top: 10px;">
+            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+            <AppButtonTable 
+                :enableDetail="true"
+                :isFull="true" 
+                :onChange="(data) => onChangeSelectedTable(data)" 
+                style="width: 100%;" />
+        </div>
+
         <div style="margin-bottom: 20px;">
             <div style="margin-bottom: 10px;">
                 <div class="fonts fonts-10 black semibold">Categories</div>
@@ -109,6 +118,7 @@ import AppCardPostGrid from '../modules/AppCardPostGrid'
 import AppCardGrid from '../modules/AppCardGrid'
 import AppCardList from '../modules/AppCardList'
 import AppLoader from '../modules/AppLoader'
+import AppButtonTable from '../modules/AppButtonTable'
 
 const infos = [
     {title: 'Orders', qty: '120'},
@@ -147,6 +157,7 @@ export default {
         console.log('dataUser', this.dataUser)
     },
     components: {
+        AppButtonTable,
         AppLoader,
         AppCardPostGrid,
         AppCardList,
@@ -164,6 +175,11 @@ export default {
         })
     },
     methods: {
+        onChangeSelectedTable (data) {
+            // this.getLocalCartCount()
+            // this.getLocalOrderCount()
+            console.log('onChangeSelectedTable', data)
+        },
         async getProduct (limit, offset) {
             this.visibleLoader = true 
 
