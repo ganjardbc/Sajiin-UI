@@ -1,5 +1,5 @@
 <template>
-    <div id="AppAlert" class="display-popup">
+    <div id="AppAlert" class="display-popup-normal">
         <div class="card-alert box-shadow post-middle">
             <div v-if="!isLoader" class="display-flex justify-content align-center">
                 <div style="width: 100%;">
