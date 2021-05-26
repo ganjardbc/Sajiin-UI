@@ -13,10 +13,10 @@
                     {{ detail.product_name }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_detail }}
                 </router-link>
                 <div class="fonts fonts-10 grey">
-                    {{ detail.quantity }} product x Rp {{ (detail.price + detail.toping_price) }}
+                    {{ detail.quantity }} product x Rp {{ detail.price }}
                 </div>
                 <div v-if="detail.product_toping" class="fonts fonts-10 grey">
-                    {{ detail.product_toping }} Rp. {{ detail.toping_price }}
+                    {{ detail.quantity }} {{ detail.product_toping }} x Rp. {{ detail.toping_price }}
                 </div>
             </div>
         </div>

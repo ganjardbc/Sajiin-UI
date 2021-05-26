@@ -5,17 +5,25 @@
             :key="j" 
             class="display-flex" 
             style="padding-top: 10px; padding-bottom: 10px;">
-            <div style="width: 100px; margin-right: 15px;">
+            <div style="width: 80px; margin-right: 15px;">
                 <div class="image image-padding">
                     <img :src="productImageThumbnailUrl + detail.product_image" alt="" class="post-center">
                 </div>
             </div>
-            <div style="width: 100%;">
-                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">
-                    {{ detail.product_name }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_detail }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_toping }}
+            <div style="width: calc(100% - 95px);">
+                <div class="display-flex space-between" style="margin-bottom: 5px;">
+                    <div class="fonts fonts-11 semibold">
+                        {{ detail.product_name }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_detail }}
+                    </div>
+                    <div class="fonts fonts-11 semibold orange">
+                        Rp. {{ detail.subtotal }}
+                    </div>
                 </div>
                 <div class="fonts fonts-10 grey">
-                    {{ detail.quantity }} product x Rp {{ (detail.price + detail.toping_price) }}
+                    {{ detail.quantity }} product x Rp {{ detail.price }}
+                </div>
+                <div v-if="detail.product_toping" class="fonts fonts-10 grey">
+                    {{ detail.quantity }} {{ detail.product_toping }} x Rp {{ detail.toping_price }}
                 </div>
             </div>
         </div>

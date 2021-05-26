@@ -192,10 +192,10 @@
                                     {{ dt.product_name }}<AppDote style="position: relative; top: -2px;" />{{ dt.product_detail }}
                                 </div>
                                 <div class="fonts fonts-10 grey">
-                                    {{ dt.quantity }} product x Rp {{ (dt.price + dt.toping_price) }}
+                                    {{ dt.quantity }} product x Rp {{ dt.price }}
                                 </div>
                                 <div v-if="dt.product_toping" class="fonts fonts-10 grey">
-                                    {{ dt.product_toping }} Rp. {{ dt.toping_price }}
+                                    {{ dt.quantity }} {{ dt.product_toping }} x Rp. {{ dt.toping_price }}
                                 </div>
                             </div>
                         </div>

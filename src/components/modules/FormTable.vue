@@ -6,7 +6,7 @@
             :title="'Choose Table'"
             :onClose="onClose"
         >
-            <div style="position: absolute; top: 20px; right: 70px;" @click="onRefresh">
+            <div style="position: absolute; top: 15px; right: 60px;" @click="onRefresh">
                 <button class="btn btn-icon btn-white">
                     <i class="fa fa-lg fa-retweet" />
                 </button>
@@ -19,40 +19,30 @@
             <div v-else>
                 <div v-if="datas.length > 0" style="padding-left: 10px; padding-right: 10px;">
                     <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                        <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 20px;">
-                            <div style="width: 60px; margin-right: 20px;">
+                        <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
+                            <div style="width: 60px; margin-right: 15px;">
                                 <div class="image image-padding image-circle">
                                     <img :src="tableImageThumbnailUrl + dt.image" alt="" class="post-center">
                                 </div>
                             </div>
-                            <div style="width: calc(100% - 150px);">
-                                <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ dt.name }}</div>
+                            <div style="width: calc(100% - 185px);">
                                 <div class="display-flex" style="margin-bottom: 5px;">
-                                    <div style="width: 25px;">
-                                        <i class="fa fa-lw fa-th-large" style="font-size: 14px; color: #555;" />
-                                    </div>
-                                    <div class="fonts fonts-10 grey">{{ dt.name }}</div>
-                                </div>
-                                <div class="display-flex">
-                                    <div style="width: 25px;">
-                                        <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
-                                    </div>
-                                    <div class="fonts fonts-10 grey">{{ dt.description }}</div>
-                                </div>
-                            </div>
-                            <div class="display-flex column space-between" style="width: 110px; height: 100px;">
-                                <div class="display-flex space-between">
-                                    <div></div>
+                                    <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.name }}</div>
                                     <div 
                                         :class="'card-capsule ' + (
                                         dt.status === 'active' 
                                             ? 'active' 
                                             : ''
                                         )" 
-                                        style="margin-left: 15px; text-transform: capitalize;">
+                                        style="margin-left: 10px; text-transform: capitalize;">
                                         {{ dt.status }}
                                     </div>
                                 </div>
+                                <div>
+                                    <div class="fonts fonts-10 grey">{{ dt.code }} | {{ dt.description }}</div>
+                                </div>
+                            </div>
+                            <div class="display-flex column space-between" style="width: 110px;">
                                 <div class="display-flex space-between">
                                     <div></div>
                                     <div v-if="data" class="display-flex">
