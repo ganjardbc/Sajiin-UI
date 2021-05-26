@@ -181,13 +181,12 @@
 
                     <div v-for="(dt, index) in selectedData.details" :key="index" class="display-flex space-between" style="margin-bottom: 15px;">
                         <div class="width width-70 display-flex">
-                            <div class="width width-18">
+                            <div style="width: 60px; margin-right: 15px;">
                                 <div class="image image-padding">
                                     <img :src="productImageThumbnailUrl + dt.product_image" alt="" class="post-center">
                                 </div>
                             </div>
-                            <div class="width width-2"></div>
-                            <div class="width width-80">
+                            <div style="width: calc(100% - 75px);">
                                 <div class="fonts fonts-10 semibold black">
                                     {{ dt.product_name }}<AppDote style="position: relative; top: -2px;" />{{ dt.product_detail }}
                                 </div>
@@ -255,13 +254,12 @@
                     </div>
                     <div class="display-flex space-between">
                         <div class="width width-70 display-flex">
-                            <div class="width width-18">
+                            <div style="width: 60px; margin-right: 15px;">
                                 <div class="image image-padding">
                                     <img :src="tableImageThumbnailUrl + selectedData.table.image" alt="" class="post-center">
                                 </div>
                             </div>
-                            <div class="width width-2"></div>
-                            <div class="width width-80">
+                            <div style="width: calc(100% - 75px);">
                                 <div class="fonts fonts-11 semibold black">
                                     {{ selectedData.table.name }}
                                 </div>
