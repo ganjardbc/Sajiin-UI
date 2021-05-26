@@ -15,6 +15,9 @@
                                 <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
                                 <span class="notif">{{ cart }}</span>
                             </router-link> -->
+                            <router-link v-if="selectedTable.id" :to="{name: 'customer-whiselist'}" class="btn btn-icon btn-white" style="height: 14px;">
+                                <i class="label-icon far fa-lg fa-heart" style="font-size: 18px;" />
+                            </router-link>
                             <button class="btn btn-icon btn-white" @click="onLogout">
                                 <i class="fa fa-lg fa-power-off"></i>
                             </button>

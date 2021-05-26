@@ -2,7 +2,7 @@
     <div id="form">
         <AppSideForm 
             :title="title" 
-            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 6 ? true : false : false"
+            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 3 ? true : false : false"
             :enableSaveButton="this.title !== 'VIEW' ? true : false"
             :onCreate="onButtonCreate"
             :onSave="onButtonSave"
@@ -12,7 +12,7 @@
                 :selectedIndex="selectedIndex" 
                 :path="'main-form-order'"
                 :data="tabs" 
-                :isScrollable="true" 
+                :isScrollable="false" 
                 :onChange="(data) => onChangeTabs(data)" 
                 class="margin margin-bottom-15-px" />
 
@@ -96,39 +96,6 @@
                         {{ formMessage && formMessage.total_item && formMessage.total_item[0] }}
                     </div>
                 </div>
-                <!-- <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">PROOF OF PAYMENT</div>
-                    <div class="display-flex">
-                        <label class="radio">
-                            <input 
-                                type="radio" 
-                                name="proof_of_payment"
-                                id="proofed"
-                                value="1"
-                                v-model="formData.order.proof_of_payment" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Proofed
-                            </span>
-                        </label>
-
-                        <label class="radio">
-                            <input 
-                                type="radio" 
-                                name="proof_of_payment"
-                                id="unfrooped"
-                                value="0"
-                                v-model="formData.order.proof_of_payment" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Unproofed
-                            </span>
-                        </label>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.proof_of_payment && formMessage.proof_of_payment[0] }}
-                    </div>
-                </div> -->
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">PAYMENT STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
@@ -190,15 +157,6 @@
                         {{ formMessage && formMessage.payment_status && formMessage.payment_status[0] }}
                     </div>
                 </div>
-                <!-- <div v-if="formData.order.status === 'confirmed' ? true : false" class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">PROOF OF PAYMENT</div>
-                    <AppImage 
-                        :image.sync="image"
-                        :isEnable="this.title !== 'VIEW' ? true : false"
-                        :onUpload="(data) => uploadImage(data)"
-                        :onRemove="removeImage"
-                    />
-                </div> -->
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ORDER STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
@@ -286,7 +244,7 @@
             <div v-if="selectedIndex === 1">
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
-                    <div class="card-search full">
+                    <div v-if="this.title !== 'VIEW'" class="card-search full">
                         <input 
                             type="search" 
                             placeholder="" 
@@ -298,6 +256,17 @@
                         <button class="btn btn-icon btn-white" @click="onButtonTable">
                             <i class="fa fa-1x fa-search" />
                         </button>
+                    </div>
+                    <div v-else>
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field field-sekunder"
+                            style="width: 100%;"
+                            name="table_id" 
+                            id="table_id" 
+                            v-model="formData.order.table_id"
+                            readonly>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
@@ -348,7 +317,7 @@
                 />
             </div>
 
-            <div v-if="selectedIndex === 3">
+            <!-- <div v-if="selectedIndex === 3">
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
                     <div v-if="this.title !== 'VIEW'" class="card-search full">
@@ -461,9 +430,9 @@
                     :enablePopup="openCreateAddress"
                     :onChange="(data) => onChangeAddress(data)"
                 />
-            </div>
+            </div> -->
 
-            <div v-if="selectedIndex === 6">
+            <div v-if="selectedIndex === 3">
                 <FormProduct 
                     :selectedId.sync="formData.order.id"
                     :selectedOrderId.sync="formData.order.order_id"
@@ -491,9 +460,9 @@ const tabs = [
     {label: 'Data', status: 'active'},
     {label: 'Table', status: ''},
     {label: 'Payment', status: ''},
-    {label: 'Shipment', status: ''},
-    {label: 'Customer', status: ''},
-    {label: 'Address', status: ''},
+    // {label: 'Shipment', status: ''},
+    // {label: 'Customer', status: ''},
+    // {label: 'Address', status: ''},
     {label: 'Products', status: ''}
 ]
 

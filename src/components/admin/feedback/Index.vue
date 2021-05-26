@@ -31,7 +31,7 @@
                             <v-th class="small-col hide-icon">NO</v-th>
                             <v-th sortKey="feedback_id" class="normal-col">Feedback ID</v-th>
                             <v-th sortKey="name">Name</v-th>
-                            <v-th sortKey="customer.name">Customer</v-th>
+                            <v-th sortKey="table.name">Table</v-th>
                             <v-th sortKey="status" class="normal-col">Status</v-th>
                             <th class="medium-col"></th>
                         </thead>
@@ -42,7 +42,7 @@
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td class="normal-col">{{ row.feedback_id }}</td>
                                 <td>{{ row.name }}</td>
-                                <td>{{ row.customer && row.customer.name }}</td>
+                                <td>{{ row.table && row.table.name }}</td>
                                 <td class="normal-col">
                                     <div 
                                         :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 

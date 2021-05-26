@@ -32,7 +32,7 @@
                             <v-th sortKey="product_id">Product ID</v-th>
                             <v-th sortKey="name">Product</v-th>
                             <v-th sortKey="user_name">User</v-th>
-                            <v-th sortKey="customer.name">Customer</v-th>
+                            <v-th sortKey="table.name">Table</v-th>
                             <v-th sortKey="status" class="normal-col">Status</v-th>
                             <th class="medium-col"></th>
                         </thead>
@@ -44,7 +44,7 @@
                                 <td>{{ row.product_id }}</td>
                                 <td>{{ row.name }}</td>
                                 <td>{{ row.user_name }}</td>
-                                <td>{{ row.customer && row.customer.name }}</td>
+                                <td>{{ row.table && row.table.name }}</td>
                                 <td class="normal-col">
                                     <div 
                                         :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 
@@ -269,7 +269,7 @@ export default {
             if (rest && rest.status === 200) {
                 const data = rest.data.data
                 this.datas = data && data.map((dt) => {
-                    return {...dt.product, customer: dt.customer}
+                    return {...dt.product, table: dt.table}
                 })
                 this.visibleLoader = false 
                 console.log('getData', data)
