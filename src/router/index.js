@@ -51,12 +51,12 @@ import VisitorList from '@/components/admin/visitors/Index.vue';
 // customer
 import CustomerMain from '@/components/customer/Index.vue';
 import CustomerProfile from '@/components/customer/profile/Index.vue';
-import CustomerHome from '@/components/customer/profile/Home.vue';
 import CustomerAccount from '@/components/customer/profile/Order.vue';
 import CustomerFeedback from '@/components/customer/profile/Feedback.vue';
 import CustomerWhiselist from '@/components/customer/profile/Whiselist.vue';
 import CustomerNotifications from '@/components/customer/notifications/Index.vue';
 import CustomerSearch from '@/components/customer/search/Index.vue';
+import CustomerOrderList from '@/components/customer/profile/Home.vue';
 import CustomerChart from '@/components/customer/charts/Index.vue';
 import CustomerOrder from '@/components/customer/orders/Index.vue';
 import CustomerDetail from '@/components/customer/orders/Detail.vue';
@@ -339,6 +339,12 @@ export const routes = [
                 component: CustomerSearch
             },
 
+            {
+                name: 'customer-order-list',
+                path: 'order-list',
+                component: CustomerOrderList
+            },
+
             // account
             {
                 path: 'account',
@@ -351,11 +357,6 @@ export const routes = [
                 component: AccountLayout,
                 redirect: '/customer/account/home',
                 children: [
-                    {
-                        name: 'customer-home',
-                        path: 'home',
-                        component: CustomerHome
-                    },
                     {
                         name: 'customer-order',
                         path: 'orders',

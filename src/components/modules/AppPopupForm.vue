@@ -16,7 +16,7 @@
                             </button>
                         </div>
                     </div>
-                    <div style="max-height: calc(100vh - 150px); overflow-y: auto; padding-right: 2px;">
+                    <div style="max-height: calc(100vh - 200px); overflow-y: auto; padding-right: 2px;">
                         <slot />
                     </div>
                 </div>

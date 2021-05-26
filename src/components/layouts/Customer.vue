@@ -37,13 +37,14 @@
                             </div>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'customer-search'}">
+                    <router-link :to="{name: 'customer-order-list'}">
                         <li>
                             <div class="icon">
-                                <i class="label-icon fa fa-lg fa-search" />
+                                <i class="label-icon fa fa-lg fa-list-ol" />
+                                <span class="notif">{{ order }}</span>
                             </div>
                             <div class="label">
-                                Search
+                                Orders
                             </div>
                         </li>
                     </router-link>
@@ -51,7 +52,6 @@
                         <li>
                             <div class="icon">
                                 <i class="label-icon fa fa-lg fa-user" />
-                                <span class="notif">{{ order }}</span>
                             </div>
                             <div class="label">
                                 Customer
