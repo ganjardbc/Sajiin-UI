@@ -78,8 +78,40 @@
                             </div>
                         </div> -->
 
-                        <div style="margin-top: 0; padding-bottom: 15px;">
-                            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+                        <div class="card box-shadow" style="margin-top: 5px; padding: 10px; width: calc(100% - 20px);">
+                            <div class="display-flex">
+                                <div style="width: 50px; margin-right: 20px;">
+                                    <div class="image image-50px image-circle" style="text-align: center;">
+                                        <i v-if="selectedCustomer && !selectedCustomer.image" class="post-center fa fa-lg fa-user-circle" style="color: #999;" />
+                                        <img v-else :src="selectedCustomer ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="" class="post-center">
+                                    </div>
+                                </div>
+                                <div style="width: calc(100% - 70px);">
+                                    <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ selectedCustomer && selectedCustomer.name ? selectedCustomer.name : '-' }}</div>
+                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                        <div style="width: 25px;">
+                                            <i class="fa fa-lw fa-envelope" style="font-size: 14px; color: #555;" />
+                                        </div>
+                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.email ? selectedCustomer.email : '-' }}</div>
+                                    </div>
+                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                        <div style="width: 25px;">
+                                            <i class="fa fa-lw fa-phone" style="font-size: 14px; color: #555;" />
+                                        </div>
+                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.phone ? selectedCustomer.phone : '-' }}</div>
+                                    </div>
+                                    <div class="display-flex">
+                                        <div style="width: 25px;">
+                                            <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
+                                        </div>
+                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about ? selectedCustomer.about : '-' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 30px; padding-bottom: 15px;">
+                            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
                             <AppButtonTable 
                                 :enableDetail="true"
                                 :isFull="true" 
@@ -178,10 +210,10 @@
                                         <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
                                     </div>
-                                    <div class="display-flex space-between margin margin-bottom-5-px">
+                                    <!-- <div class="display-flex space-between margin margin-bottom-5-px">
                                         <div class="fonts fonts-10 black">Delivery fee</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.delivery_fee }}</div>
-                                    </div>
+                                    </div> -->
                                     <div class="display-flex space-between margin margin-bottom-20-px">
                                         <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ totalPPN }}</div>
@@ -201,7 +233,7 @@
                                     </div>
                                     <div class="width width-49">
                                         <button 
-                                            v-if="selectedPayment && selectedTable" 
+                                            v-if="selectedPayment && selectedCustomer" 
                                             class="btn btn-main btn-full" 
                                             @click="onShowHideSave">
                                             Order Now
@@ -322,21 +354,23 @@ export default {
         this.dataUser = this.$cookies.get('user')
         this.formPayload = {...orderItem}
         this.selectedTable = orderItem && orderItem.table ? orderItem.table : this.$cookies.get('table')
-        this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : null
-        this.selectedAddress = orderItem && orderItem.address ? orderItem.address : null
-        this.visibleAddress = this.selectedCustomer ? true : false
-        this.selectedShipment = orderItem && orderItem.shipment ? orderItem.shipment : null
+        this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : this.$cookies.get('customer')
+        // this.selectedAddress = orderItem && orderItem.address ? orderItem.address : null
+        // this.visibleAddress = this.selectedCustomer ? true : false
+        // this.selectedShipment = orderItem && orderItem.shipment ? orderItem.shipment : null
         this.selectedPayment = orderItem && orderItem.payment ? orderItem.payment : null
-        const csID = this.selectedCustomer ? this.selectedCustomer.customer_id : null
+        // const csID = this.selectedCustomer ? this.selectedCustomer.customer_id : null
 
-        this.onChangeOnlyTable(this.selectedTable)
         this.onTotal(this.data)
-        this.getDataCustomer()
-        this.getDataAddress(csID)
+        this.onChangeOnlyTable(this.selectedTable)
+        this.onChangeOnlyCustomer(this.selectedCustomer)
+        
+        // this.getDataCustomer()
+        // this.getDataAddress(csID)
         this.getDataPayment()
-        this.getDataShipment()
+        // this.getDataShipment()
 
-        console.log('orderItem', orderItem)
+        // console.log('orderItem', orderItem)
     },
     components: {
         FormPayment,
@@ -425,10 +459,10 @@ export default {
         onChangeOnlyTable (data) {
             this.formPayload = {
                 ...this.formPayload,
-                table: data,
+                table: data ? data : null,
                 order: {
                     ...this.formPayload.order,
-                    table_id: data.id,
+                    table_id: data ? data.id : 0,
                 }
             }
             // console.log('onChangeOnlyTable', this.formPayload)
@@ -439,11 +473,11 @@ export default {
             this.selectedAddress = null 
             this.formPayload = {
                 ...this.formPayload,
-                customer: data,
+                customer: data ? data : null,
                 address: null,
                 order: {
                     ...this.formPayload.order,
-                    customer_id: data.id,
+                    customer_id: data ? data.id : 0,
                     address_id: null
                 }
             }
@@ -592,7 +626,7 @@ export default {
                 this.dataShipment = data
             }
 
-            // console.log('rest', rest)
+            // console.log('getDataShipment', rest)
         },
         async getDataCustomer () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))

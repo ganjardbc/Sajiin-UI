@@ -407,47 +407,51 @@ export default {
             }
         },
         async getData (limit, offset) {
-            this.visibleLoader = true 
+            if (this.selectedCustomer) {
+                this.visibleLoader = true 
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: limit,
-                offset: offset,
-                owner_id: this.selectedTable.id
-            }
-            let carts = []
+                const token = 'Bearer '.concat(this.$cookies.get('token'))
+                const payload = {
+                    limit: limit,
+                    offset: offset,
+                    owner_id: this.selectedCustomer.id
+                }
+                let carts = []
 
-            if (offset > 0) {
-                carts = Object.assign([], this.datas)
-            } else {
-                carts = []
-            }
-
-            const rest = await axios.post('/api/cart/getAll', payload, { headers: { Authorization: token } })
-
-            if (rest && rest.status === 200) {
-                const data = rest.data.data
-
-                console.log('getData', data)
-                
-                data && data.map((dt) => {
-                    return carts.push({
-                        ...dt,
-                        disableButton: false
-                    })
-                })
-
-                this.datas = carts
-                this.visibleLoader = false 
-
-                if (data.length > 0) {
-                    this.offset += this.limit
+                if (offset > 0) {
+                    carts = Object.assign([], this.datas)
+                } else {
+                    carts = []
                 }
 
-                if (data.length < this.limit) {
-                    this.visibleLoadMore = false
+                const rest = await axios.post('/api/cart/getAll', payload, { headers: { Authorization: token } })
+
+                if (rest && rest.status === 200) {
+                    const data = rest.data.data
+
+                    console.log('getData', data)
+                    
+                    data && data.map((dt) => {
+                        return carts.push({
+                            ...dt,
+                            disableButton: false
+                        })
+                    })
+
+                    this.datas = carts
+                    this.visibleLoader = false 
+
+                    if (data.length > 0) {
+                        this.offset += this.limit
+                    }
+
+                    if (data.length < this.limit) {
+                        this.visibleLoadMore = false
+                    } else {
+                        this.visibleLoadMore = true
+                    }
                 } else {
-                    this.visibleLoadMore = true
+                    this.visibleLoader = false 
                 }
             } else {
                 this.visibleLoader = false 

@@ -152,11 +152,11 @@ $border: 1px solid $tiny-grey;
 }
 
 .bg-main {
-    background-color: $main-color;
+    background-color: $main-color !important;
 }
 
 .bg-white {
-    background-color: #fff;
+    background-color: #fff !important;
 }
 
 .cursor-pointer {

@@ -251,7 +251,6 @@ export default {
             authenticated: 'auth/authenticated',
             user: 'auth/user',
             permissions: 'auth/permissions',
-            token: 'auth/token',
             cart: 'cart/count',
             order: 'order/count'
         })

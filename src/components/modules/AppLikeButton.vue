@@ -43,7 +43,7 @@ export default {
         this.payloadWishelist = {
             ...this.payloadWishelist,
             token: token,
-            owner_id: this.selectedTable ? this.selectedTable.id : 0,
+            owner_id: this.selectedCustomer ? this.selectedCustomer.id : 0,
             user_id: uID
         }
         this.id = this.productID
@@ -84,8 +84,7 @@ export default {
             }
         },
         setStatusWishelist (type) {
-            const table = this.$cookies.get('table')
-            if (table) {
+            if (this.selectedCustomer) {
                 if (type === 'save') {
                     this.postStatus({
                         ...this.payloadWishelist,
@@ -100,7 +99,7 @@ export default {
                     this.setToastWishelist()
                 }
             } else {
-                this.makeToast('you have to choose table first')
+                this.makeToast('you have to login as customer')
             }
         },
         getStatusWisheList (prodID, ownerID) {

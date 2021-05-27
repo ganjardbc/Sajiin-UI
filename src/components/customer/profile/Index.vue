@@ -1,12 +1,12 @@
 <template>
-    <div id="App" class="main-screen" style="padding-top: 10px;">
-        <div class="width width-100">
-            <div class="width width-100 width-mobile" style="margin-bottom: 15px;">
-                <div style="padding: 0; width: 100%;">
-                    <!-- <div class="display-flex border border-bottoms" style="padding-bottom: 15px;">
+    <div id="App">
+        <AppMobileLayout :title="'Customer'">
+            <div style="padding: 10px 0; width: 100%; overflow: unset;">
+                <div style="padding-top: 5px; width: 100%;">
+                    <div class="display-flex border border-bottoms" style="padding-bottom: 15px;">
                         <div style="width: 45px; margin-right: 15px;">
                             <div class="image image-circle image-45px" style="margin: auto; text-align: center;">
-                                <i v-if="!selectedCustomer" class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
+                                <i v-if="selectedCustomer && !selectedCustomer.image" class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
                                 <img v-else :src="selectedCustomer && selectedCustomer.image ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="">
                             </div>
                         </div>
@@ -15,90 +15,20 @@
                             <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about }}</div>
                         </div>
                         <div class="display-flex space-between" style="width: 35px;">
-                            <button class="btn btn-small-icon btn-sekunder">
+                            <button class="btn btn-small-icon btn-sekunder" @click="onShowEdit">
                                 <i class="fa fa-1x fa-cog"></i>
                             </button>
                         </div>
-                    </div> -->
+                    </div>
 
-                    <!-- <AppShowHide :isVisible="false" title="Check In / Out" class="card box-shadow" style="margin-bottom: 15px;">
-                        <AppLoader v-if="visibleLoaderCheck" />
-
-                        <div v-else>
-                            <div class="width width-100 width-mobile">
-                                <div style="padding-bottom: 10px;">
-                                    <div class="display-flex space-between" style="padding-bottom: 0;">
-                                        <div class="fonts fonts-10 grey no-margin-padding">
-                                            Choose the table to sit down
-                                        </div>
-                                        <div></div>
-                                    </div>
-                                    <div>
-                                        <AppCardTable 
-                                            :disableClick="formData.status === 'inactive' ? true : false"
-                                            :column="6" 
-                                            :selectedTable.sync="selectedTable" 
-                                            :onChange="(data) => onChangeTable(data)" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="width width-100 width-mobile">
-                                <div style="padding-bottom: 0;">
-                                    <div class="display-flex space-between" style="padding-bottom: 0;">
-                                        <div class="fonts fonts-10 grey no-margin-padding">Check-in to make your first order</div>
-                                        <div></div>
-                                    </div>
-                                    <div class="card-check-in check-in">
-                                        <div class="icon">
-                                            <i class="icn fa fa-lg fa-arrow-up" />
-                                        </div>
-                                        <div class="main">
-                                            <div class="fonts fonts-10 black semibold">Check In</div>
-                                            <div class="fonts fonts-9 grey">{{ formData.start_date ? formData.start_date : '-' }}</div>
-                                        </div>
-                                        <div class="detail">
-                                            <div v-if="formData.table_id">
-                                                <button 
-                                                    v-if="!formData.start_date" 
-                                                    @click="onCheckIn"
-                                                    class="btn btn-small btn-sekunder" 
-                                                    style="width: 100%;">
-                                                    Check In
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div v-if="formData.start_date" class="card-check-in check-out">
-                                        <div class="icon">
-                                            <i class="icn fa fa-lg fa-arrow-down" />
-                                        </div>
-                                        <div class="main">
-                                            <div class="fonts fonts-10 black semibold">Check Out</div>
-                                            <div class="fonts fonts-9 grey">{{ formData.end_date ? formData.end_date : '-' }}</div>
-                                        </div>
-                                        <div class="detail">
-                                            <button 
-                                                v-if="!formData.end_date" 
-                                                @click="onCheckOut"
-                                                class="btn btn-small btn-sekunder" 
-                                                style="width: 100%;">
-                                                Check Out
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </AppShowHide> -->
-
-                    <div style="margin-top: 0;">
-                        <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+                    <!-- <div style="margin-top: 5px;">
+                        <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
                         <AppButtonTable 
                             :enableDetail="true"
                             :isFull="true" 
                             :onChange="(data) => onChangeSelectedTable(data)" 
                             style="width: 100%; margin-bottom: 15px;" />
-                    </div>
+                    </div> -->
 
                     <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 5px; padding-bottom: 15px;">
                         <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
@@ -115,41 +45,48 @@
                         <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Menus</div>
                         <AppListMenu :data.sync="sidebar" :isSidebarSmall="isSidebarSmall" :disableResponsive="true" />
                     </div>
+                </div>
 
-                    <div style="margin-top: 15px;">
-                        <button class="btn btn-primary btn-full" @click="onLogout">
+                <div class="navbar-bottom">
+                    <div class="main-screen display-flex space-between" style="margin-top: 8px;">
+                        <button class="btn btn-danger btn-full" @click="onLogout">
                             LOGOUT
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </AppMobileLayout>
+
+        <FormCustomer 
+            v-if="visiblePopup"
+            :data.sync="selectedData"
+            :message.sync="selectedMessage"
+            :title="'Edit Customer'" 
+            :uploadImage="(data) => uploadImage(data)"
+            :removeImage="removeImage"
+            :onSave="(data) => onFormSave(data)"
+            :onClose="onClose" />
+        
+        <AppAlert 
+            v-if="visibleAlertSave" 
+            :isLoader="visibleLoaderAction"
+            :title="'Proceed this data ?'" 
+            :onClose="onShowHideSave" 
+            :onSave="saveData" />
     </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import M from 'moment'
 import axios from 'axios'
-import AppTabs from '../../modules/AppTabs'
-import AppButton from '../../modules/AppButton'
 import AppListMenu from '../../modules/AppListMenu'
-import AppShowHide from '../../modules/AppShowHide'
 import AppLoader from '../../modules/AppLoader'
-import AppCardTable from '../../modules/AppCardTable'
-import AppButtonTable from '../../modules/AppButtonTable'
-
-const payload = {
-    id: '',
-    start_date: null,
-    end_date: null,
-    status: "active",
-    owner_id: '',
-    table_id: '',
-    user_id: ''
-}
+import AppMobileLayout from '../../modules/AppMobileLayout'
+import AppAlert from '../../modules/AppAlert'
+import FormCustomer from './forms/Customer'
 
 const sidebarCustomer = [
-    {icon: 'fa fa-lg fa-user', label: 'Subscribe', value: 0, link: 'customer-order'},
+    // {icon: 'fa fa-lg fa-user', label: 'Subscribe', value: 0, link: 'customer-order'},
     {icon: 'fa fa-lg fa-list-ol', label: 'Orders', value: 0, link: 'customer-order'},
     {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'customer-feedback'},
     {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'customer-whiselist'}
@@ -159,37 +96,42 @@ export default {
     name: 'App',
     data () {
         return {
+            visibleLoader: false,
+            visibleLoaderAction: false,
+            visiblePopup: false,
+            visibleAlertDelete: false,
+            visibleAlertSave: false,
             visibleLoaderCheck: false,
             sidebar: sidebarCustomer,
             selectedCustomer: null,
-            selectedVisitor: null,
+            selectedData: null,
+            selectedMessage: null,
             dataUser: null,
             dataOrder: null,
             isSidebarSmall: false,
-            formData: {...payload}
+            popupCreate: false,
+            datas: [],
+            formTitle: 'CREATE',
         }
     },
     mounted () {
         this.selectedCustomer = this.$cookies.get('customer')
         this.dataOrder = this.$cookies.get('orderItem')
         this.dataUser = this.$cookies.get('user')
-        // this.sidebar[0].value = this.order
-        // this.getData()
     },
     components: {
-        AppButtonTable,
-        AppCardTable,
+        FormCustomer,
+        AppMobileLayout,
         AppLoader,
-        AppShowHide,
         AppListMenu,
-        AppTabs,
-        AppButton,
+        AppAlert
     },
     methods: {
         ...mapActions({
             removeCookieAuth: 'auth/removeCookieCustomerAuth',
             signOut: 'customer/removeData',
-            setToast: 'toast/setToast'
+            setToast: 'toast/setToast',
+            setCustomer: 'auth/setCustomer'
         }),
         makeToast (title) {
             const payload = {
@@ -209,97 +151,105 @@ export default {
         onBuilded () {
             alert('still builded !')
         },
-        onCheckIn () {
-            const tableID = this.formData.table_id
-            if (tableID) {
-                var a = confirm('are you sure you want to check in ?')
-                if (a) {
-                    const time = M().format('YYYY-MM-DD hh:mm:ss')
-                    this.formData = {
-                        ...this.formData,
-                        start_date: time,
-                        status: 'active'
-                    }
-                    this.saveData(this.formData)
-                    console.log('onCheckIn', this.formData)
-                }
-            } else {
-                alert('choose table first !')
+        onClose () {
+            this.visiblePopup = false
+            this.formTitle = 'CREATE'
+        },
+        onShowEdit () {
+            this.selectedData = this.selectedCustomer
+            this.visiblePopup = true 
+            this.formTitle = 'EDIT'
+        },
+        onShowHideSave () {
+            this.visibleAlertSave = !this.visibleAlertSave
+        },
+        onFormSave (data = null) {
+            this.onShowHideSave()
+            this.selectedForm = data ? data : null
+        },
+        onChangeImage (data) {
+            this.selectedData = {
+                ...this.selectedData,
+                image: data
             }
         },
-        onCheckOut () {
-            var a = confirm('are you sure you want to check out ?')
-            if (a) {
-                const time = M().format('YYYY-MM-DD hh:mm:ss')
-                this.formData = {
-                    ...this.formData,
-                    end_date: time,
-                    status: 'inactive'
-                }
-                this.saveData(this.formData)
-                // console.log('onCheckOut', this.formData)
-            }
-        },
-        onChangeSelectedTable (data) {
-            // this.getLocalCartCount()
-            // this.getLocalOrderCount()
-            console.log('onChangeSelectedTable', data)
-        },
-        onChangeTable (data) {
-            this.formData = {
-                ...this.formData,
-                table_id: data.id
-            }
-            this.saveData(this.formData)
-            // console.log('onChangeTable', this.formData)
-        },
-        async saveData (payload) {
-            // this.visibleLoaderCheck = true 
+        async uploadImage (data) {
+            this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const api = payload.id ? '/api/visitor/update' : '/api/visitor/post'
-            
-            const rest = await axios.post(api, payload, { headers: { Authorization: token } })
+            const payload = this.selectedData.customer
+            const url = '/api/customer/uploadImage' 
+
+            let formData = new FormData();
+            formData.append('customer_id', payload.customer_id);
+            formData.append('image', data);
+
+            const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
 
             if (rest && rest.status === 200) {
-                this.getData()
-                this.makeToast('Visitor updated')
-                // this.visibleLoaderCheck = false 
-            } else {
-                // this.visibleLoaderCheck = false
-            }
-        },
-        async getData () {
-            // this.visibleLoaderCheck = true 
+                this.visibleLoaderAction = false
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: 1,
-                offset: 0,
-                owner_id: this.selectedCustomer.id
-            }
-            
-            const rest = await axios.post('/api/visitor/getAll', payload, { headers: { Authorization: token } })
-
-            if (rest && rest.status === 200) {
                 const data = rest.data.data
-                this.dataVisitor = data[0] ? data[0] : null 
-                this.selectedTable = this.dataVisitor ? this.dataVisitor.table : null
-                this.selectedVisitor = this.dataVisitor ? this.dataVisitor.visitor : null
-                this.formData = {
-                    ...this.formData,
-                    id: this.selectedVisitor.id,
-                    start_date: this.selectedVisitor.start_date,
-                    end_date: this.selectedVisitor.end_date,
-                    status: this.selectedVisitor.status,
-                    owner_id: this.selectedVisitor.owner_id,
-                    table_id: this.selectedVisitor.table_id,
-                    user_id: this.selectedVisitor.user_id
+                if (data && data.image) {
+                    this.onChangeImage(data && data.image)
+                    this.getData()
+                    this.selectedMessage = []
+                } else {
+                    this.selectedMessage = rest.data.message
                 }
-                // this.visibleLoaderCheck = false 
-                // console.log('getdata', this.dataVisitor)
             } else {
-                // this.visibleLoaderCheck = false
+                alert('Proceed failed')
+            }
+        },
+        async removeImage () {
+            this.visibleLoaderAction = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.selectedData.customer
+            const url = '/api/customer/removeImage' 
+
+            let formData = new FormData();
+            formData.append('customer_id', payload.customer_id);
+
+            var a = confirm('remove this image ?')
+            if (a) {
+                const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
+
+                if (rest && rest.status === 200) {
+                    this.visibleLoaderAction = false
+
+                    const data = rest.data.data
+                    this.onChangeImage(data && data.image)
+                    this.getData()
+                } else {
+                    alert('Proceed failed')
+                }
+            }
+        },
+        async saveData () {
+            this.visibleLoaderAction = true
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.selectedForm
+            const url = '/api/customer/update' 
+
+            const rest = await axios.post(url, payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                this.onShowHideSave()
+                this.visibleLoaderAction = false
+
+                const data = rest.data.data
+                if (data.length !== 0) {
+                    this.onClose()
+                    this.$cookies.set('customer', data)
+                    this.setCustomer(data)
+                } else {
+                    this.selectedMessage = rest.data.message
+                }
+            } else {
+                alert('Proceed failed')
+                this.visibleLoaderAction = false
             }
         }
     },

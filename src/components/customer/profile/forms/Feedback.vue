@@ -163,7 +163,7 @@ export default {
         this.formData = this.data ? {...this.data} : {...payload}
         this.formData = {
             ...this.formData,
-            owner_id: this.selectedTable.id
+            owner_id: this.selectedCustomer.id
         }
         this.image = this.data && this.data.image ? '/contents/feedbacks/thumbnails/' + this.data.image : ''
     },

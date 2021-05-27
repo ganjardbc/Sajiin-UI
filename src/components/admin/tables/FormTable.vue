@@ -1,14 +1,14 @@
 <template>
-    <div id="FormCustomer">
+    <div id="FormTable">
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">CUSTOMER ID</div>
+            <div class="field-label">TABLE ID</div>
             <input 
                 type="text" 
                 placeholder="" 
                 class="field field-sekunder" 
-                name="customer_id" 
-                id="customer_id" 
-                v-model="data.customer_id"
+                name="table_id" 
+                id="table_id" 
+                v-model="data.table_id"
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
@@ -23,25 +23,14 @@
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">EMAIL</div>
-            <input 
-                type="email" 
-                placeholder="" 
-                class="field field-sekunder" 
-                name="email" 
-                id="email" 
-                v-model="data.email"
-                readonly>
-        </div>
-        <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">PHONE</div>
+            <div class="field-label">CODE</div>
             <input 
                 type="text" 
                 placeholder="" 
                 class="field field-sekunder" 
-                name="phone" 
-                id="phone" 
-                v-model="data.phone"
+                name="code" 
+                id="code" 
+                v-model="data.code"
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
@@ -56,35 +45,35 @@
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">ABOUT</div>
+            <div class="field-label">DESCRIPTION</div>
             <textarea 
-                name="about" 
-                id="about" 
+                name="description" 
+                id="description" 
                 class="field field-sekunder field-textarea" 
-                v-model="data.about"
+                v-model="data.description"
                 readonly></textarea>
         </div>
 
         <AppPopupForm
             v-if="visiblePopup"
-            :title="'Choose Customer'"
+            :title="'Choose Table'"
             :onClose="onClose"
         >
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">CUSTOMER ID</th>
+                        <th class="normal-col">TABLE ID</th>
                         <th>NAME</th>
-                        <th class="normal-col">PHONE</th>
+                        <th class="normal-col">CODE</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in datas" :key="index">
-                            <td class="normal-col">{{ dt.customer.customer_id }}</td>
-                            <td>{{ dt.customer.name }}</td>
-                            <td class="normal-col">{{ dt.customer.phone }}</td>
+                            <td class="normal-col">{{ dt.id }}</td>
+                            <td>{{ dt.name }}</td>
+                            <td class="normal-col">{{ dt.code }}</td>
                             <td class="small-col">
-                                <button v-if="data.id !== dt.customer.id" class="btn btn-small-icon btn-sekunder" @click="onChoose(dt.customer)">
+                                <button v-if="data.id !== dt.id" class="btn btn-small-icon btn-sekunder" @click="onChoose(dt)">
                                     <i class="fa fa-1x fa-plus"></i>
                                 </button>
                             </td>
@@ -118,7 +107,7 @@ import AppAlert from '../../modules/AppAlert'
 const payload = {}
 
 export default {
-    name: 'FormCustomer',
+    name: 'FormTable',
     data () {
         return {
             visibleAlertDelete: false,
@@ -166,11 +155,9 @@ export default {
             this.formMessage = []
         },
         onChoose: function (index) {
-            this.onChange(index)
-            this.visiblePopup = false
-            // this.visibleAlertSave = !this.visibleAlertSave
-            // this.selectedID = index
-            // this.formMessage = []
+            this.visibleAlertSave = !this.visibleAlertSave
+            this.selectedID = index
+            this.formMessage = []
         },
         onClose: function () {
             this.visiblePopup = false
@@ -185,15 +172,13 @@ export default {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
                 limit: 1000,
-                offset: 0,
-                status: 'active'
+                offset: 0
             } : {
                 limit: 1000,
                 offset: 0,
-                user_id: this.dataUser.id,
-                status: 'active'
+                user_id: this.dataUser.id
             }
-            const rest = await axios.post('/api/customer/getAll', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/table/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data

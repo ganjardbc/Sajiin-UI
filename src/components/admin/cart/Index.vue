@@ -31,7 +31,7 @@
                             <v-th class="small-col hide-icon">NO</v-th>
                             <v-th sortKey="cart_id">Cart ID</v-th>
                             <v-th sortKey="product_name">Product</v-th>
-                            <v-th sortKey="table.name" class="normal-col">Table</v-th>
+                            <v-th sortKey="customer.name" class="normal-col">Customer</v-th>
                             <v-th sortKey="product_detail" class="normal-col">Detail</v-th>
                             <v-th sortKey="product_toping" class="normal-col">Toping</v-th>
                             <v-th sortKey="subtotal" class="normal-col">Subtotal</v-th>
@@ -44,7 +44,7 @@
                                 <td class="small-col">{{ (index + 1) }}</td>
                                 <td>{{ row.cart_id }}</td>
                                 <td>{{ row.product_name }}</td>
-                                <td class="normal-col">{{ row.table && row.table.name }}</td>
+                                <td class="normal-col">{{ row.customer && row.customer.name }}</td>
                                 <td class="normal-col">{{ row.product_detail }}</td>
                                 <td class="normal-col">{{ row.product_toping }}</td>
                                 <td class="normal-col">{{ row.subtotal }}</td>

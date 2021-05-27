@@ -53,13 +53,24 @@
             </div>
         </div>
 
-        <div style="margin-bottom: 20px; padding-top: 10px;">
-            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Choose Table</div>
+        <div style="margin-bottom: 15px; padding-top: 0;">
+            <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
             <AppButtonTable 
                 :enableDetail="true"
                 :isFull="true" 
                 :onChange="(data) => onChangeSelectedTable(data)" 
                 style="width: 100%;" />
+        </div>
+
+        <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 5px; padding-bottom: 15px;">
+            <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
+                You have an order
+            </div>
+            <div class="display-flex">
+                <router-link :to="{name: 'order'}" class="card-capsule active" style="width: 100%; text-align: center; padding-top: 10px; padding-bottom: 8px;">
+                    Continue to check out ?
+                </router-link>
+            </div>
         </div>
 
         <div style="margin-bottom: 20px;">

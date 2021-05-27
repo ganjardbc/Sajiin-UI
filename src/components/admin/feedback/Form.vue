@@ -158,10 +158,10 @@
                         {{ formMessage && formMessage.owner_id && formMessage.owner_id[0] }}
                     </div>
                 </div>
-                <FormTable
-                    :data.sync="selectedTable"
-                    :enablePopup="openCreateTable"
-                    :onChange="(data) => onChangeTable(data)"
+                <FormCustomer
+                    :data.sync="selectedCustomer"
+                    :enablePopup="openCreateCustomer"
+                    :onChange="(data) => onChangeCustomer(data)"
                 />
             </div>
         </AppSideForm>
@@ -172,11 +172,11 @@
 import AppSideForm from '../../modules/AppSideForm'
 import AppImage from '../../modules/AppImage'
 import AppTabs from '../../modules/AppTabs'
-import FormTable from './FormTable'
+import FormCustomer from '../customer/FormCustomer'
 
 const tabs = [
     {label: 'Data', status: 'active'},
-    {label: 'Table', status: ''}
+    {label: 'Customer', status: ''}
 ]
 
 const time = new Date().getTime()
@@ -192,13 +192,14 @@ const payload = {
     owner_id: 0
 }
 
-const table = {
+const customer = {
     id: '',
-    table_id: '',
+    customer_id: '',
     image: '',
     name: '',
-    code: '',
-    description: '',
+    email: '',
+    phone: '',
+    about: '',
     status: ''
 }
 
@@ -207,11 +208,11 @@ export default {
     data () {
         return {
             selectedIndex: 0,
-            openCreateTable: false,
+            openCreateCustomer: false,
             isView: false,
             image: '',
             tabs: tabs,
-            selectedTable: {...table},
+            selectedCustomer: {...customer},
             formData: {...payload},
             formMessage: []
         }
@@ -220,7 +221,7 @@ export default {
         this.formData = {...payload}
     },
     components: {
-        FormTable,
+        FormCustomer,
         AppTabs,
         AppSideForm,
         AppImage
@@ -254,18 +255,18 @@ export default {
         }
     },
     methods: {
-        onChangeTable (data) {
+        onChangeCustomer (data) {
             this.formData = {
                 ...this.formData,
                 owner_id: data.id
             }
-            this.selectedTable = data
+            this.selectedCustomer = data
         },
         onChangeTabs (data) {
             this.selectedIndex = data
         },
         onButtonTable () {
-            this.openCreateTable = !this.openCreateTable
+            this.openCreateCustomer = !this.openCreateCustomer
         },
         onButtonSave () {
             const newPayload = this.formData
@@ -287,11 +288,11 @@ export default {
                     owner_id: props.owner_id
                 }
                 this.image = props.image ? this.feedbackImageThumbnailUrl + props.image : ''
-                this.selectedTable = props.table ? props.table : table
+                this.selectedCustomer = props.customer ? props.customer : customer
             } else {
                 this.formData = {...payload}
                 this.image = ''
-                this.selectedTable = table 
+                this.selectedCustomer = customer 
             }
             this.onChangeTabs(0)
         },

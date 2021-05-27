@@ -150,10 +150,10 @@
                         {{ formMessage && formMessage.owner_id && formMessage.owner_id[0] }}
                     </div>
                 </div>
-                <FormTable
-                    :data.sync="selectedTable"
-                    :enablePopup="openCreateTable"
-                    :onChange="(data) => onChangeTable(data)"
+                <FormCustomer
+                    :data.sync="selectedCustomer"
+                    :enablePopup="openCreateCustomer"
+                    :onChange="(data) => onChangeCustomer(data)"
                 />
             </div>
         </AppSideForm>
@@ -212,11 +212,11 @@ import AppSideForm from '../../modules/AppSideForm'
 import AppImage from '../../modules/AppImage'
 import AppPopupForm from '../../modules/AppPopupForm'
 import AppTabs from '../../modules/AppTabs'
-import FormTable from './FormTable'
+import FormCustomer from '../customer/FormCustomer'
 
 const tabs = [
     {label: 'Data', status: 'active'},
-    {label: 'Table', status: ''}
+    {label: 'Customer', status: ''}
 ]
 
 const payload = {
@@ -243,13 +243,14 @@ const payloadData = {
     prod_image: ''
 }
 
-const table = {
+const customer = {
     id: '',
-    table_id: '',
+    customer_id: '',
     image: '',
     name: '',
-    code: '',
-    description: '',
+    email: '',
+    phone: '',
+    about: '',
     status: ''
 }
 
@@ -259,11 +260,11 @@ export default {
         return {
             selectedIndex: 0,
             visibleCreateProduct: false,
-            openCreateTable: false,
+            openCreateCustomer: false,
             isView: false,
             image: '',
             tabs: tabs,
-            selectedTable: {...table},
+            selectedCustomer: {...customer},
             formData: {...payload},
             formMessage: [],
             dataProduct: [],
@@ -276,7 +277,7 @@ export default {
         this.selectedData = this.data ? {...this.data} : {...payloadData}
     },
     components: {
-        FormTable,
+        FormCustomer,
         AppTabs,
         AppImage,
         AppPopupForm,
@@ -303,12 +304,12 @@ export default {
         }
     },
     methods: {
-        onChangeTable (data) {
+        onChangeCustomer (data) {
             this.formData = {
                 ...this.formData,
                 owner_id: data.id
             }
-            this.selectedTable = data
+            this.selectedCustomer = data
         },
         onChangeTabs (data) {
             this.selectedIndex = data
@@ -317,7 +318,7 @@ export default {
             this.visibleCreateProduct = !this.visibleCreateProduct
         },
         onButtonTable () {
-            this.openCreateTable = !this.openCreateTable
+            this.openCreateCustomer = !this.openCreateCustomer
         },
         onButtonSave () {
             const newPayload = this.formData
@@ -392,7 +393,7 @@ export default {
                     user_name: props.user_name
                 }
                 this.image = this.productImageThumbnailUrl + props.prod_image
-                this.selectedTable = props.table ? props.table : table
+                this.selectedCustomer = props.customer ? props.customer : customer
             } else {
                 this.formData = {
                     ...payload
@@ -401,7 +402,7 @@ export default {
                     ...payloadData
                 } 
                 this.image = ''
-                this.selectedTable = table 
+                this.selectedCustomer = customer 
             }
             this.onChangeTabs(0)
             console.log('props', props)

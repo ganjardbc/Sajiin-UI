@@ -79,11 +79,11 @@
 }
 
 .bg-main {
-  background-color: #f1863b;
+  background-color: #f1863b !important;
 }
 
 .bg-white {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 .cursor-pointer {
@@ -210,6 +210,14 @@ a.btn {
   background-color: #ededf1;
   border: 1px #ededf1 solid;
   color: #151f2d;
+}
+.btn.btn-danger {
+  background-color: #fff;
+  color: #e3342f;
+  border: 1px #e3342f solid;
+}
+.btn.btn-danger:hover {
+  background-color: #ededf1;
 }
 .btn.btn-sekunder:focus {
   box-shadow: 0 0 0 #fff;
@@ -35089,6 +35097,9 @@ a.btn {
 }
 .fonts.black {
   color: #151f2d;
+}
+.fonts.white {
+  color: #fff;
 }
 .fonts.grey {
   color: #555;

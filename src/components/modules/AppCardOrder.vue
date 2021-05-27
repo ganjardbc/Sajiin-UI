@@ -79,8 +79,11 @@
                 <div class="width width-24 width-mobile">
                     <div style="height: auto; padding-left: 20px;" class="no-margin-padding">
                         <div style="padding-top: 10px; padding-bottom: 10px;">
-                            <div class="fonts fonts-9 grey" style="margin-bottom: 2px;">Table</div>
-                            <div class="fonts fonts-11 semibold" style="margin-bottom: 12px;">{{ dt.table && dt.table.name }}</div>
+                            <div v-if="dt.table">
+                                <div class="fonts fonts-9 grey" style="margin-bottom: 2px;">Table</div>
+                                <div class="fonts fonts-11 semibold" style="margin-bottom: 12px;">{{ dt.table && dt.table.name }}</div>
+                            </div>
+                            
                             <div class="fonts fonts-9 grey" style="margin-bottom: 2px;">Total Payment</div>
                             <div class="fonts fonts-11 semibold orange">Rp {{ dt.order.total_price }}</div>
                         </div>

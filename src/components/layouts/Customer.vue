@@ -11,16 +11,16 @@
                     <div class="header-menu-content display-flex space-between display-mobile">
                         <div></div>
                         <div class="header-menu-list display-flex">
-                            <!-- <router-link v-if="selectedTable.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
+                            <!-- <router-link v-if="selectedCustomer.id" :to="{name: 'customer-chart'}" class="btn btn-icon btn-white" style="height: 14px;">
                                 <i class="label-icon fa fa-lg fa-shopping-basket" style="font-size: 18px;" />
                                 <span class="notif">{{ cart }}</span>
                             </router-link> -->
-                            <router-link v-if="selectedTable.id" :to="{name: 'customer-whiselist'}" class="btn btn-icon btn-white" style="height: 14px;">
-                                <i class="label-icon far fa-lg fa-heart" style="font-size: 18px;" />
+                            <router-link v-if="selectedCustomer.id" :to="{name: 'customer-profile'}" class="btn btn-sekunder btn-radius-rounded" style="padding: 9px 12px; margin-top: 2px;">
+                                <i class="icn icn-left far fa-lg fa-user" /> Customer
                             </router-link>
-                            <button class="btn btn-icon btn-white" @click="onLogout">
+                            <!-- <button class="btn btn-icon btn-white" @click="onLogout">
                                 <i class="fa fa-lg fa-power-off"></i>
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
         </div>
         <div style="padding-bottom: 70px;"></div>
         <div class="navbar-bottom">
-            <div v-if="selectedTable.id" class="main-screen display-flex space-between">
+            <div v-if="selectedCustomer.id" class="main-screen display-flex space-between">
                 <ul class="menu-navbar">
                     <router-link :to="{name: 'customer-main'}">
                         <li>
@@ -73,6 +73,16 @@
                             </div>
                         </li>
                     </router-link>
+                    <!-- <router-link :to="{name: 'customer-profile'}">
+                        <li>
+                            <div class="icon">
+                                <i class="label-icon fa fa-lg fa-user" />
+                            </div>
+                            <div class="label">
+                                Customer
+                            </div>
+                        </li>
+                    </router-link> -->
                 </ul>
             </div>
             <div v-else class="main-screen display-flex space-between">
@@ -149,6 +159,9 @@ export default {
     },
     mounted () {
         const customerData = this.$cookies.get('customer')
+        console.log('customerData', customerData)
+        this.setCustomer(customerData)
+
         this.selectedCustomer = customerData ? customerData : customer
         this.dataUser = this.$cookies.get('admin')
 
@@ -182,7 +195,8 @@ export default {
             setDataTableSelected: 'table/setData',
             getDataTable: 'table/getData',
             getCount: 'cart/getCountCustomer',
-            getCountOrder: 'order/getCountCustomer'
+            getCountOrder: 'order/getCountCustomer',
+            setCustomer: 'auth/setCustomer'
         }),
         onLogout() {
             var a = confirm('Logout customer ?')

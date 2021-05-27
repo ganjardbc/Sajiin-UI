@@ -50,7 +50,7 @@ export default {
             commit('SET_DATA', data)
         },
         async getCountCustomer ({ commit }, token = '') {
-            const customerData = $cookies.get('table')
+            const customerData = $cookies.get('customer')
             const payload = {
                 owner_id: customerData.id
             }

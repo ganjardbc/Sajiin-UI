@@ -94,6 +94,14 @@ a {
             color: $black;
         }
     }
+    &.btn-danger {
+        background-color: #fff;
+        color: $red;
+        border: 1px $red solid;
+        &:hover {
+            background-color: $white-grey;
+        }
+    }
     &.btn-sekunder:focus {
         box-shadow: 0 0 0 #fff;
     }

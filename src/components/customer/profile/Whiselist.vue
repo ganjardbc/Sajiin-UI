@@ -69,58 +69,60 @@ export default {
             this.getProduct(this.limit, this.offset)
         },
         async getProduct (limit, offset) {
-            this.visibleLoader = true 
+            if (this.selectedCustomer) {
+                this.visibleLoader = true 
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: limit,
-                offset: offset,
-                owner_id: this.selectedTable.id
-            }
-
-            let product = []
-
-            if (offset > 0) {
-                product = Object.assign([], this.products)
-            } else {
-                product = []
-            }
-
-            const rest = await axios.post('/api/wishelist/getAll', payload, { headers: { Authorization: token } })
-
-            if (rest && rest.status === 200) {
-                const data = rest.data.data
-                data && data.map((dt) => {
-                    console.log('data', dt)
-                    return product.push({
-                        id: dt.product.prod_id,
-                        product_id: dt.product.product_id,
-                        image: dt.images[0] ? this.productImageThumbnailUrl + dt.images[0].image : '',
-                        title: dt.product.name,
-                        price: dt.details[0] ? dt.details[0].price : 0,
-                        is_available: dt.product.is_available,
-                        available: dt.product.is_available ? 'Available' : 'Unavailable',
-                        category: dt.product.description ? dt.product.description.substring(0, 50) + ' ...' : '',
-                        description: dt.product.description
-                    })
-                })
-                this.products = product
-                this.visibleLoader = false 
-
-                if (data.length > 0) {
-                    this.offset += this.limit
+                const token = 'Bearer '.concat(this.$cookies.get('token'))
+                const payload = {
+                    limit: limit,
+                    offset: offset,
+                    owner_id: this.selectedCustomer.id
                 }
 
-                if (data.length < this.limit) {
-                    this.visibleLoadMore = false
+                let product = []
+
+                if (offset > 0) {
+                    product = Object.assign([], this.products)
                 } else {
-                    this.visibleLoadMore = true
+                    product = []
+                }
+
+                const rest = await axios.post('/api/wishelist/getAll', payload, { headers: { Authorization: token } })
+
+                if (rest && rest.status === 200) {
+                    const data = rest.data.data
+                    data && data.map((dt) => {
+                        console.log('data', dt)
+                        return product.push({
+                            id: dt.product.prod_id,
+                            product_id: dt.product.product_id,
+                            image: dt.images[0] ? this.productImageThumbnailUrl + dt.images[0].image : '',
+                            title: dt.product.name,
+                            price: dt.details[0] ? dt.details[0].price : 0,
+                            is_available: dt.product.is_available,
+                            available: dt.product.is_available ? 'Available' : 'Unavailable',
+                            category: dt.product.description ? dt.product.description.substring(0, 50) + ' ...' : '',
+                            description: dt.product.description
+                        })
+                    })
+                    this.products = product
+                    this.visibleLoader = false 
+
+                    if (data.length > 0) {
+                        this.offset += this.limit
+                    }
+
+                    if (data.length < this.limit) {
+                        this.visibleLoadMore = false
+                    } else {
+                        this.visibleLoadMore = true
+                    }
+                } else {
+                    this.visibleLoader = false 
                 }
             } else {
-                this.visibleLoader = false 
+                this.visibleLoader = false
             }
-
-            // console.log('getProduct', rest)
         }
     }
 }

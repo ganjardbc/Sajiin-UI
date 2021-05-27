@@ -319,26 +319,28 @@ export default {
             }
         },
         async getData () {
-            this.visibleLoader = true
+            if (this.selectedCustomer) {
+                this.visibleLoader = true
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: 1000,
-                offset: 0,
-                owner_id: this.selectedTable.id
-            }
-            
-            const rest = await axios.post('/api/feedback/getAll', payload, { headers: { Authorization: token } })
+                const token = 'Bearer '.concat(this.$cookies.get('token'))
+                const payload = {
+                    limit: 1000,
+                    offset: 0,
+                    owner_id: this.selectedCustomer.id
+                }
+                
+                const rest = await axios.post('/api/feedback/getAll', payload, { headers: { Authorization: token } })
 
-            if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.datas = data
-                this.visibleLoader = false 
+                if (rest && rest.status === 200) {
+                    const data = rest.data.data
+                    this.datas = data
+                    this.visibleLoader = false 
+                } else {
+                    this.visibleLoader = false 
+                }
             } else {
-                this.visibleLoader = false 
+                this.visibleLoader = false
             }
-
-            // console.log('rest', rest)
         }
     }
 }

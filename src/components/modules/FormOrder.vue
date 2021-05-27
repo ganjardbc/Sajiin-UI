@@ -25,6 +25,14 @@
                     {{ data.order.created_at | moment("dddd, MMMM Do YYYY hh:mm") }}
                 </div>
             </div>
+            <div v-if="data && data.customer" style="margin-bottom: 15px;">
+                <div class="fonts fonts-10 grey">
+                    Customer
+                </div>
+                <div class="fonts fonts-10 black semibold orange">
+                    {{ data.customer.name }}
+                </div>
+            </div>
             <div style="margin-bottom: 15px;">
                 <div class="fonts fonts-10 grey">
                     Note

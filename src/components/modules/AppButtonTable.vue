@@ -7,7 +7,7 @@
         <div v-else class="card box-shadow" style="margin-bottom: 15px; padding: 10px; width: calc(100% - 20px);">
             <div v-if="selectedTable" class="display-flex space-between">
                 <div style="width: 45px; margin-right: 15px">
-                    <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0.1)">
+                    <div class="image image-padding border border-full" style="background-color: rgba(0, 0, 0, 0)">
                         <i v-if="!selectedTable.image" class="post-middle-absolute fa fa-lg fa-image" style="font-size: 22px; color: #999;" />
                         <img v-else alt="" :src="selectedTable ? (tableImageThumbnailUrl + selectedTable.image) : ''" />
                     </div>

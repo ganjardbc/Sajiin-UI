@@ -134,23 +134,27 @@ export default {
             }
         },
         async getDataOrder () {
-            this.visibleLoader = true 
+            if (this.selectedCustomer) {
+                this.visibleLoader = true 
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: 1000,
-                offset: 0,
-                owner_id: this.selectedTable.id
-            }
-            
-            const rest = await axios.post('/api/order/getByTableID', payload, { headers: { Authorization: token } })
+                const token = 'Bearer '.concat(this.$cookies.get('token'))
+                const payload = {
+                    limit: 1000,
+                    offset: 0,
+                    owner_id: this.selectedCustomer.id
+                }
+                
+                const rest = await axios.post('/api/order/getAll', payload, { headers: { Authorization: token } })
 
-            console.log('getDataOrder', rest)
+                console.log('getDataOrder', rest)
 
-            if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.formOrder = data
-                this.visibleLoader = false 
+                if (rest && rest.status === 200) {
+                    const data = rest.data.data
+                    this.formOrder = data
+                    this.visibleLoader = false 
+                } else {
+                    this.visibleLoader = false
+                }
             } else {
                 this.visibleLoader = false
             }

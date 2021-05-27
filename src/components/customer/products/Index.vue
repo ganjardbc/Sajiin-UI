@@ -296,8 +296,7 @@ export default {
             }
         },
         addToCart () {
-            const table = this.$cookies.get('table')
-            if (table) {
+            if (this.selectedCustomer) {
                 const time = new Date().getTime()
                 let topingPrice = this.topings[this.topingSelected] ? this.topings[this.topingSelected].price : 0
                 let detailPrice = this.details[this.detailSelected] ? this.details[this.detailSelected].price : 0
@@ -311,7 +310,7 @@ export default {
                 let payload = {
                     ...cartPayload,
                     cart_id: 'CR-' + time,
-                    owner_id: this.selectedTable.id,
+                    owner_id: this.selectedCustomer.id,
                     product_image: this.rawData.images[0].image,
                     product_name: this.product.name,
                     product_detail: detailName,
@@ -329,7 +328,7 @@ export default {
 
                 if (this.visibleButton) this.saveData(payload)
             } else {
-                this.makeToast('You have to choose table first')
+                this.makeToast('You have to login as customer')
             }
         },
         async saveData (payload) {

@@ -166,11 +166,9 @@ export default {
             this.formMessage = []
         },
         onChoose: function (index) {
-            this.onChange(index)
-            this.visiblePopup = false
-            // this.visibleAlertSave = !this.visibleAlertSave
-            // this.selectedID = index
-            // this.formMessage = []
+            this.visibleAlertSave = !this.visibleAlertSave
+            this.selectedID = index
+            this.formMessage = []
         },
         onClose: function () {
             this.visiblePopup = false
@@ -185,13 +183,11 @@ export default {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
                 limit: 1000,
-                offset: 0,
-                status: 'active'
+                offset: 0
             } : {
                 limit: 1000,
                 offset: 0,
-                user_id: this.dataUser.id,
-                status: 'active'
+                user_id: this.dataUser.id
             }
             const rest = await axios.post('/api/customer/getAll', payload, { headers: { Authorization: token } })
 

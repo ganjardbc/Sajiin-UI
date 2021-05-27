@@ -21,7 +21,7 @@
                     <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
                         <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
                             <div style="width: 60px; margin-right: 15px;">
-                                <div class="image image-padding image-circle">
+                                <div class="image image-padding border border-full">
                                     <img :src="tableImageThumbnailUrl + dt.image" alt="" class="post-center">
                                 </div>
                             </div>

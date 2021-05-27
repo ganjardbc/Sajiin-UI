@@ -7,6 +7,7 @@ export default {
     authenticated: false,
     admin: null,
     user: null,
+    customer: null,
     role: null,
     rolename: null,
     permissions: null,
@@ -24,6 +25,10 @@ export default {
     
     user (state) {
       return state.user
+    },
+
+    customer (state) {
+      return state.customer
     },
 
     role (state) {
@@ -56,6 +61,10 @@ export default {
       state.user = value
     },
 
+    SET_CUSTOMER (state, value) {
+      state.customer = value
+    },
+
     SET_ROLE (state, value) {
       state.role = value
     },
@@ -78,6 +87,11 @@ export default {
       commit('SET_TOKEN', token)
     },
 
+    setCustomer ({ commit }, data = '') {
+      commit('SET_CUSTOMER', data)
+      $cookies.set('customer', data)
+    },
+
     setUser ({ commit }, data = '') {
       commit('SET_USER', data)
       $cookies.set('user', data)
@@ -93,11 +107,14 @@ export default {
       $cookies.set('admin', data.user)
       $cookies.set('role_name', 'customer')
       $cookies.set('rawUser', data)
+      $cookies.set('customer', data.customer)
+      $cookies.set('orderItem', null)
 
       commit('SET_AUTHENTICATED', true)
       commit('SET_ADMIN', data && data.user)
       commit('SET_ROLENAME', 'customer')
       commit('SET_TOKEN', AuthStr)
+      commit('SET_CUSTOMER', data && data.customer)
     },
 
     removeCookieCustomerAuth ({commit}) {
@@ -109,11 +126,14 @@ export default {
       $cookies.remove('role_name')
       $cookies.remove('rawUser')
       $cookies.remove('table')
+      $cookies.remove('customer')
+      $cookies.remove('orderItem')
 
       commit('SET_AUTHENTICATED', false)
       commit('SET_ADMIN', null)
       commit('SET_TOKEN', null)
       commit('SET_ROLENAME', null)
+      commit('SET_CUSTOMER', null)
     },
 
     setCookieAuth ({commit}, data) {
@@ -193,12 +213,14 @@ export default {
         commit('SET_AUTHENTICATED', true)
         commit('SET_ADMIN', data && data.user)
         commit('SET_TOKEN', AuthStr)
+        commit('SET_CUSTOMER', null)
 
         console.log('vuex register', data)
       } else {
         commit('SET_AUTHENTICATED', false)
         commit('SET_ADMIN', false)
         commit('SET_TOKEN', null)
+        commit('SET_CUSTOMER', null)
 
         console.log('vuex unregister')
       } 

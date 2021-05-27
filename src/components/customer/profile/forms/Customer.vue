@@ -30,7 +30,7 @@
                         class="field field-sekunder" 
                         name="id" 
                         id="id" 
-                        v-model="formData.customer.id"
+                        v-model="formData.id"
                         readonly>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
@@ -41,7 +41,7 @@
                         class="field field-sekunder" 
                         name="customer_id" 
                         id="customer_id" 
-                        v-model="formData.customer.customer_id"
+                        v-model="formData.customer_id"
                         readonly>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
@@ -55,7 +55,7 @@
                         class="field field-sekunder" 
                         name="name" 
                         id="name" 
-                        v-model="formData.customer.name"
+                        v-model="formData.name"
                         :readonly="this.title === 'VIEW' ? true : false">
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.name && formMessage.name[0] }}
@@ -69,7 +69,7 @@
                         class="field field-sekunder" 
                         name="email" 
                         id="email" 
-                        v-model="formData.customer.email"
+                        v-model="formData.email"
                         :readonly="this.title === 'VIEW' ? true : false">
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.email && formMessage.email[0] }}
@@ -83,7 +83,7 @@
                         class="field field-sekunder" 
                         name="phone" 
                         id="phone" 
-                        v-model="formData.customer.phone"
+                        v-model="formData.phone"
                         :readonly="this.title === 'VIEW' ? true : false">
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.phone && formMessage.phone[0] }}
@@ -91,35 +91,14 @@
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">STATUS</div>
-                    <div class="display-flex">
-                        <label class="radio">
-                            <input 
-                                type="radio" 
-                                name="status"
-                                id="active"
-                                value="active"
-                                v-model="formData.customer.status"
-                                :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Active
-                            </span>
-                        </label>
-
-                        <label class="radio">
-                            <input 
-                                type="radio" 
-                                name="status"
-                                id="inactive"
-                                value="inactive"
-                                v-model="formData.customer.status"
-                                :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Inactive
-                            </span>
-                        </label>
-                    </div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="status" 
+                        id="status" 
+                        v-model="formData.status"
+                        readonly>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.status && formMessage.status[0] }}
                     </div>
@@ -130,7 +109,7 @@
                         name="about" 
                         id="about" 
                         class="field field-sekunder field-textarea" 
-                        v-model="formData.customer.about"
+                        v-model="formData.about"
                         :readonly="this.title === 'VIEW' ? true : false"></textarea>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.about && formMessage.about[0] }}
@@ -148,17 +127,14 @@ import AppImage from '../../../modules/AppImage'
 const time = new Date().getTime()
 
 const payload = {
-    customer: {
-        id: '',
-        customer_id: 'CC-' + time,
-        image: '',
-        name: '',
-        email: '',
-        phone: '',
-        about: '',
-        status: ''
-    },
-    address: []
+    id: '',
+    customer_id: 'CC-' + time,
+    image: '',
+    name: '',
+    email: '',
+    phone: '',
+    about: '',
+    status: ''
 }
 
 export default {
@@ -223,21 +199,15 @@ export default {
             if (props) {
                 this.formData = {
                     ...this.formData,
-                    customer: {
-                        ...this.formData.customer,
-                        id: props.customer.id,
-                        customer_id: props.customer.customer_id,
-                        name: props.customer.name,
-                        email: props.customer.email,
-                        phone: props.customer.phone,
-                        about: props.customer.about,
-                        status: props.customer.status
-                    },
-                    address: [
-                        ...props.address
-                    ]
+                    id: props.id,
+                    customer_id: props.customer_id,
+                    name: props.name,
+                    email: props.email,
+                    phone: props.phone,
+                    about: props.about,
+                    status: props.status
                 }
-                this.image = props.customer.image ? '/contents/customers/thumbnails/' + props.customer.image : ''
+                this.image = props.image ? '/contents/customers/thumbnails/' + props.image : ''
             } else {
                 this.formData = {...payload}
                 this.image = ''

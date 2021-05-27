@@ -2,7 +2,7 @@
     <div id="form">
         <AppSideForm 
             :title="title" 
-            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 3 ? true : false : false"
+            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 4 ? true : false : false"
             :enableSaveButton="this.title !== 'VIEW' ? true : false"
             :onCreate="onButtonCreate"
             :onSave="onButtonSave"
@@ -249,6 +249,44 @@
                             type="search" 
                             placeholder="" 
                             class="field"
+                            name="customer_id" 
+                            id="customer_id" 
+                            v-model="formData.order.customer_id"
+                            readonly>
+                        <button class="btn btn-icon btn-white" @click="onButtonCustomer">
+                            <i class="fa fa-1x fa-search" />
+                        </button>
+                    </div>
+                    <div v-else>
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field field-sekunder"
+                            style="width: 100%;"
+                            name="customer_id" 
+                            id="customer_id" 
+                            v-model="formData.order.customer_id"
+                            readonly>
+                    </div>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
+                    </div>
+                </div>
+                <FormCustomer
+                    :data.sync="formData.customer"
+                    :enablePopup="openCreateCustomer"
+                    :onChange="(data) => onChangeCustomer(data)"
+                />
+            </div>
+
+            <div v-if="selectedIndex === 2">
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">ID</div>
+                    <div v-if="this.title !== 'VIEW'" class="card-search full">
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field"
                             name="table_id" 
                             id="table_id" 
                             v-model="formData.order.table_id"
@@ -279,7 +317,7 @@
                 />
             </div>
 
-            <div v-if="selectedIndex === 2">
+            <div v-if="selectedIndex === 3">
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
                     <div v-if="this.title !== 'VIEW'" class="card-search full">
@@ -432,7 +470,7 @@
                 />
             </div> -->
 
-            <div v-if="selectedIndex === 3">
+            <div v-if="selectedIndex === 4">
                 <FormProduct 
                     :selectedId.sync="formData.order.id"
                     :selectedOrderId.sync="formData.order.order_id"
@@ -458,10 +496,10 @@ import FormProduct from './FormProduct'
 
 const tabs = [
     {label: 'Data', status: 'active'},
+    {label: 'Customer', status: ''},
     {label: 'Table', status: ''},
     {label: 'Payment', status: ''},
     // {label: 'Shipment', status: ''},
-    // {label: 'Customer', status: ''},
     // {label: 'Address', status: ''},
     {label: 'Products', status: ''}
 ]
