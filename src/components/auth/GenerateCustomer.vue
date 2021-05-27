@@ -27,7 +27,6 @@ const customer = {
     email: "",
     phone: "",
     about: "",
-    type: "personal",
     status: ""
 }
 
