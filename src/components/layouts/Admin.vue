@@ -36,11 +36,6 @@
                         </form>
                     </div>
                     <div style="width: 100%;" class="display-flex right">
-                        <!-- <router-link :to="{name: 'home'}" class="mobile-hidden" style="margin-left: 5px; margin-top: 1px;">
-                            <button class="btn btn-white btn-radius">
-                                WEBSITE
-                            </button>
-                        </router-link> -->
                         <router-link v-if="user && user.role_name === 'owner'" :to="{name: '404'}" style="margin-left: 5px;">
                             <button class="btn btn-white btn-icon btn-radius" title="Reports">
                                 <i class="fa fa-lg fa-calendar-alt" />
@@ -63,7 +58,15 @@
                 </div>
             </div>
             <div class="inner">
-                <router-view />
+                <transition>
+                    <keep-alive>
+                        <router-view />
+                    </keep-alive>
+                </transition>
+
+                <transition>
+                    <router-view name="adminfresh" />
+                </transition>
             </div>
             <div class="footer display-flex display-mobile space-between">
                 <div>Version 0.0.1 - Beta</div>

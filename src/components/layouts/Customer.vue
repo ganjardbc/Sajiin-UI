@@ -27,7 +27,15 @@
             </div>
         </div>
         <div id="body">
-            <router-view />
+            <transition>
+                <keep-alive>
+                    <router-view />
+                </keep-alive>
+            </transition>
+
+            <transition>
+                <router-view name="customerfresh" />
+            </transition>
         </div>
         <div style="padding-bottom: 70px;"></div>
         <div class="navbar-bottom">
@@ -47,7 +55,7 @@
                         <li>
                             <div class="icon">
                                 <i class="label-icon fa fa-lg fa-shopping-basket" />
-                                <span class="notif">{{ cart }}</span>
+                                <span class="notif">{{ countCart }}</span>
                             </div>
                             <div class="label">
                                 Charts
@@ -58,7 +66,7 @@
                         <li>
                             <div class="icon">
                                 <i class="label-icon fa fa-lg fa-list-ol" />
-                                <span class="notif">{{ order }}</span>
+                                <span class="notif">{{ countOrder }}</span>
                             </div>
                             <div class="label">
                                 Orders
@@ -129,7 +137,9 @@ export default {
             dataUser: null,
             logo: logo,
             logo2: logo2,
-            navbar: navbar
+            navbar: navbar,
+            countCart: 0,
+            countOrder: 0
         }
     },
     beforeMount (){
@@ -145,6 +155,9 @@ export default {
         const tableData = this.$cookies.get('table')
         this.selectedTable = tableData ? tableData : table
         this.setDataTableSelected(this.selectedTable)
+
+        this.countCart = this.cart
+        this.countOrder = this.order
 
         const token = this.$cookies.get('token')
         console.log('token', token)
@@ -210,6 +223,12 @@ export default {
         })
     },
     watch: {
+        cart (props) {
+            this.countCart = props
+        },
+        order (props) {
+            this.countOrder = props
+        },
         selectTable (props) {
             if (props) {
                 this.selectedTable = props

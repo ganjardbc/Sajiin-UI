@@ -241,7 +241,9 @@ export const routes = [
             {
                 name: 'article',
                 path: '/article/:id',
-                component: ArticlePublic
+                components: {
+                    webfresh: ArticlePublic
+                }
             },
 
             // info
@@ -288,7 +290,9 @@ export const routes = [
             {
                 name: 'product',
                 path: 'product/:id',
-                component: CustomerProduct
+                components: {
+                    customerfresh: CustomerProduct
+                }
             },
             {
                 name: 'product-list',
@@ -307,19 +311,25 @@ export const routes = [
             {
                 name: 'customer-chart',
                 path: 'carts',
-                component: CustomerChart
+                components: {
+                    customerfresh: CustomerChart
+                }
             },
 
             // orders
             {
                 name: 'order', 
                 path: 'order',
-                component: CustomerOrder
+                components: {
+                    customerfresh: CustomerOrder
+                }
             },
             {
                 name: 'order-detail', 
                 path: 'order-detail/:id',
-                component: CustomerDetail
+                components: {
+                    customerfresh: CustomerDetail
+                }
             },
             {
                 name: 'tracking',
@@ -342,7 +352,24 @@ export const routes = [
             {
                 name: 'customer-order-list',
                 path: 'order-list',
-                component: CustomerOrderList
+                components: {
+                    customerfresh: CustomerOrderList
+                }
+            },
+
+            {
+                name: 'customer-feedback',
+                path: 'feedback',
+                components: {
+                    customerfresh: CustomerFeedback
+                }
+            },
+            {
+                name: 'customer-whiselist',
+                path: 'whiselist',
+                components: {
+                    customerfresh: CustomerWhiselist
+                }
             },
 
             // account
@@ -352,28 +379,10 @@ export const routes = [
                 component: CustomerProfile,
             },
             {
-                path: 'account',
-                name: 'customer-layout',
-                component: AccountLayout,
-                redirect: '/customer/account/home',
-                children: [
-                    {
-                        name: 'customer-order',
-                        path: 'orders',
-                        component: CustomerAccount
-                    },
-                    {
-                        name: 'customer-feedback',
-                        path: 'feedback',
-                        component: CustomerFeedback
-                    },
-                    {
-                        name: 'customer-whiselist',
-                        path: 'whiselist',
-                        component: CustomerWhiselist
-                    },
-                ]
-            },
+                name: 'customer-order',
+                path: 'orders',
+                component: CustomerAccount
+            }
         ]
     }
 ];

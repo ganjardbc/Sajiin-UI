@@ -57,7 +57,15 @@
             </div>
         </div>
         <div id="body">
-            <router-view />
+            <transition>
+                <keep-alive>
+                    <router-view />
+                </keep-alive>
+            </transition>
+
+            <transition>
+                <router-view name="webfresh" />
+            </transition>
         </div>
         <div id="footer">
             <div id="footer-content" class="display-flex space-between display-mobile">

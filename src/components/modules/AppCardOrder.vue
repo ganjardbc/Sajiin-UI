@@ -89,21 +89,14 @@
             </div>
             <div v-if="type === 'owner'" class="display-flex row space-between">
                 <div>
-                    <router-link 
-                        :to="{name: 'order-detail', params: {id: dt.order.order_id}}"
-                        class="btn btn-route-link"
+                    <button 
+                        @click="onButtonDetail(dt)"
+                        class="btn btn-grey"
                         style="margin-right: 15px;">
                         View Transaction Detail
-                    </router-link>
+                    </button>
                 </div>
                 <div class="display-flex">
-                    <!-- <button 
-                        v-if="!dt.order.payment_status" 
-                        class="btn btn-main-reverse mobile-hidden" 
-                        style="margin-right: 15px;"
-                        @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
-                        Waiting for Payment
-                    </button> -->
                     <AppButtonMenu :onChange="(data) => onChangeMenuOwner(data, dt.order.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                 </div>
             </div>
@@ -117,13 +110,6 @@
                     </router-link>
                 </div>
                 <div class="display-flex">
-                    <!-- <button 
-                        v-if="!dt.order.payment_status" 
-                        class="btn btn-main-reverse mobile-hidden" 
-                        style="margin-right: 15px;"
-                        @click="makeToast('You can conduct payment, after receiving or finishing this order..')">
-                        Waiting for Payment
-                    </button> -->
                     <AppButtonMenu :onChange="(data) => onChangeMenu(data)" :data="[{label: 'Buy again'}, {label: 'Chat admin'}, {label: 'Help'}]" />
                 </div>
             </div>
