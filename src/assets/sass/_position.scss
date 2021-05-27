@@ -73,3 +73,9 @@
 .post-top {
 	@include post_top(relative);
 }
+
+.post-none-mobile {
+	@media (max-width: $min-width) {
+		@include post_none();
+	}
+}

@@ -23,7 +23,8 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = api;
 
 window.$ = jquery;
- 
+
+Vue.use(require('vue-moment'));
 Vue.use(Vuex);
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

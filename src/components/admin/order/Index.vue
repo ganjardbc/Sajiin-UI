@@ -70,6 +70,20 @@
             :title="'Proceed this data ?'" 
             :onClose="onShowHideSave" 
             :onSave="saveData" />
+        
+        <AppAlert 
+            v-if="visibleAlertPayment" 
+            :isLoader="visibleLoaderPayment"
+            :title="'Change this payment status ?'" 
+            :onClose="onShowHidePayment" 
+            :onSave="changeStatusPayment" />
+        
+        <AppAlert 
+            v-if="visibleAlertOrder" 
+            :isLoader="visibleLoaderOrder"
+            :title="'Change this order status ?'" 
+            :onClose="onShowHideOrder" 
+            :onSave="changeStatusOrder" />
     </div>
 </template>
 
@@ -89,6 +103,10 @@ export default {
     name: 'App',
     data () {
         return {
+            visibleAlertPayment: false,
+            visibleLoaderPayment: false,
+            visibleAlertOrder: false,
+            visibleLoaderOrder: false,
             visibleAlertDelete: false,
             visibleAlertSave: false,
             visibleLoader: false,
@@ -109,6 +127,9 @@ export default {
             selectedForm: null,
             selectedData: null,
             selectedMessage: null,
+            selectedIDPayment: null,
+            selectedIDOrder: null,
+            statusIDPayment: null,
             filters: {
                 name: { value: '', keys: ['name'] }
             },
@@ -200,6 +221,12 @@ export default {
         onShowHideSave () {
             this.visibleAlertSave = !this.visibleAlertSave
         },
+        onShowHidePayment () {
+            this.visibleAlertPayment = !this.visibleAlertPayment
+        },
+        onShowHideOrder () {
+            this.visibleAlertOrder = !this.visibleAlertOrder
+        },
         onFormSave (data = null) {
             this.onShowHideSave()
             this.selectedForm = data && data.order ? data.order : null
@@ -209,54 +236,56 @@ export default {
             switch (type) {
                 case 'status':
                     data = this.bizparCapsule[index].label
-                    this.changeStatusOrder(id, data)
+                    this.selectedIDOrder = id 
+                    this.statusIDOrder = data 
+                    this.onShowHideOrder()
                     break;
                 default:
                     data = index === 0 ? true : false 
-                    this.changeStatusPayment(id, data)
+                    this.selectedIDPayment = id 
+                    this.statusIDPayment = data 
+                    this.onShowHidePayment()
                     break;
             }
         },
-        async changeStatusOrder (id, status) {
-            var a = confirm('Change this order status ?')
-            if (a) {
-                this.visibleLoader = true 
+        async changeStatusPayment () {
+            this.visibleLoaderPayment = true 
 
-                const token = 'Bearer '.concat(this.$cookies.get('token'))
-                const payload = {
-                    order_id: id,
-                    status: status
-                }
-                
-                const rest = await axios.post('/api/order/postOrderStatus', payload, { headers: { Authorization: token } })
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                order_id: this.selectedIDPayment,
+                payment_status: this.statusIDPayment
+            }
+            
+            const rest = await axios.post('/api/order/postOrderPaymentStatus', payload, { headers: { Authorization: token } })
 
-                if (rest && rest.status === 200) {
-                    this.onChangeTabs(this.selectedTabIndex)
-                    this.visibleLoader = false 
-                } else {
-                    this.visibleLoader = false
-                }
+            if (rest && rest.status === 200) {
+                this.onChangeTabs(this.selectedTabIndex)
+                this.onShowHidePayment()
+                this.visibleLoaderPayment = false 
+            } else {
+                this.onShowHidePayment()
+                this.visibleLoaderPayment = false
             }
         },
-        async changeStatusPayment (id, status) {
-            var a = confirm('Change this payment status ?')
-            if (a) {
-                this.visibleLoader = true 
+        async changeStatusOrder () {
+            this.visibleLoaderOrder = true 
 
-                const token = 'Bearer '.concat(this.$cookies.get('token'))
-                const payload = {
-                    order_id: id,
-                    payment_status: status
-                }
-                
-                const rest = await axios.post('/api/order/postOrderPaymentStatus', payload, { headers: { Authorization: token } })
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                order_id: this.selectedIDOrder,
+                status: this.statusIDOrder
+            }
+            
+            const rest = await axios.post('/api/order/postOrderStatus', payload, { headers: { Authorization: token } })
 
-                if (rest && rest.status === 200) {
-                    this.onChangeTabs(this.selectedTabIndex)
-                    this.visibleLoader = false 
-                } else {
-                    this.visibleLoader = false
-                }
+            if (rest && rest.status === 200) {
+                this.onChangeTabs(this.selectedTabIndex)
+                this.onShowHideOrder()
+                this.visibleLoaderOrder = false 
+            } else {
+                this.onShowHideOrder()
+                this.visibleLoaderOrder = false
             }
         },
         async removeData () {

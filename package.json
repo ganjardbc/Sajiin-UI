@@ -17,6 +17,7 @@
     "vue": "^2.5.2",
     "vue-axios": "^3.2.4",
     "vue-cookies": "^1.7.4",
+    "vue-moment": "^4.1.0",
     "vue-qrcode": "^0.4.0",
     "vue-router": "^3.0.1",
     "vuejs-smart-table": "^0.0.7",

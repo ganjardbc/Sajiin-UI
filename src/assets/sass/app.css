@@ -196,7 +196,7 @@ a.btn {
 .btn.btn-sekunder {
   background-color: #fff;
   color: #151f2d;
-  border: 1px #ccc solid;
+  border: 1px rgba(0, 0, 0, 0.1) solid;
 }
 .btn.btn-sekunder:hover {
   border: 1px #555 solid;
@@ -267,13 +267,12 @@ a.btn {
 .btn.btn-route-link {
   display: block;
   color: #151f2d;
-  background-color: #ededf1;
-  border: 1px #fff solid;
+  background-color: #f5f5f5;
+  border: 1px #f5f5f5 solid;
 }
 .btn.btn-route-link:hover {
-  background-color: #f1863b;
-  color: #fff;
-  border: 1px #f1863b solid;
+  background-color: #f0f0f0;
+  border: 1px #f0f0f0 solid;
 }
 .btn.btn-mobile {
   width: 100%;
@@ -5024,6 +5023,19 @@ a.btn {
   -ms-transform: translate(0, -50%);
   -o-transform: translate(0, -50%);
   transform: translate(0, -50%);
+}
+
+@media (max-width: 720px) {
+  .post-none-mobile {
+    position: relative;
+    top: 0;
+    left: 0;
+    -webkit-transform: translate(0, 0);
+    -moz-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    -o-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
 }
 
 .padding.padding-0-px {

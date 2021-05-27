@@ -1,7 +1,7 @@
 <template>
     <div id="AppShowHide">
         <div :class="disableSpaceBetween ? 'display-flex' : 'display-flex space-between'">
-            <div style="margin-top: 4px; background-color: #fff;">
+            <div style="margin-top: 5px; background-color: #fff;">
                 <div class="fonts fonts-10 black semibold">{{ title ? title : 'Show Hide' }}</div>
             </div>
             <div style="margin-left: 5px;">

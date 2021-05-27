@@ -1,5 +1,5 @@
 <template>
-    <div id="AppLoader" class="display-flex center align-center" style="width: 300px; margin: auto; padding: 15px;">
+    <div id="AppLoader" class="display-flex center align-center" style="width: 300px; margin: auto; padding: 20px;">
         <div style="width: 25px;">
             <i class="fa fa-lw fa-spinner fa-spin" />
         </div>

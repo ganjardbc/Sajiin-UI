@@ -5,11 +5,9 @@
                 <div class="display-flex">
                     <div style="margin-right: 10px;"><i class="fa fa-1x fa-shopping-bag fonts orange"></i></div>
                     <div class="display-flex mobile-hidden">
-                        <div class="fonts fonts-10 grey">{{ dt.order.created_at }}</div>
+                        <div class="fonts fonts-10 grey">{{ dt.order.created_at | moment("dddd, MMMM Do YYYY hh:mm") }}</div>
                         <AppDote style="margin-top: 8px;" />
                         <div class="fonts fonts-10 grey">{{ dt.order.order_id }}</div>
-                        <AppDote v-if="dt.table" style="margin-top: 8px;" />
-                        <div class="fonts fonts-10 grey">{{ dt.table && dt.table.name }}</div>
                     </div>
                 </div>
                 <div v-if="type === 'owner'" class="display-flex">
@@ -71,18 +69,20 @@
                     # {{ dt.order.note }}
                 </div>
             </div>
-            <div class="display-flex display-mobile" style="padding-top: 5px; padding-bottom: 20px;">
-                <div class="width width-76 width-mobile border-right border-mobile-none">
+            <div class="display-flex display-mobile" style="padding-top: 5px; padding-bottom: 5px;">
+                <div class="width width-76 width-mobile border-right border-mobile-none no-margin-padding" style="padding-right: 10px; padding-bottom: 10px;">
                     <AppImageProduct :data.sync="dt.details" :to="1" />
                     <AppShowHide v-if="dt.details.length > 1" :title="'More Products (' + (dt.details.length - 1) + ')'">
                         <AppImageProduct :data.sync="dt.details" :from="1" :to="dt.details.length" />
                     </AppShowHide>
                 </div>
                 <div class="width width-24 width-mobile">
-                    <div style="height: 90px; padding-left: 30px;" class="no-margin-padding">
-                        <div class="post-top">
-                            <div class="fonts fonts-10 grey" style="margin-bottom: 5px;">Total Payment</div>
-                            <div class="fonts fonts-12 semibold">Rp {{ dt.order.total_price }}</div>
+                    <div style="height: auto; padding-left: 20px;" class="no-margin-padding">
+                        <div style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="fonts fonts-9 grey" style="margin-bottom: 2px;">Table</div>
+                            <div class="fonts fonts-11 semibold" style="margin-bottom: 12px;">{{ dt.table && dt.table.name }}</div>
+                            <div class="fonts fonts-9 grey" style="margin-bottom: 2px;">Total Payment</div>
+                            <div class="fonts fonts-11 semibold orange">Rp {{ dt.order.total_price }}</div>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                 <div>
                     <button 
                         @click="onButtonDetail(dt)"
-                        class="btn btn-grey"
+                        class="btn btn-primary"
                         style="margin-right: 15px;">
                         View Order Detail
                     </button>
