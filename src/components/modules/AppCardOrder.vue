@@ -93,7 +93,7 @@
                         @click="onButtonDetail(dt)"
                         class="btn btn-grey"
                         style="margin-right: 15px;">
-                        View Transaction Detail
+                        View Order Detail
                     </button>
                 </div>
                 <div class="display-flex">
@@ -106,7 +106,7 @@
                         :to="{name: 'order-detail', params: {id: dt.order.order_id}}" 
                         class="btn btn-route-link"
                         style="margin-right: 15px;">
-                        View Transaction Detail
+                        View Order Detail
                     </router-link>
                 </div>
                 <div class="display-flex">
@@ -118,7 +118,7 @@
         <AppPopupForm
             v-if="visibleDetail"
             :enableRadius="true"
-            :title="'Transaction Detail'"
+            :title="'Order Detail'"
             :onClose="onButtonDetail"
         >
             <FormOrder :data.sync="selectedData" />
