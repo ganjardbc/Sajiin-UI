@@ -423,7 +423,7 @@ export default {
         onCancelOrder () {
             this.makeToast('Order Canceled')
             this.$cookies.remove('orderItem')
-            this.$router.push({ name: 'layout-profile' })
+            this.$router.push({ name: 'customer-main' })
         },
         onTotal (data) {
             let qty = 0

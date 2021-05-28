@@ -6,7 +6,7 @@
             </div>
             <div style="text-align: center;">
                 <div class="fonts fonts-16 semibold white">
-                    Entering Cafe / Resto
+                    Entering Shop 
                 </div>
                 <div class="fonts fonts-11 white">
                     {{ visibleTitle }}

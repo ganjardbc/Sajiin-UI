@@ -64,8 +64,92 @@ import CustomerTracking from '@/components/customer/tracking/Index.vue';
 import CustomerFinding from '@/components/customer/tracking/Finding.vue';
 import CustomerProduct from '@/components/customer/products/Index.vue';
 import CustomerProductList from '@/components/customer/products/List.vue';
+import CustomerTable from '@/components/customer/table/Index.vue';
+import CustomerPayment from '@/components/customer/payment/Index.vue';
 
 export const routes = [
+    // web
+    {
+        path: '/',
+        component: WebLayout,
+        children: [
+            {
+                name: '404WEB',
+                path: '/not-found-web',
+                component: NotFoundWeb
+            },
+            // main
+            {
+                name: 'home',
+                path: '/',
+                component: Home
+            },
+            {
+                name: 'home2',
+                path: '/home',
+                component: Home
+            },
+
+            // auth
+            {
+                name: 'login',
+                path: '/login',
+                component: Login
+            },
+            {
+                name: 'register',
+                path: '/register',
+                component: Register
+            },
+            {
+                name: 'generate-customer',
+                path: '/generate-customer/:token',
+                component: GenerateCustomer
+            },
+
+            // articles
+            {
+                name: 'articles',
+                path: '/articles',
+                component: ArticlePublicList
+            },
+            {
+                name: 'article',
+                path: '/article/:id',
+                components: {
+                    webfresh: ArticlePublic
+                }
+            },
+
+            // info
+            {
+                name: 'about',
+                path: '/about',
+                component: About
+            },
+            {
+                name: 'how-to-orders',
+                path: '/how-to-orders',
+                component: HowToOrders
+            },
+            {
+                name: 'how-to-join',
+                path: '/how-to-join',
+                component: HowToJoin
+            },
+            {
+                name: 'pricing',
+                path: '/pricing',
+                component: Pricing 
+            },
+            {
+                name: 'about-us',
+                path: '/about-us',
+                component: AboutUs
+            }
+        ]
+    },
+
     // admin
     {
         path: '/private',
@@ -193,88 +277,6 @@ export const routes = [
         ]
     },
 
-    // web
-    {
-        path: '/',
-        component: WebLayout,
-        children: [
-            {
-                name: '404WEB',
-                path: '/not-found-web',
-                component: NotFoundWeb
-            },
-            // main
-            {
-                name: 'home',
-                path: '/',
-                component: Home
-            },
-            {
-                name: 'home2',
-                path: '/home',
-                component: Home
-            },
-
-            // auth
-            {
-                name: 'login',
-                path: '/login',
-                component: Login
-            },
-            {
-                name: 'register',
-                path: '/register',
-                component: Register
-            },
-            {
-                name: 'generate-customer',
-                path: '/generate-customer/:token',
-                component: GenerateCustomer
-            },
-
-            // articles
-            {
-                name: 'articles',
-                path: '/articles',
-                component: ArticlePublicList
-            },
-            {
-                name: 'article',
-                path: '/article/:id',
-                components: {
-                    webfresh: ArticlePublic
-                }
-            },
-
-            // info
-            {
-                name: 'about',
-                path: '/about',
-                component: About
-            },
-            {
-                name: 'how-to-orders',
-                path: '/how-to-orders',
-                component: HowToOrders
-            },
-            {
-                name: 'how-to-join',
-                path: '/how-to-join',
-                component: HowToJoin
-            },
-            {
-                name: 'pricing',
-                path: '/pricing',
-                component: Pricing 
-            },
-            {
-                name: 'about-us',
-                path: '/about-us',
-                component: AboutUs
-            }
-        ]
-    },
-
     // customer
     {
         path: '/customer',
@@ -285,14 +287,22 @@ export const routes = [
                 path: 'home',
                 component: CustomerMain
             },
+            {
+                name: 'customer-table',
+                path: 'home',
+                component: CustomerTable
+            },
+            {
+                name: 'customer-payment',
+                path: 'home',
+                component: CustomerPayment
+            },
 
             // product
             {
                 name: 'product',
                 path: 'product/:id',
-                components: {
-                    customerfresh: CustomerProduct
-                }
+                component: CustomerProduct
             },
             {
                 name: 'product-list',
@@ -311,25 +321,19 @@ export const routes = [
             {
                 name: 'customer-chart',
                 path: 'carts',
-                components: {
-                    customerfresh: CustomerChart
-                }
+                component: CustomerChart
             },
 
             // orders
             {
                 name: 'order', 
                 path: 'order',
-                components: {
-                    customerfresh: CustomerOrder
-                }
+                component: CustomerOrder
             },
             {
                 name: 'order-detail', 
                 path: 'order-detail/:id',
-                components: {
-                    customerfresh: CustomerDetail
-                }
+                component: CustomerDetail
             },
             {
                 name: 'tracking',
@@ -352,24 +356,18 @@ export const routes = [
             {
                 name: 'customer-order-list',
                 path: 'order-list',
-                components: {
-                    customerfresh: CustomerOrderList
-                }
+                component: CustomerOrderList
             },
 
             {
                 name: 'customer-feedback',
                 path: 'feedback',
-                components: {
-                    customerfresh: CustomerFeedback
-                }
+                component: CustomerFeedback
             },
             {
                 name: 'customer-whiselist',
                 path: 'whiselist',
-                components: {
-                    customerfresh: CustomerWhiselist
-                }
+                component: CustomerWhiselist
             },
 
             // account

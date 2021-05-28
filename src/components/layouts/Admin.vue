@@ -59,9 +59,7 @@
             </div>
             <div class="inner">
                 <transition>
-                    <keep-alive>
-                        <router-view />
-                    </keep-alive>
+                    <router-view />
                 </transition>
 
                 <transition>

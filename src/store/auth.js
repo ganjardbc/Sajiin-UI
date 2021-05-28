@@ -108,7 +108,6 @@ export default {
       $cookies.set('role_name', 'customer')
       $cookies.set('rawUser', data)
       $cookies.set('customer', data.customer)
-      $cookies.set('orderItem', null)
 
       commit('SET_AUTHENTICATED', true)
       commit('SET_ADMIN', data && data.user)
@@ -126,13 +125,11 @@ export default {
       $cookies.remove('role_name')
       $cookies.remove('rawUser')
       $cookies.remove('table')
-      $cookies.remove('customer')
-      $cookies.remove('orderItem')
 
       commit('SET_AUTHENTICATED', false)
       commit('SET_ADMIN', null)
-      commit('SET_TOKEN', null)
       commit('SET_ROLENAME', null)
+      commit('SET_TOKEN', null)
       commit('SET_CUSTOMER', null)
     },
 

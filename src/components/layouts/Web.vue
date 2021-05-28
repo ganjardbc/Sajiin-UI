@@ -66,6 +66,12 @@
             <transition>
                 <router-view name="webfresh" />
             </transition>
+
+            <div v-if="customer" style="position: fixed; bottom: 10px; right: 10px;">
+                <router-link :to="{name: 'customer-main'}" class="btn btn-main btn-radius-rounded">
+                    Go To Customer Page <i class="icn fa fa-lg fa-arrow-right" />
+                </router-link>
+            </div>
         </div>
         <div id="footer">
             <div id="footer-content" class="display-flex space-between display-mobile">

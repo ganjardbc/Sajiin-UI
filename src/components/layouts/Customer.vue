@@ -28,9 +28,7 @@
         </div>
         <div id="body">
             <transition>
-                <keep-alive>
-                    <router-view />
-                </keep-alive>
+                <router-view />
             </transition>
 
             <transition>
@@ -58,7 +56,7 @@
                                 <span class="notif">{{ countCart }}</span>
                             </div>
                             <div class="label">
-                                Charts
+                                Carts
                             </div>
                         </li>
                     </router-link>
@@ -73,16 +71,6 @@
                             </div>
                         </li>
                     </router-link>
-                    <!-- <router-link :to="{name: 'customer-profile'}">
-                        <li>
-                            <div class="icon">
-                                <i class="label-icon fa fa-lg fa-user" />
-                            </div>
-                            <div class="label">
-                                Customer
-                            </div>
-                        </li>
-                    </router-link> -->
                 </ul>
             </div>
             <div v-else class="main-screen display-flex space-between">
