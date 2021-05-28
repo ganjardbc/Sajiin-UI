@@ -55,7 +55,7 @@
             display: block;
             padding: 10px 0;
             font-size: 13px;
-            color: $black !important;
+            color: $black;
             font-weight: bold;
             font-family: 'GraphikSemibold' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             &:hover {
@@ -63,17 +63,20 @@
             }
         }
         .router-link-active {
-            color: $main-color !important;
+            color: $main-color;
         }
     }
     &.hover {
         .ml-list {
             .ml-link {
                 &:hover {
-                    color: $main-color;
-                    background-color: $white-grey;
+                    background-color: #f9f9f9;
+                    transition: 0.2s;
                     .ml-icon {
-                        color: $main-color !important;
+                        color: $black;
+                    }
+                    .ml-label {
+                        color: $black;
                     }
                 }
             }
@@ -89,7 +92,7 @@
                     line-height: 32px;
                     text-align: center;
                     font-size: 11px;
-                    color: $grey !important;
+                    color: $grey;
                 }
                 .ml-label {
                     width: calc(100% - 75px);
@@ -114,11 +117,96 @@
             }
             .router-link-active {
                 .ml-icon {
-                    color: $main-color !important;
+                    color: $main-color;
                 }
                 .ml-label {
-                    color: $main-color !important;
+                    color: $main-color;
                 }
+            }
+        }
+    }
+    &.with-big-icon {
+        .ml-list {
+            .ml-link {
+                position: relative;
+                width: calc(100% - 20px);
+                margin: 0 10px;
+                display: block;
+                text-align: center;
+                border-radius: 8px;
+                @media (max-width: $min-width) {
+                    width: 100%;
+                    margin: 0 0;
+                    border-radius: 0;
+                }
+                .ml-icon {
+                    margin: auto;
+                    width: 45px;
+                    height: 42px;
+                    line-height: 42px;
+                    text-align: center;
+                    margin-top: 5px;
+                    font-size: 16px;
+                    color: $grey;
+                }
+                .ml-label {
+                    width: 100%;
+                    font-size: 11px;
+                    margin-bottom: 5px;
+                    color: $grey;
+                    .label {
+                        @include post_top(relative);
+                    }
+                }
+                .val-container {
+                    position: absolute;
+                    top: 5px;
+                    right: 5px;
+                    width: 18px; 
+                    text-align: center;
+                }
+                .ml-value {
+                    width: 18px;
+                    height: 17px;
+                    border-radius: 2px;
+                    background-color: $teal;
+                    color: #fff;
+                    text-align: center;
+                    font-size: 11px;
+                    overflow: hidden;
+                }
+            }
+            .router-link-active {
+                background-color: $main-color;
+                box-shadow: $shadow;
+                .ml-icon {
+                    color: #fff;
+                }
+                .ml-label {
+                    color: #fff;
+                }
+                &:hover {
+                    background-color: $main-color;
+                    .ml-icon {
+                        color: #fff;
+                    }
+                    .ml-label {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        .submenu {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            // border-top: $border;
+            .sublist {
+                display: none;
+            }
+            .subcontent {
+                width: 100%;
+                padding: 0 0;
             }
         }
     }
@@ -221,11 +309,11 @@
             line-height: 32px;
             text-align: center;
             font-size: 11px;
-            color: $grey !important;
+            color: $grey;
         }
         .sublabel {
             width: 100%;
-            color: $light-grey !important;
+            color: $light-grey;
             font-weight: 600;
             font-size: 11px;
         }

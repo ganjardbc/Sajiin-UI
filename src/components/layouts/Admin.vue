@@ -3,14 +3,9 @@
         <div :class="isSidebarSmall ? 'sidebar small' : 'sidebar'">
             <div class="header">
                 <div class="header-content display-flex space-between">
-                    <router-link :to="{name: 'home'}" class="logo" style="width: 150px; margin-left: -5px; margin-top: -8px;">
+                    <router-link :to="{name: 'home'}" class="logo" style="width: 100%;">
                         <img :src="logo" alt="SAJI-IN" style="width: 100%;">
                     </router-link>
-                    <button class="close btn btn-white btn-icon mobile-hidden" @click="onSidebar()">
-                        <i 
-                            :class="isSidebarSmall ? 'fa fa-lg fa-bars' : 'fa fa-lg fa-times'" 
-                            style="font-size: 18px; margin-top: 0;" />
-                    </button>
                     <div class="mobile-visible" style="width: calc(100% - 8px); padding-left: 4px; padding-right: 4px;">
                         <router-link :to="{name: 'home'}">
                             <div class="image image-padding">
@@ -28,7 +23,7 @@
             <div class="header">
                 <div class="set-padding display-flex space-between">
                     <div>
-                        <form action="#" class="card-search mobile">
+                        <form action="#" class="card-search mobile flat">
                             <button class="btn btn-icon btn-white" type="submite">
                                 <i class="fa fa-1x fa-search" />
                             </button>
@@ -66,14 +61,14 @@
                     <router-view name="adminfresh" />
                 </transition>
             </div>
-            <div class="footer display-flex display-mobile space-between">
+            <!-- <div class="footer display-flex display-mobile space-between">
                 <div>Version 0.0.1 - Beta</div>
                 <div class="mobile-hidden" style="cursor: default;">
                     <router-link to="/" class="link-text bold small">About us</router-link> -
                     <router-link to="/" class="link-text bold small">Helps</router-link> -
                     <router-link to="/" class="link-text bold small">Terms & conditions</router-link>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <AppToast />
@@ -96,21 +91,21 @@ const sidebarAdmin = [
         {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
         {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'}
     ]},
-    {icon: 'fa fa-lg fa-database', label: 'ORDERS', value: 0, menu: [
+    {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
         {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
-        {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
-        {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'wishelist', permission: 'wiselists'},
-        {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'feedback', permission: 'feedbacks'}
+        {icon: 'fa fa-lg fa-th-large', label: 'Tables/Desks', value: 0, link: 'table', permission: 'tables'},
+        {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
     ]},
     {icon: 'fa fa-lg fa-database', label: 'PRODUCT', value: 0, menu: [
         {icon: 'fa fa-lg fa-list-ol', label: 'Categories', value: 0, link: 'category', permission: 'categories'},
         {icon: 'fa fa-lg fa-bars', label: 'Toppings', value: 0, link: 'toping', permission: 'toppings'},
         {icon: 'fa fa-lg fa-utensils', label: 'Products', value: 0, link: 'listing', permission: 'products'}
     ]},
-    {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
-        {icon: 'fa fa-lg fa-th-large', label: 'Tables/Desks', value: 0, link: 'table', permission: 'tables'},
+    {icon: 'fa fa-lg fa-database', label: 'CUSTOMER', value: 0, menu: [
         {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
-        {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
+        {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
+        {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'wishelist', permission: 'wiselists'},
+        {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'feedback', permission: 'feedbacks'}
     ]},
     {icon: 'fa fa-lg fa-database', label: 'WEBSITE', value: 0, menu: [
         {icon: 'fa fa-lg fa-newspaper', label: 'Articles', value: 0, link: 'articlelist', permission: 'articles'},
@@ -254,20 +249,20 @@ export default {
 
             this.onSetNotif('orders', val)
         },
-        carts (props) {
-            let val = 0
-            const data = this.$cookies.get('user')
-            const role = data && data.role_name
-            switch (role) {
-                case 'admin':
-                    val = props.allAdmin
-                    break;
-                default:
-                    val = props.all
-                    break;
-            }
-            this.onSetNotif('carts', val)
-        }
+        // carts (props) {
+        //     let val = 0
+        //     const data = this.$cookies.get('user')
+        //     const role = data && data.role_name
+        //     switch (role) {
+        //         case 'admin':
+        //             val = props.allAdmin
+        //             break;
+        //         default:
+        //             val = props.all
+        //             break;
+        //     }
+        //     this.onSetNotif('carts', val)
+        // }
     }
 }
 </script>

@@ -1,13 +1,15 @@
 <template>
     <div id="AppListMenu">
-        <ul :class="(isSidebarSmall ? 'content-scroll menu-list hover with-icon small' : 'content-scroll menu-list hover with-icon') + (disableResponsive ? '' : ' mobile')">
+        <ul :class="(isSidebarSmall 
+                        ? 'content-scroll menu-list hover with-big-icon small' 
+                        : 'content-scroll menu-list hover with-big-icon') + (disableResponsive ? '' : ' mobile')">
             <li v-for="(dt, index) in data" :key="index" class="ml-list">
                 <router-link v-if="!dt.menu" :to="{name: dt.link}" class="ml-link">
                     <div class="ml-icon">
                         <i :class="dt.icon" />
                     </div>
                     <div class="ml-label">
-                        <div class="post-top">{{ dt.label }}</div>
+                        {{ dt.label }}
                     </div>
                     <div class="val-container">
                         <div v-if="dt.value > 0" class="ml-value">

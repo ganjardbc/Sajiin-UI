@@ -2,7 +2,7 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
                         <AppTabs 
                             :selectedIndex="selectedTabIndex" 

@@ -1,7 +1,18 @@
 <template>
     <div id="AppImage" class="display-flex">
-        <div class="width width-100-px">
-            <div class="image image-100px border-full">
+        <div style="width: 100px; margin-right: 15px;">
+            <input 
+                v-if="this.isEnable"
+                type="file" 
+                placeholder="" 
+                name="image" 
+                id="image"
+                ref="file"
+                accept="image/*"
+                style="display: none;"
+                :disabled="visibleLoader"
+                @change="previewFiles">
+            <div class="image image-padding border-full">
                 <img :src="this.image" alt="" />
                 <div v-if="!visibleLoader">
                     <button 
@@ -12,22 +23,33 @@
                         <i class="fa fa-1x fa-times" />
                     </button>
                 </div>
+                <label for="image" style="position: absolute: bottom: 0;">
+                    <div  
+                        :class="'choose'" 
+                        title="choose image">
+                        <i class="fa fa-1x fa-image" />
+                    </div>
+                </label>
             </div>
         </div>
-        <div style="padding-left: 15px; padding-top: 5px;">
-            <div v-if="this.isEnable" class="field-label" style="margin-bottom: 10px;">Choose / change image</div>
-            <input 
-                v-if="this.isEnable"
-                type="file" 
-                placeholder="" 
-                name="image" 
-                id="image"
-                ref="file"
-                accept="image/*"
-                :disabled="visibleLoader"
-                @change="previewFiles">
+        <div style="width: calc(100% - 115px); padding-top: 3px;">
+            <!-- <div v-if="this.isEnable" class="field-label" style="margin-bottom: 10px;">Choose / change image</div> -->
+            <div class="fonts fonts-10 black" style="margin-bottom: 5px; word-wrap: break-word;">
+                Name: {{ formImage.name }}
+            </div>
+            <div class="fonts fonts-10 black">
+                Size: {{ formImage.size }}
+            </div>
             <button 
-                v-if="visibleUploadButton" 
+                v-if="!visibleUploadButton"
+                :class="'btn btn-full btn-primary'" 
+                title="choose image" 
+                style="margin-top: 10px; cursor: not-allowed;" 
+                disabled>
+                Upload
+            </button>
+            <button 
+                v-else 
                 :class="'btn btn-full ' + (visibleLoader ? 'btn-primary' : 'btn-main')" 
                 title="upload image" 
                 style="margin-top: 10px;" 
@@ -87,7 +109,7 @@ export default {
             const file = event.target.files[0]
             this.formImage = file
             this.visibleUploadButton = true
-            // console.log('file', file)
+            console.log('file', file)
         },
         onUploadImage() {
             this.onUpload(this.formImage)

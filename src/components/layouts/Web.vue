@@ -67,7 +67,7 @@
                 <router-view name="webfresh" />
             </transition>
 
-            <div v-if="customer" style="position: fixed; bottom: 10px; right: 10px;">
+            <div v-if="customer && customer.id" style="position: fixed; bottom: 10px; right: 10px;">
                 <router-link :to="{name: 'customer-main'}" class="btn btn-main btn-radius-rounded">
                     Go To Customer Page <i class="icn fa fa-lg fa-arrow-right" />
                 </router-link>

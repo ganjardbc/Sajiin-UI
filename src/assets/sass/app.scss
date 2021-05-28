@@ -440,10 +440,10 @@ a {
     display: flex;
     .sidebar {
         position: relative;
-        width: 319px;
+        width: 120px;
         height: 100vh;
         background-color: #fff;
-        border-right: $border;
+        // border-right: $border;
         transition: 0.2s;
         .header {
             position: relative;
@@ -451,12 +451,12 @@ a {
             height: 60px;
             background-color: #fff;
             .header-content {
-                width: calc(100% - 10px);
-                padding: 10px 5px;
+                width: calc(100% - 0);
+                padding: 10px 0;
                 .logo {
-                    width: 135px; 
-                    margin-top: -5px; 
-                    margin-left: -5px;
+                    width: 100%; 
+                    margin-top: -2px; 
+                    // margin-left: -5px;
                 }
                 .close {
                     width: 40px;
@@ -494,18 +494,18 @@ a {
         position: relative;
         width: 100%;
         height: 100vh;
-        background-color: #f5f5f5;
+        background-color: #fff;
         .header {
             position: relative;
             width: 100%;
             height: 59px;
             background-color: #fff;
-            border-bottom: $border;
+            // border-bottom: $border;
         }
         .inner {
             position: relative;
             width: 100%;
-            height: calc(100vh - 100px);
+            height: calc(100vh - 60px);
             overflow-y: auto;
             .content-form {
                 position: relative;
@@ -521,7 +521,7 @@ a {
                     }
                     .right {
                         width: 0;
-                        right: -400px;
+                        right: -500px;
                         transition: 0.2s;
                     }
                 }
@@ -536,30 +536,29 @@ a {
                 }
                 .left {
                     position: relative;
-                    width: calc(100% - 430px);
-                    padding: 15px;
+                    width: calc(100% - 40px);
+                    padding: 20px;
                     transition: 0.2s;
                     .content-body {
                         position: relative;
                         width: 100%;
-                        height: calc(100vh - 195px);
+                        height: calc(100vh - 165px);
                         overflow-y: auto;
                     }
                 }
                 .right {
-                    position: relative;
-                    width: 400px;
+                    position: fixed;
+                    width: 500px;
+                    top: 0;
                     right: 0;
                     transition: 0.2s;
-                    border-left: $border;
-                    transition: 0.2s;
+                    z-index: 100;
                 }
                 @media (max-width: $min-width) {
                     .left {
                         width: calc(100% - 30px);
                     }
                     .right {
-                        position: absolute;
                         width: 100%;
                         z-index: 500;
                     }
@@ -611,14 +610,21 @@ a {
     width: 100%;
     top: 0;
     right: 0;
+    margin: 15px;
     background-color: #fff;
     transition: 0.2s;
+    box-shadow: $shadow-bold;
+    border-radius: 15px;
+    @media (max-width: $min-width) {
+        margin: 0;
+        border-radius: 0;
+    }
     .fs-header {
         position: relative;
-        width: 100%;
+        width: calc(100% - 20px);
         height: 40px;
-        padding: 5px 0;
-        border-bottom: $border;
+        padding: 10px;
+        // border-bottom: $border;
         .fs-header-content {
             width: calc(100% - 20px);
             height: 30px;
@@ -627,10 +633,13 @@ a {
     }
     .fs-content {
         position: relative;
-        width: calc(100% - 20px);
-        height: calc(100vh - 171px);
-        padding: 10px;
+        width: calc(100% - 40px);
+        height: calc(100vh - 110px);
+        padding: 10px 20px;
         overflow-y: auto;
+        @media (max-width: $min-width) {
+            height: calc(100vh - 80px);
+        }
     }
     &.zoomed {
         position: absolute;
