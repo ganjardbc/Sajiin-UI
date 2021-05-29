@@ -2,9 +2,9 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">TABLES</h1>
+                        <h1 class="fonts small black">CARTS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
@@ -12,64 +12,65 @@
                             :icon="'fa fa-lw fa-filter'"
                             :button="'btn btn-icon btn-white'"
                             :onChange="(data) => onChangeMenu(data)" 
-                            :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Status'}]" />
+                            :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Work'}, {label: 'By Status'}]" />
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search tables ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search carts ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
                 
-                <div class="content-body">
-                    <div style="padding-left: 15px; padding-right: 15px;">
-                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                <div style="width: 60px; margin-right: 15px;">
-                                    <div class="image image-padding border border-full">
-                                        <img v-if="dt.image" :src="tableImageThumbnailUrl + dt.image" alt="" class="post-center">
-                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
-                                    </div>
-                                </div>
-                                <div style="width: calc(100% - 185px);">
-                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.name }}</div>
-                                        <div 
-                                            :class="'card-capsule ' + (
-                                            dt.status === 'active' 
-                                                ? 'active' 
-                                                : ''
-                                            )" 
-                                            style="margin-left: 10px; text-transform: capitalize;">
-                                            {{ dt.status }}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="fonts fonts-10 grey">{{ dt.code }} | {{ dt.description }}</div>
-                                    </div>
-                                </div>
-                                <div class="display-flex column space-between" style="width: 100px;">
-                                    <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.id)">
-                                            <i class="fa fa-1x fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.id)">
-                                            <i class="fa fa-1x fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.id)">
-                                            <i class="fa fa-1x fa-ellipsis-v"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <AppLoader v-if="visibleLoader" />
-                    </div>
+                <div class="table-container">
+                    <v-table 
+                        :data="datas ? datas : []" 
+                        :filters="filters" 
+                        :currentPage.sync="currentPage" 
+                        :pageSize="limitPage" 
+                        @totalPagesChanged="totalPages = $event">
+                        <thead slot="head">
+                            <v-th class="small-col hide-icon">NO</v-th>
+                            <v-th sortKey="cart_id">Cart ID</v-th>
+                            <v-th sortKey="product_name">Product</v-th>
+                            <v-th sortKey="customer.name" class="normal-col">Customer</v-th>
+                            <v-th sortKey="product_detail" class="normal-col">Detail</v-th>
+                            <v-th sortKey="product_toping" class="normal-col">Toping</v-th>
+                            <v-th sortKey="subtotal" class="normal-col">Subtotal</v-th>
+                            <th class="medium-col"></th>
+                        </thead>
+                        <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
 
-                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData">
-                            Load More
-                        </button>
-                    </div>
+                            <tr v-for="(row, index) in displayData" :key="index">
+                                <td class="small-col">{{ (index + 1) }}</td>
+                                <td>{{ row.cart_id }}</td>
+                                <td>{{ row.product_name }}</td>
+                                <td class="normal-col">{{ row.customer && row.customer.name }}</td>
+                                <td class="normal-col">{{ row.product_detail }}</td>
+                                <td class="normal-col">{{ row.product_toping }}</td>
+                                <td class="normal-col">{{ row.subtotal }}</td>
+                                <td class="medium-col">
+                                    <div class="display-flex justify-content">
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.id)">
+                                            <i class="fa fa-lw fa-trash-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.id)">
+                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
+
+                <div class="padding padding-10-px" style="height: 40px;">
+                    <smart-pagination
+                        :currentPage.sync="currentPage"
+                        :totalPages="totalPages"
+                    />
                 </div>
             </div>
         </div>
@@ -119,11 +120,11 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
-            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
             selectedIndex: null,
+            selectedForm: null,
             selectedData: null,
             selectedMessage: null,
             filters: {
@@ -132,9 +133,7 @@ export default {
             limitPage: 10,
             currentPage: 1,
             totalPages: 0,
-            dataUser: null,
-            limit: 4,
-            offset: 0
+            dataUser: null
         }
     },
     mounted () {
@@ -157,7 +156,7 @@ export default {
     },
     methods: {
         onChangeMenu (index) {
-            // console.log('onChange', index)
+            console.log('onChange', index)
         },
         nameLength (row) {
             return row.key.length
@@ -195,7 +194,7 @@ export default {
         },
         onFormSave (data = null) {
             this.onShowHideSave()
-            this.selectedData = data ? data : null
+            this.selectedForm = data ? data : null
         },
         onChangeImage (data) {
             this.selectedData = {
@@ -207,13 +206,13 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex).table_id
+            const id = this.onSearchData(this.selectedIndex).cart_id
             const payload = {
-                table_id: id
+                cart_id: id
             }
 
-            const rest = await axios.post('/api/table/delete', payload, { headers: { Authorization: token } })
-            // console.log('rest', rest)
+            const rest = await axios.post('/api/cart/delete', payload, { headers: { Authorization: token } })
+            console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -235,8 +234,8 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
-            const url = this.formTitle === 'CREATE' ? '/api/table/post' : '/api/table/update' 
+            const payload = this.selectedForm
+            const url = this.formTitle === 'CREATE' ? '/api/cart/post' : '/api/cart/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
@@ -261,10 +260,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/table/uploadImage' 
+            const url = '/api/cart/uploadImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('cart_id', payload.cart_id);
             formData.append('image', data);
 
             const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
@@ -289,10 +288,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/table/removeImage' 
+            const url = '/api/cart/removeImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('cart_id', payload.cart_id);
 
             var a = confirm('remove this image ?')
             if (a) {
@@ -312,45 +311,23 @@ export default {
         async getData () {
             this.visibleLoader = true 
 
-            let data = []
-
-            if (this.offset > 0) {
-                data = Object.assign([], this.datas)
-            } else {
-                data = []
-            }
-
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset
+                limit: 1000,
+                offset: 0
             } : {
-                limit: this.limit,
-                offset: this.offset,
+                limit: 1000,
+                offset: 0,
                 user_id: this.dataUser.id
             }
-
-            const rest = await axios.post('/api/table/getAll', payload, { headers: { Authorization: token } })
+            
+            const rest = await axios.post('/api/cart/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const newData = rest.data.data
-                
-                newData && newData.map((dt) => {
-                    return data.push({...dt})
-                })
-
-                this.datas = data 
+                const data = rest.data.data
+                this.datas = data
                 this.visibleLoader = false 
-
-                if (newData.length > 0) {
-                    this.offset += this.limit
-                }
-
-                if (newData.length < this.limit) {
-                    this.visibleLoadMore = false
-                } else {
-                    this.visibleLoadMore = true
-                }
+                console.log('response', this.datas)
             } else {
                 this.visibleLoader = false 
             }

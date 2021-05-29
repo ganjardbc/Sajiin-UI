@@ -2,9 +2,9 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">WISELISTS</h1>
+                        <h1 class="fonts small black">PRODUCTS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
@@ -12,64 +12,67 @@
                             :icon="'fa fa-lw fa-filter'"
                             :button="'btn btn-icon btn-white'"
                             :onChange="(data) => onChangeMenu(data)" 
-                            :data="[{label: 'By Product ID'}, {label: 'By Product'}, {label: 'By User'}, {label: 'By Status'}]" />
+                            :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Status'}]" />
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search wishelist ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search products ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
 
-                <div class="content-body">
-                    <div style="padding-left: 15px; padding-right: 15px;">
-                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                <div style="width: 60px; margin-right: 15px;">
-                                    <div class="image image-padding border border-full">
-                                        <img v-if="dt.prod_image" :src="productImageThumbnailUrl + dt.prod_image" alt="" class="post-center">
-                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
-                                    </div>
-                                </div>
-                                <div style="width: calc(100% - 185px);">
-                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.name }}</div>
-                                        <div 
-                                            :class="'card-capsule ' + (
-                                            dt.status === 'active' 
-                                                ? 'active' 
-                                                : ''
-                                            )" 
-                                            style="margin-left: 10px; text-transform: capitalize;">
-                                            {{ dt.status }}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="fonts fonts-10 grey">{{ dt.description.substring(0, 50) }} ...</div>
-                                    </div>
-                                </div>
-                                <div class="display-flex column space-between" style="width: 100px;">
-                                    <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.id)">
-                                            <i class="fa fa-1x fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.id)">
-                                            <i class="fa fa-1x fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.id)">
-                                            <i class="fa fa-1x fa-ellipsis-v"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <AppLoader v-if="visibleLoader" />
-                    </div>
+                <div class="table-container">
+                    <v-table 
+                        :data="datas ? datas : []" 
+                        :filters="filters" 
+                        :currentPage.sync="currentPage" 
+                        :pageSize="limitPage" 
+                        @totalPagesChanged="totalPages = $event">
+                        <thead slot="head">
+                            <v-th class="small-col hide-icon">NO</v-th>
+                            <v-th sortKey="product.product_id">product ID</v-th>
+                            <v-th sortKey="product.name">Name</v-th>
+                            <v-th sortKey="product.description">Description</v-th>
+                            <v-th sortKey="product.status" class="normal-col">Status</v-th>
+                            <th class="medium-col"></th>
+                        </thead>
+                        <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
 
-                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData">
-                            Load More
-                        </button>
-                    </div>
+                            <tr v-for="(row, index) in displayData" :key="index">
+                                <td class="small-col">{{ (index + 1) }}</td>
+                                <td>{{ row.product.product_id }}</td>
+                                <td>{{ row.product.name }}</td>
+                                <td>{{ row.product.description.substring(0, 50) }} ...</td>
+                                <td class="normal-col">
+                                    <div 
+                                        :class="'card-capsule ' + (row.product.status === 'active' ? 'active' : '')" 
+                                        style="text-transform: capitalize; display: inline-block; padding-top: 2px; padding-bottom: 2px;">
+                                        {{ row.product.status }}
+                                    </div>
+                                </td>
+                                <td class="medium-col">
+                                    <div class="display-flex justify-content">
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.product.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.product.id)">
+                                            <i class="fa fa-lw fa-trash-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.product.id)">
+                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
+
+                <div class="padding padding-10-px" style="height: 40px;">
+                    <smart-pagination
+                        :currentPage.sync="currentPage"
+                        :totalPages="totalPages"
+                    />
                 </div>
             </div>
         </div>
@@ -77,6 +80,7 @@
         <div class="right">
             <Form 
                 :data.sync="selectedData"
+                :categories.sync="categories"
                 :message.sync="selectedMessage"
                 :title="formTitle" 
                 :onSave="(data) => onFormSave(data)"
@@ -117,10 +121,10 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
-            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
+            categories: [],
             selectedIndex: null,
             selectedForm: null,
             selectedData: null,
@@ -131,14 +135,13 @@ export default {
             limitPage: 10,
             currentPage: 1,
             totalPages: 0,
-            dataUser: null,
-            limit: 4,
-            offset: 0
+            dataUser: null 
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
         this.getData()
+        this.getDataCategory()
     },
     components: {
         AppAlert,
@@ -164,7 +167,7 @@ export default {
         onSearchData (id) {
             let payload = null
             this.datas.map((dt) => {
-                if (dt.id === id) {
+                if (dt.product.id === id) {
                     payload = {...dt}
                 }
                 return null 
@@ -194,20 +197,18 @@ export default {
         },
         onFormSave (data = null) {
             this.onShowHideSave()
-            this.selectedForm = data ? data : null
+            this.selectedForm = data && data.product ? data.product : null
         },
         async removeData () {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex)
+            const id = this.onSearchData(this.selectedIndex).product.product_id
             const payload = {
-                user_id: id.user_id,
-                product_id: id.prod_id
+                product_id: id
             }
 
-            const rest = await axios.post('/api/wishelist/delete', payload, { headers: { Authorization: token } })
-            console.log('rest', rest)
+            const rest = await axios.post('/api/product/delete', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -230,60 +231,64 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedForm
-            const url = '/api/wishelist/post'
+            const url = this.formTitle === 'CREATE' ? '/api/product/post' : '/api/product/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                this.visibleLoaderAction = false
                 this.onShowHideSave()
-                this.onClose()
-                this.getData()
+                this.visibleLoaderAction = false
+
+                const data = rest.data.data
+                if (data.length !== 0) {
+                    this.onClose()
+                    this.getData()
+                } else {
+                    this.selectedMessage = rest.data.message
+                }
             } else {
                 alert('Proceed failed')
                 this.visibleLoaderAction = false
             }
         },
         async getData () {
-            this.visibleLoader = true 
-
-            let data = []
-
-            if (this.offset > 0) {
-                data = Object.assign([], this.datas)
-            } else {
-                data = []
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.dataUser.role_name === 'admin' ? {
+                limit: 1000,
+                offset: 0
+            } : {
+                limit: 1000,
+                offset: 0,
+                user_id: this.dataUser.id
             }
+            const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.datas = data
+            }
+        },
+        async getDataCategory () {
+            this.visibleLoader = true 
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset
+                limit: 1000,
+                offset: 0,
+                status: 'active'
             } : {
-                limit: this.limit,
-                offset: this.offset,
+                limit: 1000,
+                offset: 0,
+                status: 'active',
                 user_id: this.dataUser.id
             }
-            const rest = await axios.post('/api/wishelist/getAll', payload, { headers: { Authorization: token } })
+
+            const rest = await axios.post('/api/category/getAll', payload, { headers: { Authorization: token } })
+
             if (rest && rest.status === 200) {
-                const newData = rest.data.data
-                
-                newData && newData.map((dt) => {
-                    return data.push({...dt.product, table: dt.table, customer: dt.customer})
-                })
-
-                this.datas = data 
+                const data = rest.data.data
+                this.categories = data
                 this.visibleLoader = false 
-
-                if (newData.length > 0) {
-                    this.offset += this.limit
-                }
-
-                if (newData.length < this.limit) {
-                    this.visibleLoadMore = false
-                } else {
-                    this.visibleLoadMore = true
-                }
             } else {
                 this.visibleLoader = false 
             }

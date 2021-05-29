@@ -23,16 +23,16 @@
                         <i class="fa fa-1x fa-times" />
                     </button>
                 </div>
-                <label for="image" style="position: absolute: bottom: 0;">
+                <label v-if="isEnable" for="image" style="position: absolute: bottom: 0;">
                     <div  
                         :class="'choose'" 
                         title="choose image">
-                        <i class="fa fa-1x fa-image" />
+                        <i class="fa fa-1x fa-pencil-alt" />
                     </div>
                 </label>
             </div>
         </div>
-        <div style="width: calc(100% - 115px); padding-top: 3px;">
+        <div v-if="isEnable" style="width: calc(100% - 115px); padding-top: 3px;">
             <!-- <div v-if="this.isEnable" class="field-label" style="margin-bottom: 10px;">Choose / change image</div> -->
             <div class="fonts fonts-10 black" style="margin-bottom: 5px; word-wrap: break-word;">
                 Name: {{ formImage.name }}

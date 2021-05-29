@@ -30,8 +30,7 @@
                 </div>
                 
                 <div class="content-body">
-                    <AppLoader v-if="visibleLoader" />
-                    <div v-else style="padding-left: 15px; padding-right: 15px;">
+                    <div style="padding-left: 15px; padding-right: 15px;">
                         <AppCardOrder 
                             :data.sync="datas" 
                             :type="'owner'" 
@@ -40,6 +39,13 @@
                             :onDelete="(id) => onShowHideDelete(id)"
                             :onChangeStatus="(data, id, status) => onChangeStatus(data, id, status)" 
                         />
+                        <AppLoader v-if="visibleLoader" />
+                    </div>
+
+                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="onLoadMore">
+                            Load More
+                        </button>
                     </div>
                 </div>
             </div>
@@ -111,6 +117,7 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
+            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
@@ -136,7 +143,9 @@ export default {
             limitPage: 10,
             currentPage: 1,
             totalPages: 0,
-            dataUser: null 
+            dataUser: null,
+            limit: 4,
+            offset: 0
         }
     },
     mounted () {
@@ -171,6 +180,22 @@ export default {
         },
         onChangeTabs (index) {
             this.selectedTabIndex = index
+            this.offset = 0
+            this.datas = []
+            switch (index) {
+                case 1:
+                    this.getDataByStatus('done')
+                    break;
+                case 2:
+                    this.getDataByStatus('canceled')
+                    break;
+                default:
+                    this.getData()
+                    break;
+            }
+        },
+        onLoadMore () {
+            const index = this.selectedTabIndex
             switch (index) {
                 case 1:
                     this.getDataByStatus('done')
@@ -346,14 +371,22 @@ export default {
         async getDataByStatus (type) {
             this.visibleLoader = true 
 
+            let data = []
+
+            if (this.offset > 0) {
+                data = Object.assign([], this.datas)
+            } else {
+                data = []
+            }
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: 1000,
-                offset: 0,
+                limit: this.limit,
+                offset: this.offset,
                 status: type
             } : {
-                limit: 1000,
-                offset: 0,
+                limit: this.limit,
+                offset: this.offset,
                 status: type,
                 user_id: this.dataUser.id
             }
@@ -361,9 +394,24 @@ export default {
             const rest = await axios.post('/api/order/getByStatus', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.datas = data
+                const newData = rest.data.data
+                
+                newData && newData.map((dt) => {
+                    return data.push({...dt})
+                })
+
+                this.datas = data 
                 this.visibleLoader = false 
+
+                if (newData.length > 0) {
+                    this.offset += this.limit
+                }
+
+                if (newData.length < this.limit) {
+                    this.visibleLoadMore = false
+                } else {
+                    this.visibleLoadMore = true
+                }
             } else {
                 this.visibleLoader = false
             }
@@ -371,22 +419,45 @@ export default {
         async getData () {
             this.visibleLoader = true 
 
+            let data = []
+
+            if (this.offset > 0) {
+                data = Object.assign([], this.datas)
+            } else {
+                data = []
+            }
+
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: 1000,
-                offset: 0
+                limit: this.limit,
+                offset: this.offset
             } : {
-                limit: 1000,
-                offset: 0,
+                limit: this.limit,
+                offset: this.offset,
                 user_id: this.dataUser.id
             }
             
             const rest = await axios.post('/api/order/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.datas = data
+                const newData = rest.data.data
+                
+                newData && newData.map((dt) => {
+                    return data.push({...dt})
+                })
+
+                this.datas = data 
                 this.visibleLoader = false 
+
+                if (newData.length > 0) {
+                    this.offset += this.limit
+                }
+
+                if (newData.length < this.limit) {
+                    this.visibleLoadMore = false
+                } else {
+                    this.visibleLoadMore = true
+                }
             } else {
                 this.visibleLoader = false
             }

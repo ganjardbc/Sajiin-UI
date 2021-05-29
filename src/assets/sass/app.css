@@ -41340,13 +41340,13 @@ a.btn {
   right: 0;
   width: 100%;
   padding: 5px 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
   color: #fff;
   text-align: center;
   cursor: pointer;
 }
 .image .choose:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 @media (max-width: 720px) {
   .image.image-center-mobile {

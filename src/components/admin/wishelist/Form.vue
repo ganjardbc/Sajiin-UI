@@ -94,7 +94,7 @@
                     </div>
                 </div>
 
-                <div class="field-group margin margin-bottom-15-px">
+                <!-- <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">USER ID</div>
                     <input 
                         type="text" 
@@ -116,7 +116,7 @@
                         id="user_name" 
                         v-model="selectedData.user_name"
                         readonly>
-                </div>
+                </div> -->
             </div>
 
             <div v-if="selectedIndex === 1">

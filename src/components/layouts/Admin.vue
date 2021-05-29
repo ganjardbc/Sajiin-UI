@@ -85,17 +85,21 @@ import AppToast from '../modules/AppToast'
 const sidebarAdmin = [
     {icon: 'fa fa-lg fa-database', label: 'DASHBOARD', value: 0, menu: [
         {icon: 'fa fa-lg fa-tachometer-alt', label: 'Dashboard', value: 1, link: 'dashboard', permission: 'dashboard'},
+        // {icon: 'fa fa-lg fa-laptop', label: 'Cashier', value: 0, link: 'visitor', permission: 'visitors'},
+        {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
+        {icon: 'fa fa-lg fa-th-large', label: 'Table / Desk', value: 0, link: 'table', permission: 'tables'}
     ]},
     {icon: 'fa fa-lg fa-database', label: 'MASTERDATA', value: 0, menu: [
         {icon: 'fa fa-lg fa-tag', label: 'Bizpars', value: 0, link: 'bizpar', permission: 'bizpars'},
         {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
         {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'}
     ]},
-    {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
-        {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
-        {icon: 'fa fa-lg fa-th-large', label: 'Tables/Desks', value: 0, link: 'table', permission: 'tables'},
-        {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
-    ]},
+    // {icon: 'fa fa-lg fa-database', label: 'SHOP', value: 0, menu: [
+    //     {icon: 'fa fa-lg fa-laptop', label: 'Cashier', value: 0, link: 'visitor', permission: 'visitors'},
+    //     {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
+    //     {icon: 'fa fa-lg fa-th-large', label: 'Table / Desk', value: 0, link: 'table', permission: 'tables'},
+    //     {icon: 'fa fa-lg fa-flag', label: 'Visitors', value: 0, link: 'visitor', permission: 'visitors'},
+    // ]},
     {icon: 'fa fa-lg fa-database', label: 'PRODUCT', value: 0, menu: [
         {icon: 'fa fa-lg fa-list-ol', label: 'Categories', value: 0, link: 'category', permission: 'categories'},
         {icon: 'fa fa-lg fa-bars', label: 'Toppings', value: 0, link: 'toping', permission: 'toppings'},

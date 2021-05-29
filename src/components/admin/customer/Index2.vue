@@ -2,7 +2,7 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
                     <div>
                         <h1 class="fonts small black">CUSTOMERS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
@@ -20,57 +20,59 @@
                     </div>
                 </div>
                 
-                <div class="content-body">
-                    <div style="padding-left: 15px; padding-right: 15px;">
-                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                <div style="width: 60px; margin-right: 15px;">
-                                    <div class="image image-padding border border-full">
-                                        <img v-if="dt.customer.image" :src="customerImageThumbnailUrl + dt.customer.image" alt="" class="post-center">
-                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
-                                    </div>
-                                </div>
-                                <div style="width: calc(100% - 185px);">
-                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.customer.name }}</div>
-                                        <div 
-                                            :class="'card-capsule ' + (
-                                            dt.customer.status === 'active' 
-                                                ? 'active' 
-                                                : ''
-                                            )" 
-                                            style="margin-left: 10px; text-transform: capitalize;">
-                                            {{ dt.customer.status }}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="fonts fonts-10 grey">{{ dt.customer.email }}</div>
-                                        <div class="fonts fonts-10 grey">{{ dt.customer.about }}</div>
-                                    </div>
-                                </div>
-                                <div class="display-flex column space-between" style="width: 100px;">
-                                    <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.customer.id)">
-                                            <i class="fa fa-1x fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.customer.id)">
-                                            <i class="fa fa-1x fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.customer.id)">
-                                            <i class="fa fa-1x fa-ellipsis-v"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <AppLoader v-if="visibleLoader" />
-                    </div>
+                <div class="table-container">
+                    <v-table 
+                        :data="datas ? datas : []" 
+                        :filters="filters" 
+                        :currentPage.sync="currentPage" 
+                        :pageSize="limitPage" 
+                        @totalPagesChanged="totalPages = $event">
+                        <thead slot="head">
+                            <v-th class="small-col hide-icon">NO</v-th>
+                            <v-th sortKey="customer.customer_id">customer ID</v-th>
+                            <v-th sortKey="customer.name">Name</v-th>
+                            <v-th sortKey="customer.phone">Phone</v-th>
+                            <v-th sortKey="customer.status" class="normal-col">Status</v-th>
+                            <th class="medium-col"></th>
+                        </thead>
+                        <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
 
-                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData">
-                            Load More
-                        </button>
-                    </div>
+                            <tr v-for="(row, index) in displayData" :key="index">
+                                <td class="small-col">{{ (index + 1) }}</td>
+                                <td>{{ row.customer.customer_id }}</td>
+                                <td>{{ row.customer.name }}</td>
+                                <td>{{ row.customer.phone }}</td>
+                                <td class="normal-col">
+                                    <div 
+                                        :class="'card-capsule ' + (row.customer.status === 'active' ? 'active' : '')" 
+                                        style="text-transform: capitalize; display: inline-block; padding-top: 2px; padding-bottom: 2px;">
+                                        {{ row.customer.status }}
+                                    </div>
+                                </td>
+                                <td class="medium-col">
+                                    <div class="display-flex justify-content">
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.customer.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.customer.id)">
+                                            <i class="fa fa-lw fa-trash-alt" />
+                                        </button>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.customer.id)">
+                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
+
+                <div class="padding padding-10-px" style="height: 40px;">
+                    <smart-pagination
+                        :currentPage.sync="currentPage"
+                        :totalPages="totalPages"
+                    />
                 </div>
             </div>
         </div>
@@ -120,7 +122,6 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
-            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
@@ -134,9 +135,7 @@ export default {
             limitPage: 10,
             currentPage: 1,
             totalPages: 0,
-            dataUser: null,
-            limit: 4,
-            offset: 0
+            dataUser: null
         }
     },
     mounted () {
@@ -319,45 +318,22 @@ export default {
         async getData () {
             this.visibleLoader = true
 
-            let data = []
-
-            if (this.offset > 0) {
-                data = Object.assign([], this.datas)
-            } else {
-                data = []
-            }
-
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset
+                limit: 1000,
+                offset: 0
             } : {
-                limit: this.limit,
-                offset: this.offset,
+                limit: 1000,
+                offset: 0,
                 user_id: this.dataUser.id
             }
             
             const rest = await axios.post('/api/customer/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const newData = rest.data.data
-                
-                newData && newData.map((dt) => {
-                    return data.push({...dt})
-                })
-
-                this.datas = data 
+                const data = rest.data.data
+                this.datas = data
                 this.visibleLoader = false 
-
-                if (newData.length > 0) {
-                    this.offset += this.limit
-                }
-
-                if (newData.length < this.limit) {
-                    this.visibleLoadMore = false
-                } else {
-                    this.visibleLoadMore = true
-                }
             } else {
                 this.visibleLoader = false 
             }
