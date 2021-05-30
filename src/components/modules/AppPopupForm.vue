@@ -5,7 +5,7 @@
                 <div class="width width-100 width-center width-mobile">
                     <div class="display-flex justify-content">
                         <div style="width: calc(100% - 90px); margin-top: 8px;">
-                            <div class="fonts normal semibold">{{ title }}</div>
+                            <div class="fonts normal semibold">{{ appTitle }}</div>
                         </div>
                         <div class="display-flex align-right" style="width: 150px;">
                             <button v-if="enableSaveButton" class="btn btn-icon btn-white" @click="onSave">
@@ -28,10 +28,18 @@
 <script>
 export default {
     name: 'AppPopupForm',
+    data () {
+        return {
+            appTitle: ''
+        }
+    },
+    mounted () {
+        this.appTitle = this.title ? this.title : 'Form'
+    },
     props: {
         title: {
             type: String,
-            required: true
+            required: false
         },
         enableRadius: {
             type: Boolean,

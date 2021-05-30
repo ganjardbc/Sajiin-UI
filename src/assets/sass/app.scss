@@ -668,6 +668,28 @@ a {
     }
 }
 
+.form-checkout {
+    position: relative;
+    width: 100%;
+    display: flex;
+    .scroll {
+        position: relative;
+        padding: 10px 5px;
+        width: calc(100% - 10px);
+        height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+    .left {
+        position: relative;
+        width: 70%;
+        border-right: $border;
+    }
+    .right {
+        position: relative;
+        width: 30%;
+    }
+}
+
 .link-text {
     color: $grey;
     font-size: 13px;

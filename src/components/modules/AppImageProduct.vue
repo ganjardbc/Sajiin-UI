@@ -10,10 +10,10 @@
             </div>
             <div style="width: calc(100% - 90px);">
                 <router-link :to="{name: 'product', params: {id: detail.prod_id}}" class="fonts fonts-11 semibold" style="margin-bottom: 5px;">
-                    {{ detail.product_name }}<AppDote style="position: relative; top: -2px;" />{{ detail.product_detail }}
+                    {{ detail.product_name }}
                 </router-link>
                 <div class="fonts fonts-9 grey">
-                    {{ detail.quantity }} product x Rp {{ detail.price }}
+                    {{ detail.quantity }} {{ detail.product_detail }} x Rp {{ detail.price }}
                 </div>
                 <div v-if="detail.product_toping" class="fonts fonts-9 grey">
                     {{ detail.quantity }} {{ detail.product_toping }} x Rp. {{ detail.toping_price }}

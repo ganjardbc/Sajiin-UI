@@ -3,7 +3,7 @@
         <div 
             class="card box-shadow bg-white" 
             style="height: 350px; padding: 0; width: 100%; border-radius: 5px; margin-bottom: 15px;">
-            <div class="display-flex space-between border-bottom" style="height: 30px; padding: 5px 10px;">
+            <div class="display-flex space-between" style="height: 30px; padding: 5px 10px;">
                 <div style="margin-top: 5px;">
                     <div class="fonts font-9 semibold">TITLE</div>
                 </div>

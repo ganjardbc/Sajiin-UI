@@ -2,9 +2,9 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">SHIPMENTS</h1>
+                        <h1 class="fonts small black">PAYMENTS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
@@ -16,60 +16,63 @@
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search shipments ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search payments ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
+                
+                <div class="table-container">
+                    <v-table 
+                        :data="datas ? datas : []" 
+                        :filters="filters" 
+                        :currentPage.sync="currentPage" 
+                        :pageSize="limitPage" 
+                        @totalPagesChanged="totalPages = $event">
+                        <thead slot="head">
+                            <v-th class="small-col hide-icon">NO</v-th>
+                            <v-th sortKey="payment_id">Payment ID</v-th>
+                            <v-th sortKey="name">Name</v-th>
+                            <v-th sortKey="description">Description</v-th>
+                            <v-th sortKey="status" class="normal-col">Status</v-th>
+                            <th class="medium-col"></th>
+                        </thead>
+                        <tbody slot="body" slot-scope="{displayData}">
+                            <AppLoader v-if="visibleLoader" />
 
-                <div class="content-body">
-                    <div style="padding-left: 15px; padding-right: 15px;">
-                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                <div style="width: 60px; margin-right: 15px;">
-                                    <div class="image image-padding border border-full">
-                                        <img v-if="dt.image" :src="shipmentImageThumbnaiUrl + dt.image" alt="" class="post-center">
-                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
+                            <tr v-for="(row, index) in displayData" :key="index">
+                                <td class="small-col">{{ (index + 1) }}</td>
+                                <td>{{ row.payment_id }}</td>
+                                <td>{{ row.name }}</td>
+                                <td>{{ row.description }}</td>
+                                <td class="normal-col">
+                                    <div 
+                                        :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 
+                                        style="text-transform: capitalize; display: inline-block; padding-top: 2px; padding-bottom: 2px;">
+                                        {{ row.status }}
                                     </div>
-                                </div>
-                                <div style="width: calc(100% - 185px);">
-                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.name }}</div>
-                                        <div 
-                                            :class="'card-capsule ' + (
-                                            dt.status === 'active' 
-                                                ? 'active' 
-                                                : ''
-                                            )" 
-                                            style="margin-left: 10px; text-transform: capitalize;">
-                                            {{ dt.status }}
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="fonts fonts-10 grey">{{ dt.description }}</div>
-                                    </div>
-                                </div>
-                                <div class="display-flex column space-between" style="width: 100px;">
-                                    <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.id)">
-                                            <i class="fa fa-1x fa-pencil-alt"></i>
+                                </td>
+                                <td class="medium-col">
+                                    <div class="display-flex justify-content">
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.id)">
+                                            <i class="fa fa-lw fa-pencil-alt" />
                                         </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.id)">
-                                            <i class="fa fa-1x fa-trash-alt"></i>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.id)">
+                                            <i class="fa fa-lw fa-trash-alt" />
                                         </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.id)">
-                                            <i class="fa fa-1x fa-ellipsis-v"></i>
+                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.id)">
+                                            <i class="fa fa-lw fa-ellipsis-v" />
                                         </button>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <AppLoader v-if="visibleLoader" />
-                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
 
-                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData">
-                            Load More
-                        </button>
-                    </div>
+                <div class="padding padding-10-px" style="height: 40px;">
+                    <smart-pagination
+                        :currentPage.sync="currentPage"
+                        :totalPages="totalPages"
+                    />
                 </div>
             </div>
         </div>
@@ -119,7 +122,6 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
-            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
@@ -131,13 +133,12 @@ export default {
             },
             limitPage: 10,
             currentPage: 1,
-            totalPages: 0,
-            limit: 4,
-            offset: 0
+            totalPages: 0
         }
     },
     mounted () {
         this.getData()
+        // console.log('datas', this.datas)
     },
     components: {
         AppAlert,
@@ -155,7 +156,7 @@ export default {
     },
     methods: {
         onChangeMenu (index) {
-            console.log('onChange', index)
+            // console.log('onChange', index)
         },
         nameLength (row) {
             return row.key.length
@@ -205,12 +206,14 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex).shipment_id
+            const id = this.onSearchData(this.selectedIndex).payment_id
             const payload = {
-                shipment_id: id
+                payment_id: id
             }
 
-            const rest = await axios.post('/api/shipment/delete', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/payment/delete', payload, { headers: { Authorization: token } })
+            // console.log('rest', rest)
+
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
                 this.onClose()
@@ -232,7 +235,7 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = this.formTitle === 'CREATE' ? '/api/shipment/post' : '/api/shipment/update' 
+            const url = this.formTitle === 'CREATE' ? '/api/payment/post' : '/api/payment/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
@@ -257,10 +260,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/shipment/uploadImage' 
+            const url = '/api/payment/uploadImage' 
 
             let formData = new FormData();
-            formData.append('shipment_id', payload.shipment_id);
+            formData.append('payment_id', payload.payment_id);
             formData.append('image', data);
 
             const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
@@ -285,10 +288,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/shipment/removeImage' 
+            const url = '/api/payment/removeImage' 
 
             let formData = new FormData();
-            formData.append('shipment_id', payload.shipment_id);
+            formData.append('payment_id', payload.payment_id);
 
             var a = confirm('remove this image ?')
             if (a) {
@@ -308,43 +311,21 @@ export default {
         async getData () {
             this.visibleLoader = true 
 
-            let data = []
-
-            if (this.offset > 0) {
-                data = Object.assign([], this.datas)
-            } else {
-                data = []
-            }
-
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = {
-                limit: this.limit,
-                offset: this.offset
+                limit: 1000,
+                offset: 0
             }
             
-            const rest = await axios.post('/api/shipment/getAll', payload, { headers: { Authorization: token } })
+            // console.log('token', token)
+            const rest = await axios.post('/api/payment/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const newData = rest.data.data
-                
-                newData && newData.map((dt) => {
-                    return data.push({...dt})
-                })
-
-                this.datas = data 
+                const data = rest.data.data
+                this.datas = data
                 this.visibleLoader = false 
-
-                if (newData.length > 0) {
-                    this.offset += this.limit
-                }
-
-                if (newData.length < this.limit) {
-                    this.visibleLoadMore = false
-                } else {
-                    this.visibleLoadMore = true
-                }
             } else {
-                this.visibleLoader = false
+                this.visibleLoader = false 
             }
         }
     }

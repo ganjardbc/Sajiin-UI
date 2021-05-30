@@ -61,10 +61,10 @@
                         </div>
                         <div style="width: calc(100% - 75px);">
                             <div class="fonts fonts-10 semibold black">
-                                {{ dt.product_name }}<AppDote style="position: relative; top: -2px;" />{{ dt.product_detail }}
+                                {{ dt.product_name }}
                             </div>
                             <div class="fonts fonts-9 grey">
-                                {{ dt.quantity }} product x Rp {{ dt.price }}
+                                {{ dt.quantity }} {{ dt.product_detail }} x Rp {{ dt.price }}
                             </div>
                             <div v-if="dt.product_toping" class="fonts fonts-9 grey">
                                 {{ dt.quantity }} {{ dt.product_toping }} x Rp. {{ dt.toping_price }}
@@ -108,12 +108,37 @@
                         <div class="fonts fonts-10 semibold orange">Rp. {{ data.order.total_price }}</div>
                     </div>
                 </div>
-                <div class="display-flex space-between">
+                <div class="display-flex space-between" style="margin-bottom: 0;">
                     <div class="width width-70">
                         <div class="fonts fonts-10 black">Payment Method</div>
                     </div>
                     <div class="width width-30">
                         <div class="fonts fonts-10 black semibold">{{ data.payment.name }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-top" style="padding-top: 15px; padding-bottom: 15px;">
+                <div class="display-flex space-between" style="margin-bottom: 10px;">
+                    <div class="width width-70">
+                        <div class="fonts fonts-10 grey">Bills</div>
+                    </div>
+                    <div class="width width-30"></div>
+                </div>
+                <div class="display-flex space-between" style="margin-bottom: 5px;">
+                    <div class="width width-70">
+                        <div class="fonts fonts-10 black">Bill Payment</div>
+                    </div>
+                    <div class="width width-30">
+                        <div class="fonts fonts-10 semibold">Rp. {{ data.order.bills_price }}</div>
+                    </div>
+                </div>
+                <div class="display-flex space-between" style="margin-bottom: 0;">
+                    <div class="width width-70">
+                        <div class="fonts fonts-10 black">Change</div>
+                    </div>
+                    <div class="width width-30">
+                        <div class="fonts fonts-10 semibold">Rp. {{ data.order.change_price }}</div>
                     </div>
                 </div>
             </div>

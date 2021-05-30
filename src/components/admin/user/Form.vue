@@ -110,34 +110,6 @@
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">EMAIL VERIFIED AT</div>
-                    <input 
-                        type="text" 
-                        placeholder="" 
-                        class="field field-sekunder" 
-                        name="email_verified_at" 
-                        id="email_verified_at" 
-                        v-model="formData.email_verified_at"
-                        readonly>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.email_verified_at && formMessage.email_verified_at[0] }}
-                    </div>
-                </div>
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">PROVIDER</div>
-                    <input 
-                        type="text" 
-                        placeholder="" 
-                        class="field field-sekunder" 
-                        name="provider" 
-                        id="provider" 
-                        v-model="formData.provider"
-                        :readonly="this.title === 'VIEW' ? true : false">
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.provider && formMessage.provider[0] }}
-                    </div>
-                </div>
-                <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ENABLED</div>
                     <div class="display-flex space-between">
                         <div class="fonts micro black">Is this user enable ?</div>
@@ -155,7 +127,7 @@
                         {{ formMessage && formMessage.enabled && formMessage.enabled[0] }}
                     </div>
                 </div>
-                <div class="field-group margin margin-bottom-15-px">
+                <div class="field-group margin margin-bottom-25-px">
                     <div class="field-label">STATUS</div>
                     <div class="display-flex">
                         <label class="radio">
@@ -188,6 +160,34 @@
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.status && formMessage.status[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">EMAIL VERIFIED AT</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="email_verified_at" 
+                        id="email_verified_at" 
+                        v-model="formData.email_verified_at"
+                        readonly>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.email_verified_at && formMessage.email_verified_at[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">PROVIDER</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="provider" 
+                        id="provider" 
+                        v-model="formData.provider"
+                        :readonly="this.title === 'VIEW' ? true : false">
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.provider && formMessage.provider[0] }}
                     </div>
                 </div>
             </div>

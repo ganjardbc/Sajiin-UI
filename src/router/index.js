@@ -47,6 +47,7 @@ import Permission from '@/components/admin/permission/Index.vue';
 import Profile from '@/components/admin/profile/Index.vue';
 import TableList from '@/components/admin/tables/Index.vue';
 import VisitorList from '@/components/admin/visitors/Index.vue';
+import Cashier from '@/components/admin/cashier/Index.vue';
 
 // customer
 import CustomerMain from '@/components/customer/Index.vue';
@@ -167,6 +168,11 @@ export const routes = [
             },
 
             // admin
+            {
+                name: 'cashier',
+                path: '/admin-cashier',
+                component: Cashier
+            },
             {
                 name: 'bizpar',
                 path: '/admin-bizpar',

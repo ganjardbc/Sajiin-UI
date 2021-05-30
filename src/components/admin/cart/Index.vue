@@ -2,7 +2,7 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
                         <h1 class="fonts small black">CARTS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
@@ -23,6 +23,10 @@
                 <div class="content-body">
                     <div style="padding-left: 15px; padding-right: 15px;">
                         <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                            <div v-if="dt.customer" class="display-flex" style="margin-bottom: 10px;">
+                                <i class="fonts fonts-11 fa fa-lg fa-user" style="margin-top: 3px; margin-right: 10px;"></i>
+                                <div class="fonts fonts-10 grey">{{ dt.customer && dt.customer.name }}</div>
+                            </div>
                             <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
                                 <div style="width: 60px; margin-right: 15px;">
                                     <div class="image image-padding border border-full">

@@ -69,6 +69,20 @@
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">TOTAL ITEM</div>
+                    <input 
+                        type="number" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="total_item" 
+                        id="total_item" 
+                        v-model="formData.order.total_item"
+                        readonly>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.total_item && formMessage.total_item[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">TOTAL PRICE</div>
                     <input 
                         type="text" 
@@ -83,17 +97,32 @@
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">TOTAL ITEM</div>
+                    <div class="field-label">BILLS</div>
                     <input 
                         type="number" 
                         placeholder="" 
                         class="field field-sekunder" 
-                        name="total_item" 
-                        id="total_item" 
-                        v-model="formData.order.total_item"
+                        name="bills_price" 
+                        id="bills_price" 
+                        @keyup="onChangeBills"
+                        v-model="formData.order.bills_price"
+                        :readonly="this.title === 'VIEW' ? true : false">
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.bills_price && formMessage.bills_price[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">CHANGE</div>
+                    <input 
+                        type="number" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="change_price" 
+                        id="change_price" 
+                        v-model="formData.order.change_price"
                         readonly>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.total_item && formMessage.total_item[0] }}
+                        {{ formMessage && formMessage.change_price && formMessage.change_price[0] }}
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
@@ -198,7 +227,7 @@
                         {{ formMessage && formMessage.status && formMessage.status[0] }}
                     </div>
                 </div>
-                <div class="field-group margin margin-bottom-15-px">
+                <!-- <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ORDER TYPE</div>
                     <div v-if="this.title !== 'VIEW' ? true : false">
                         <select 
@@ -226,7 +255,7 @@
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.type && formMessage.type[0] }}
                     </div>
-                </div>
+                </div> -->
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">NOTE</div>
                     <textarea 
@@ -513,6 +542,8 @@ const payload = {
         delivery_fee: 0,
         total_price: 0,
         total_item: 0,
+        bills_price: 0,
+        change_price: 0,
         payment_status: 0,
         proof_of_payment: '',
         status: 'unconfirmed',
@@ -713,7 +744,20 @@ export default {
                     total_item: quantity
                 }
             }
-        }
+        },
+        onChangeBills () {
+            const bills = parseInt(this.formData.order.bills_price)
+            const ttl_price = parseInt(this.formData.order.total_price)
+            let ttl = (bills - ttl_price)
+            this.formData = {
+                ...this.formData,
+                order: {
+                    ...this.formData.order,
+                    bills_price: bills,
+                    change_price: ttl
+                }
+            }
+        },
     },
     watch: {
         data: function (props, prevProps) {
@@ -727,6 +771,8 @@ export default {
                         delivery_fee: props.order.delivery_fee,
                         total_price: props.order.total_price,
                         total_item: props.order.total_item,
+                        bills_price: props.order.bills_price,
+                        change_price: props.order.change_price,
                         payment_status: props.order.payment_status,
                         proof_of_payment: props.order.proof_of_payment,
                         status: props.order.status,
