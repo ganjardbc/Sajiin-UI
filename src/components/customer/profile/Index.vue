@@ -43,7 +43,7 @@
 
                     <div class="border border-bottoms">
                         <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Menus</div>
-                        <AppListMenu :data.sync="sidebar" :isSidebarSmall="isSidebarSmall" :disableResponsive="true" />
+                        <AppListMenu :data.sync="sidebar" :isSidebarSmall="isSidebarSmall" :enableGridView="true" />
                     </div>
                 </div>
 
