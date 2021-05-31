@@ -53,16 +53,16 @@
             </div>
         </div>
 
-        <div style="margin-bottom: 15px; padding-top: 0;">
+        <!-- <div style="margin-bottom: 15px; padding-top: 0;">
             <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
             <AppButtonTable 
                 :enableDetail="true"
                 :isFull="true" 
                 :onChange="(data) => onChangeSelectedTable(data)" 
                 style="width: 100%;" />
-        </div>
+        </div> -->
 
-        <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 5px; padding-bottom: 15px;">
+        <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 0; padding-bottom: 15px;">
             <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
                 You have an order
             </div>
@@ -194,6 +194,7 @@ export default {
         async getProduct (limit, offset) {
             this.visibleLoader = true 
 
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
             let product = []
 
             if (offset > 0) {
@@ -205,10 +206,11 @@ export default {
             const payload = {
                 limit: limit,
                 offset: offset,
+                status: 'active',
                 user_id: this.dataUser.id
             }
 
-            const rest = await axios.post('/api/public/product', payload)
+            const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data

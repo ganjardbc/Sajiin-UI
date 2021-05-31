@@ -50,6 +50,17 @@ import AppMobileLayout from '../../modules/AppMobileLayout'
 
 export default {
     name: 'ProductList',
+    data () {
+        return {
+            visibleLoader: false,
+            icon: '',
+            limit: 9,
+            offset: 0,
+            visibleLoadMore: false,
+            products: [],
+            dataUser: null 
+        }
+    },
     components: {
         AppMobileLayout,
         AppLoader,
@@ -61,12 +72,14 @@ export default {
         AppText
     },
     mounted () {
+        this.dataUser = this.$cookies.get('admin')
         this.getProduct(this.limit, this.offset)
     },
     methods: {
         async getProduct (limit, offset) {
             this.visibleLoader = true 
 
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
             let product = []
 
             if (offset > 0) {
@@ -77,10 +90,12 @@ export default {
 
             const payload = {
                 limit: limit,
-                offset: offset
+                offset: offset,
+                status: 'active',
+                user_id: this.dataUser.id
             }
 
-            const rest = await axios.post('/api/public/product', payload)
+            const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data
@@ -116,16 +131,6 @@ export default {
         },
         onMore () {
             this.getProduct(this.limit, this.offset)
-        }
-    },
-    data () {
-        return {
-            visibleLoader: false,
-            icon: '',
-            limit: 9,
-            offset: 0,
-            visibleLoadMore: false,
-            products: []
         }
     }
 }

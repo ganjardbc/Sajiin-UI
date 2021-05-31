@@ -21,9 +21,14 @@
                     </div>
                 </div>
                 <div style="width: 40px;">
-                    <button class="post-top btn btn-icon btn-main-reverse with-hover" @click="onButtonTable">
+                    <!-- <button class="post-top btn btn-icon btn-main-reverse with-hover" @click="onButtonTable">
                         <i class="fa fa-lg fa-arrow-right" />
-                    </button>
+                    </button> -->
+                    <router-link :to="{name: 'customer-table'}">
+                        <button class="btn btn-icon btn-main-reverse with-hover">
+                            <i class="fa fa-lg fa-arrow-right" />
+                        </button>
+                    </router-link>
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
                 ? 'content-scroll menu-list hover with-big-icon small' 
                 : 'content-scroll menu-list hover with-big-icon ' + (enableGridView ? 'display-flex wrap' : '')
             )">
-            <li v-for="(dt, index) in data" :key="index" :class="'ml-list ' + (enableGridView ? 'column-3' : '')">
+            <li v-for="(dt, index) in data" :key="index" :class="'ml-list ' + (enableGridView ? 'fixed-column-3' : '')">
                 <router-link v-if="!dt.menu" :to="{name: dt.link}" class="ml-link">
                     <div class="ml-icon">
                         <i :class="dt.icon" />

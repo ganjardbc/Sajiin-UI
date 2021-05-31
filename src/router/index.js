@@ -295,12 +295,12 @@ export const routes = [
             },
             {
                 name: 'customer-table',
-                path: 'home',
+                path: 'tables',
                 component: CustomerTable
             },
             {
                 name: 'customer-payment',
-                path: 'home',
+                path: 'payments',
                 component: CustomerPayment
             },
 

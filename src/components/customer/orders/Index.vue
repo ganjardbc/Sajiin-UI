@@ -4,81 +4,7 @@
             <div style="padding: 10px 0; width: 100%; overflow: unset;">
                 <div class="width width-100">
                     <div class="width width-100" style="margin-bottom: 20px;">
-                        <!-- <div class="width width-full" style="margin-bottom: 20px;">
-                            <div class="card box-shadow" style="padding: 10px; width: calc(100% - 20px);">
-                                <div>
-                                    <div class="display-flex">
-                                        <div style="width: calc(100% - 40px);">
-                                            <div v-if="selectedCustomer" class="display-flex">
-                                                <div style="width: 60px; margin-right: 20px;">
-                                                    <div class="image image-padding image-circle">
-                                                        <img :src="selectedCustomer ? (customerImageThumbnailUrl + selectedCustomer.image) : ''" alt="" class="post-center">
-                                                    </div>
-                                                </div>
-                                                <div style="width: calc(100% - 80px);">
-                                                    <div class="fonts fonts-11 semibold" style="margin-bottom: 5px;">{{ selectedCustomer && selectedCustomer.name ? selectedCustomer.name : '-' }}</div>
-                                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                                        <div style="width: 25px;">
-                                                            <i class="fa fa-lw fa-envelope" style="font-size: 14px; color: #555;" />
-                                                        </div>
-                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.email ? selectedCustomer.email : '-' }}</div>
-                                                    </div>
-                                                    <div class="display-flex" style="margin-bottom: 5px;">
-                                                        <div style="width: 25px;">
-                                                            <i class="fa fa-lw fa-phone" style="font-size: 14px; color: #555;" />
-                                                        </div>
-                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.phone ? selectedCustomer.phone : '-' }}</div>
-                                                    </div>
-                                                    <div class="display-flex">
-                                                        <div style="width: 25px;">
-                                                            <i class="fa fa-lw fa-info-circle" style="font-size: 14px; color: #555;" />
-                                                        </div>
-                                                        <div class="fonts fonts-10 grey">{{ selectedCustomer && selectedCustomer.about ? selectedCustomer.about : '-' }}</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div v-else>
-                                                <div class="fonts fonts-11 semibold" style="margin-top: 12px;">Customer not selected</div>
-                                            </div>
-                                        </div>
-                                        <div style="width: 40px;">
-                                            <button class="btn btn-icon btn-main-reverse with-hover" @click="openCustomer">
-                                                <i class="fa fa-lg fa-arrow-right" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div v-if="visibleAddress" class="card border-full" style="margin-top: 15px; padding: 10px; width: calc(100% - 20px);">
-                                    <div class="display-flex">
-                                        <div style="width: calc(100% - 40px)">
-                                            <div v-if="selectedAddress" class="display-flex">
-                                                <div style="width: 40px;">
-                                                    <i class="fa fa-lg fa-map-marker-alt fonts main" style="margin-top: 5px;"></i>
-                                                </div>
-                                                <div style="width: calc(100% - 80px);">
-                                                    <div class="display-flex">
-                                                        <div class="fonts fonts-10">{{ selectedAddress && selectedAddress.name ? selectedAddress.name : '-' }}</div>
-                                                        <AppDote style="margin-top: 8px;" />
-                                                        <div class="fonts fonts-10 grey">{{ selectedAddress && selectedAddress.type ? selectedAddress.type : '-' }}</div>
-                                                    </div>
-                                                    <div class="fonts fonts-10 semibold">{{ selectedAddress && selectedAddress.address ? selectedAddress.address : '-' }}</div>
-                                                </div>
-                                            </div>
-                                            <div v-else>
-                                                <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Address not selected</div>
-                                            </div>
-                                        </div>
-                                        <div style="width: 40px;">
-                                            <button class="btn btn-icon btn-main-reverse with-hover" @click="openAddress">
-                                                <i class="fa fa-lg fa-arrow-right" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <div class="card box-shadow" style="margin-top: 5px; padding: 10px; width: calc(100% - 20px);">
+                        <div class="card box-shadow" style="margin-top: 10px; padding: 10px; padding-top: 15px; padding-bottom: 15px; width: calc(100% - 20px);">
                             <div class="display-flex">
                                 <div style="width: 50px; margin-right: 20px;">
                                     <div class="image image-50px image-circle" style="text-align: center;">
@@ -110,32 +36,74 @@
                             </div>
                         </div>
 
-                        <div style="margin-top: 30px; padding-bottom: 15px;">
+                        <!-- <div style="margin-top: 30px; padding-bottom: 15px;">
                             <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
                             <AppButtonTable 
                                 :enableDetail="true"
                                 :isFull="true" 
                                 :onChange="(data) => onChangeTable(data)" 
                                 style="width: 100%; margin-bottom: 15px;" />
-                        </div>
+                        </div> -->
                         
-                        <div class="width width-full">
+                        <div class="width width-full" style="margin-top: 30px;">
                             <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Products</div>
                             <AppCardOrderItem :data.sync="data" />
                         </div>
 
+                        <div class="width width-100 margin margin-top-15-px">
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Table</div>
+                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
+                                <div class="display-flex space-between">
+                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose visible table</div>
+                                    <div style="width: 40px;">
+                                        <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
+                                            <i class="fa fa-lg fa-arrow-right" />
+                                        </button> -->
+                                        <router-link :to="{name: 'customer-table'}">
+                                            <button class="btn btn-icon btn-main-reverse with-hover">
+                                                <i class="fa fa-lg fa-arrow-right" />
+                                            </button>
+                                        </router-link>
+                                    </div>
+                                </div>
+                                <div v-if="selectedTable" class="display-flex space-between border-top" style="margin-top: 15px; padding-top: 15px;">
+                                    <div style="width: 45px; margin-right: 15px">
+                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
+                                            <img alt="" :src="selectedTable ? (tableImageThumbnailUrl + selectedTable.image) : ''" />
+                                        </div>
+                                    </div>
+                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">
+                                                {{ selectedTable && selectedTable.name }}
+                                            </div>
+                                            <div class="fonts fonts-10 grey">{{ selectedTable && selectedTable.description }}</div>
+                                        </div>
+                                        <div class="post-tops">
+                                            <div class="fonts fonts-10 semibold black">{{ selectedTable && selectedTable.code }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="width width-100 margin margin-top-20-px">
-                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Payments</div>
+                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Payment</div>
                             <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
                                 <div class="display-flex space-between">
                                     <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose payment method</div>
                                     <div style="width: 40px;">
-                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
+                                        <!-- <button class="btn btn-icon btn-main-reverse with-hover" @click="openPayment">
                                             <i class="fa fa-lg fa-arrow-right" />
-                                        </button>
+                                        </button> -->
+                                        <router-link :to="{name: 'customer-payment'}">
+                                            <button class="btn btn-icon btn-main-reverse with-hover">
+                                                <i class="fa fa-lg fa-arrow-right" />
+                                            </button>
+                                        </router-link>
                                     </div>
                                 </div>
-                                <div v-if="selectedPayment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
+                                <div v-if="selectedPayment" class="display-flex space-between border-top" style="margin-top: 15px; padding-top: 15px;">
                                     <div style="width: 45px; margin-right: 15px">
                                         <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
                                             <img alt="" :src="selectedPayment ? (paymentImageThumbnailUrl + selectedPayment.image) : ''" />
@@ -155,38 +123,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="width width-100 margin margin-top-20-px">
-                            <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Shipments</div>
-                            <div class="card border-full" style="padding: 10px; width: calc(100% - 20px);">
-                                <div class="display-flex space-between">
-                                    <div class="fonts fonts-10 semibold" style="margin-top: 10px; margin-left: 10px;">Choose shipment method</div>
-                                    <div style="width: 40px;">
-                                        <button class="btn btn-icon btn-main-reverse with-hover" @click="openShipment">
-                                            <i class="fa fa-lg fa-arrow-right" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div v-if="selectedShipment" class="display-flex space-between border-top" style="margin-top: 20px; padding-top: 20px;">
-                                    <div style="width: 45px; margin-right: 15px">
-                                        <div class="image image-padding" style="background-color: rgba(0, 0, 0, 0)">
-                                            <img alt="" :src="selectedShipment ? (shipmentImageThumbnaiUrl + selectedShipment.image) : ''" />
-                                        </div>
-                                    </div>
-                                    <div class="display-flex space-between" style="width: calc(100% - 60px);">
-                                        <div class="post-tops">
-                                            <div class="fonts fonts-10 semibold black">
-                                                {{ selectedShipment && selectedShipment.name }}
-                                            </div>
-                                            <div class="fonts fonts-10 grey">{{ selectedShipment && selectedShipment.description }}</div>
-                                        </div>
-                                        <div class="post-tops">
-                                            <div class="fonts fonts-10 semibold black">{{ 'Rp. 0' }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
 
                         <div class="width width-100 margin margin-top-20-px">
                             <div class="fonts fonts-11 semibold black" style="margin-bottom: 5px;">Notes</div>
@@ -210,10 +146,6 @@
                                         <div class="fonts fonts-10 black">Total price ({{ formPayload && formPayload.order.total_item }} products)</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.total_price }}</div>
                                     </div>
-                                    <!-- <div class="display-flex space-between margin margin-bottom-5-px">
-                                        <div class="fonts fonts-10 black">Delivery fee</div>
-                                        <div class="fonts fonts-10 grey semibold">Rp {{ formPayload && formPayload.order.delivery_fee }}</div>
-                                    </div> -->
                                     <div class="display-flex space-between margin margin-bottom-20-px">
                                         <div class="fonts fonts-10 black">PPN ({{ ppn }}%)</div>
                                         <div class="fonts fonts-10 grey semibold">Rp {{ totalPPN }}</div>
@@ -370,7 +302,7 @@ export default {
         this.getDataPayment()
         // this.getDataShipment()
 
-        // console.log('orderItem', orderItem)
+        console.log('orderItem', orderItem)
     },
     components: {
         FormPayment,
@@ -423,6 +355,7 @@ export default {
         onCancelOrder () {
             this.makeToast('Order Canceled')
             this.$cookies.remove('orderItem')
+            this.$cookies.remove('table')
             this.$router.push({ name: 'customer-main' })
         },
         onTotal (data) {

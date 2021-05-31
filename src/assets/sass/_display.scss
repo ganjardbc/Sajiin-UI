@@ -93,6 +93,18 @@
     }
 }
 
+.fixed-column-4 {
+    width: calc(100% / 4);
+}
+
+.fixed-column-3 {
+    width: calc(100% / 3);
+}
+
+.fixed-column-2 {
+    width: calc(100% / 2);
+}
+
 .column-margin {
     margin: 0 20px;
     @media (max-width: $min-width) {
