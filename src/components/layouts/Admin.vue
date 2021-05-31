@@ -102,7 +102,7 @@ const sidebarAdmin = [
     ]},
     {icon: 'fa fa-lg fa-database', label: 'MASTERDATA', value: 0, menu: [
         {icon: 'fa fa-lg fa-tag', label: 'Bizpars', value: 0, link: 'bizpar', permission: 'bizpars'},
-        {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
+        // {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
         {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'},
         {icon: 'fa fa-lg fa-newspaper', label: 'Articles', value: 0, link: 'articlelist', permission: 'articles'},
         {icon: 'fa fa-lg fa-check', label: 'Benefits', value: 0, link: 'benefit', permission: 'benefits'}
