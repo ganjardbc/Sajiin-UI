@@ -44,10 +44,10 @@
                         </router-link>
                         <router-link :to="{name: 'profile'}" class="card-small-profile" style="margin-left: 5px;">
                             <div class="image" style="text-align: center;">
-                                <i v-if="!user.image" class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
-                                <img v-else :src="user && user.image ? (adminImageThumbnailUrl + user.image) : ''" alt="">
+                                <img v-if="dataUser && dataUser.image" :src="dataUser && dataUser.image ? (adminImageThumbnailUrl + dataUser.image) : ''" alt="">
+                                <i v-else class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
                             </div>
-                            <div class="label" style="text-transform: uppercase;">{{ user && user.name }}</div>
+                            <div class="label" style="text-transform: uppercase;">{{ dataUser && dataUser.name }}</div>
                         </router-link>
                     </div>
                 </div>
@@ -124,7 +124,8 @@ export default {
             sidebar: null,
             isSidebarSmall: false,
             classSidebar: 'sidebar smalls',
-            classSidebarMenu: 'menu-list hover with-icon smalls'
+            classSidebarMenu: 'menu-list hover with-icon smalls',
+            dataUser: null 
         }
     },
     beforeMount (){
@@ -133,6 +134,8 @@ export default {
         }
     },
     mounted () {
+        this.dataUser = this.user ? this.user : this.$cookies.get('user')
+
         const token = this.$cookies.get('token')
         console.log('token', token)
 

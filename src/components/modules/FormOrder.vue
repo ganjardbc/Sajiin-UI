@@ -108,12 +108,12 @@
                         <div class="fonts fonts-10 semibold orange">Rp. {{ data.order.total_price }}</div>
                     </div>
                 </div>
-                <div class="display-flex space-between" style="margin-bottom: 0;">
+                <div v-if="data.payment" class="display-flex space-between" style="margin-bottom: 0;">
                     <div class="width width-70">
                         <div class="fonts fonts-10 black">Payment Method</div>
                     </div>
                     <div class="width width-30">
-                        <div class="fonts fonts-10 black semibold">{{ data.payment.name }}</div>
+                        <div class="fonts fonts-10 black semibold">{{ data.payment && data.payment.name }}</div>
                     </div>
                 </div>
             </div>
@@ -133,12 +133,20 @@
                         <div class="fonts fonts-10 semibold">Rp. {{ data.order.bills_price }}</div>
                     </div>
                 </div>
-                <div class="display-flex space-between" style="margin-bottom: 0;">
+                <div class="display-flex space-between" style="margin-bottom: 5px;">
                     <div class="width width-70">
                         <div class="fonts fonts-10 black">Change</div>
                     </div>
                     <div class="width width-30">
                         <div class="fonts fonts-10 semibold">Rp. {{ data.order.change_price }}</div>
+                    </div>
+                </div>
+                <div class="display-flex space-between" style="margin-bottom: 0;">
+                    <div class="width width-70">
+                        <div class="fonts fonts-10 black">Payment Status</div>
+                    </div>
+                    <div class="width width-30">
+                        <div class="fonts fonts-10 black semibold">{{ data.order.payment_status ? 'Paid' : 'Unpaid' }}</div>
                     </div>
                 </div>
             </div>

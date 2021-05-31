@@ -30,17 +30,17 @@
                             </div>
                             <div class="display-flex display-mobile">
                                 <div class="header-menu-list display-flex display-mobile">
-                                    <router-link v-if="!user ? false : true" :to="{name: 'dashboard'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
+                                    <router-link v-if="!dataUser ? false : true" :to="{name: 'dashboard'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
                                         <button class="btn btn-small btn-sekunder btn-mobile">
                                             DASHBOARD
                                         </button>
                                     </router-link>
-                                    <router-link v-if="user ? false : true" :to="{name: 'login'}" style="display: block;" class="header-menu-mobile">
+                                    <router-link v-if="dataUser ? false : true" :to="{name: 'login'}" style="display: block;" class="header-menu-mobile">
                                         <button class="btn btn-small btn-sekunder btn-mobile">
                                             LOGIN
                                         </button>
                                     </router-link>
-                                    <router-link v-if="user ? false : true" :to="{name: 'register'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
+                                    <router-link v-if="dataUser ? false : true" :to="{name: 'register'}" style="display: block;" class="margin margin-left-5-px no-margin-padding">
                                         <button class="btn btn-small btn-main btn-mobile">
                                             REGISTER
                                         </button>
@@ -210,10 +210,13 @@ export default {
             navbar: navbar,
             role: null,
             customer: null,
-            token: null
+            token: null,
+            dataUser: null
         }
     },
     mounted () {
+        this.dataUser = this.$cookies.get('user')
+
         const role = this.$cookies.get('role')
         this.role = role
         console.log('role', role)

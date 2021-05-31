@@ -229,8 +229,6 @@ export default {
       const response = await axios.get('/api/me', { headers: { Authorization: AuthStr } })
 
       if (response) {
-        console.log('vuex register', data)
-
         const data = response.data.data
         const permissions = data ? {permissions: [...data.permissions]} : null 
 
@@ -248,6 +246,8 @@ export default {
           commit('SET_ADMIN', data && data.user)
           commit('SET_ROLENAME', 'customer')
         }
+
+        console.log('vuex register', data)
       } else {
         console.log('vuex unregister')
 

@@ -14,6 +14,7 @@
                     </div>
 
                     <AppButtonQR 
+                        v-if="dataUser.role_name === 'owner'"
                         :buttonFull="true"
                         :onChange="(data) => onChangeCustomer(data)" 
                         :code="code"
@@ -182,24 +183,26 @@ export default {
             image: '',
             code: '',
             formData: {...payload},
+            dataUser: null 
         }
     },
     mounted () {
+        this.dataUser = this.user ? this.user : this.$cookies.get('user')
         const token = this.$cookies.get('token')
         this.formData = {
             ...payload,
-            id: this.user.id,
-            name: this.user.name,
-            role_name: this.user.role_name,
-            enabled: this.user.enabled,
-            status: this.user.status,
-            email: this.user.email,
-            image: this.user.image
+            id: this.dataUser.id,
+            name: this.dataUser.name,
+            role_name: this.dataUser.role_name,
+            enabled: this.dataUser.enabled,
+            status: this.dataUser.status,
+            email: this.dataUser.email,
+            image: this.dataUser.image
         }
-        this.image = this.user.image ? this.adminImageThumbnailUrl + this.user.image : ''
+        this.image = this.dataUser.image ? this.adminImageThumbnailUrl + this.dataUser.image : ''
         this.code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + token
 
-        console.log('user', this.user)
+        console.log('user', this.dataUser)
     },
     components: {
         AppPopupForm,

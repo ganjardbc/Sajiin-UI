@@ -220,13 +220,13 @@
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">PRODUCT ID</th>
+                        <th>PRODUCT ID</th>
                         <th>NAME</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in dataProduct" :key="index">
-                            <td class="normal-col">{{ dt.product.product_id }}</td>
+                            <td>{{ dt.product.product_id }}</td>
                             <td>{{ dt.product.name }}</td>
                             <td class="small-col">
                                 <button v-if="payload.product_id !== dt.product.id" class="btn btn-small-icon btn-sekunder" @click="onChoose(dt, 'product')">
@@ -247,14 +247,14 @@
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">DETAIL ID</th>
+                        <th>DETAIL ID</th>
                         <th>NAME</th>
                         <th class="normal-col">PRICE</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in dataDetail" :key="index">
-                            <td class="normal-col">{{ dt.proddetail_id }}</td>
+                            <td>{{ dt.proddetail_id }}</td>
                             <td>{{ dt.name }}</td>
                             <td class="normal-col">{{ dt.price }}</td>
                             <td class="small-col">
@@ -276,14 +276,14 @@
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">TOPING ID</th>
+                        <th>TOPING ID</th>
                         <th>NAME</th>
                         <th class="normal-col">PRICE</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in dataToping" :key="index">
-                            <td class="normal-col">{{ dt.toping_id }}</td>
+                            <td>{{ dt.toping_id }}</td>
                             <td>{{ dt.name }}</td>
                             <td class="normal-col">{{ dt.price }}</td>
                             <td class="small-col">
@@ -353,10 +353,12 @@ export default {
             dataProduct: [],
             dataDetail: [],
             dataToping: [],
-            formMessage: []
+            formMessage: [],
+            dataUser: null
         }
     },
     mounted () {
+        this.dataUser = this.$cookies.get('user')
         this.getData(this.selectedOrderId)
         this.getDataProduct()
     },
@@ -556,10 +558,15 @@ export default {
             this.visibleLoader = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
+            const payload = this.dataUser.role_name === 'admin' ? {
                 limit: 1000,
                 offset: 0,
                 status: 'active'
+            } : {
+                limit: 1000,
+                offset: 0,
+                status: 'active',
+                user_id: this.dataUser.id
             }
 
             const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })

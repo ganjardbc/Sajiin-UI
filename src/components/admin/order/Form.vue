@@ -106,7 +106,7 @@
                         id="bills_price" 
                         @keyup="onChangeBills"
                         v-model="formData.order.bills_price"
-                        :readonly="this.title === 'VIEW' ? true : false">
+                        :readonly="this.title !== 'EDIT' ? true : false">
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.bills_price && formMessage.bills_price[0] }}
                     </div>
@@ -128,7 +128,7 @@
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">PAYMENT STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
-                        <div v-if="dataUser.role_name === 'owner'" class="display-flex">
+                        <div v-if="dataUser.role_name === 'owner' ? true : true" class="display-flex">
                             <label class="radio">
                                 <input 
                                     type="radio" 
@@ -190,7 +190,7 @@
                     <div class="field-label">ORDER STATUS</div>
                     <div v-if="this.title === 'EDIT' ? true : false">
                         <select 
-                            v-if="dataUser.role_name === 'owner'"
+                            v-if="dataUser.role_name === 'owner' ? true : true"
                             class="cf-input slc slc-sekunder"
                             name="status" 
                             id="status" 
@@ -271,117 +271,132 @@
             </div>
 
             <div v-if="selectedIndex === 1">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonCustomer">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
+                <div v-if="roleName !== 'customer'">
+                    <div class="field-group margin margin-bottom-15-px">
+                        <div class="field-label">ID</div>
+                        <div v-if="this.title !== 'VIEW'" class="card-search full">
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field"
+                                name="customer_id" 
+                                id="customer_id" 
+                                v-model="formData.order.customer_id"
+                                readonly>
+                            <button class="btn btn-icon btn-white" @click="onButtonCustomer">
+                                <i class="fa fa-1x fa-search" />
+                            </button>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field field-sekunder"
+                                style="width: 100%;"
+                                name="customer_id" 
+                                id="customer_id" 
+                                v-model="formData.order.customer_id"
+                                readonly>
+                        </div>
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
+                        </div>
                     </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
-                    </div>
+                    <FormCustomer
+                        :data.sync="formData.customer"
+                        :enablePopup="openCreateCustomer"
+                        :onChange="(data) => onChangeCustomer(data)"
+                    />
                 </div>
-                <FormCustomer
-                    :data.sync="formData.customer"
-                    :enablePopup="openCreateCustomer"
-                    :onChange="(data) => onChangeCustomer(data)"
-                />
+                <div v-else style="text-align: center;">
+                    <div class="fonts micro semibold" >You have got owner access</div>
+                </div>
             </div>
 
             <div v-if="selectedIndex === 2">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="table_id" 
-                            id="table_id" 
-                            v-model="formData.order.table_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonTable">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
+                <div v-if="roleName !== 'customer'">
+                    <div class="field-group margin margin-bottom-15-px">
+                        <div class="field-label">ID</div>
+                        <div v-if="this.title !== 'VIEW'" class="card-search full">
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field"
+                                name="table_id" 
+                                id="table_id" 
+                                v-model="formData.order.table_id"
+                                readonly>
+                            <button class="btn btn-icon btn-white" @click="onButtonTable">
+                                <i class="fa fa-1x fa-search" />
+                            </button>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field field-sekunder"
+                                style="width: 100%;"
+                                name="table_id" 
+                                id="table_id" 
+                                v-model="formData.order.table_id"
+                                readonly>
+                        </div>
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
+                        </div>
                     </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="table_id" 
-                            id="table_id" 
-                            v-model="formData.order.table_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
-                    </div>
+                    <FormTable 
+                        :data.sync="formData.table"
+                        :enablePopup="openCreateTable"
+                        :onChange="(data) => onChangeTable(data)"
+                    />
                 </div>
-                <FormTable 
-                    :data.sync="formData.table"
-                    :enablePopup="openCreateTable"
-                    :onChange="(data) => onChangeTable(data)"
-                />
+                <div v-else style="text-align: center;">
+                    <div class="fonts micro semibold" >You have got owner access</div>
+                </div>
             </div>
 
             <div v-if="selectedIndex === 3">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="payment_id" 
-                            id="payment_id" 
-                            v-model="formData.order.payment_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonPayment">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
+                <div v-if="roleName !== 'customer'">
+                    <div class="field-group margin margin-bottom-15-px">
+                        <div class="field-label">ID</div>
+                        <div v-if="this.title !== 'VIEW'" class="card-search full">
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field"
+                                name="payment_id" 
+                                id="payment_id" 
+                                v-model="formData.order.payment_id"
+                                readonly>
+                            <button class="btn btn-icon btn-white" @click="onButtonPayment">
+                                <i class="fa fa-1x fa-search" />
+                            </button>
+                        </div>
+                        <div v-else>
+                            <input 
+                                type="search" 
+                                placeholder="" 
+                                class="field field-sekunder"
+                                style="width: 100%;"
+                                name="payment_id" 
+                                id="payment_id" 
+                                v-model="formData.order.payment_id"
+                                readonly>
+                        </div>
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.payment_id && formMessage.payment_id[0] }}
+                        </div>
                     </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="payment_id" 
-                            id="payment_id" 
-                            v-model="formData.order.payment_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.payment_id && formMessage.payment_id[0] }}
-                    </div>
+                    <FormPayment
+                        :data.sync="formData.payment"
+                        :enablePopup="openCreatePayment"
+                        :onChange="(data) => onChangePayment(data)"
+                    />
                 </div>
-                <FormPayment
-                    :data.sync="formData.payment"
-                    :enablePopup="openCreatePayment"
-                    :onChange="(data) => onChangePayment(data)"
-                />
+                <div v-else style="text-align: center;">
+                    <div class="fonts micro semibold" >You have got owner access</div>
+                </div>
             </div>
 
             <!-- <div v-if="selectedIndex === 3">
@@ -528,8 +543,6 @@ const tabs = [
     {label: 'Customer', status: ''},
     {label: 'Table', status: ''},
     {label: 'Payment', status: ''},
-    // {label: 'Shipment', status: ''},
-    // {label: 'Address', status: ''},
     {label: 'Products', status: ''}
 ]
 
@@ -547,7 +560,7 @@ const payload = {
         payment_status: 0,
         proof_of_payment: '',
         status: 'unconfirmed',
-        type: '',
+        type: 'personal',
         note: '',
         table_id: '',
         customer_id: '',
@@ -581,11 +594,13 @@ export default {
             formMessage: [],
             formBpOrder: [],
             formBpStatus: [],
-            dataUser: null 
+            dataUser: null,
+            roleName: null
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
+        this.roleName = this.dataUser.role_name
         this.formData = {...payload}
     },
     components: {
@@ -754,7 +769,8 @@ export default {
                 order: {
                     ...this.formData.order,
                     bills_price: bills,
-                    change_price: ttl
+                    change_price: ttl,
+                    payment: ttl > 0 ? 1 : 0
                 }
             }
         },
