@@ -215,7 +215,8 @@ export default {
         }
     },
     mounted () {
-        this.dataUser = this.$cookies.get('user')
+        const usr = this.$cookies.get('user')
+        this.dataUser = this.user ? this.user : usr 
 
         const role = this.$cookies.get('role')
         this.role = role
@@ -263,6 +264,13 @@ export default {
             cart: 'cart/count',
             order: 'order/count'
         })
+    },
+    watch: {
+        user (props) {
+            if (props) {
+                this.dataUser = props
+            }
+        }
     }
 }
 
