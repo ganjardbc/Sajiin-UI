@@ -328,12 +328,12 @@ export default {
     methods: {
         ...mapActions({
             setToast: 'toast/setToast',
-            getCount: 'cart/getCount',
-            getCountOrder: 'order/getCount'
+            getCountCart: 'cart/getCountCustomer',
+            getCountOrder: 'order/getCountCustomer'
         }),
         getLocalCartCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            this.getCount(token)
+            this.getCountCart(token)
         },
         getLocalOrderCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
@@ -417,8 +417,6 @@ export default {
             this.$cookies.set('orderItem', JSON.stringify(this.formPayload))
         },
         onChangeTable (data) {
-            // this.getLocalCartCount()
-            // this.getLocalOrderCount()
             this.onChangeOnlyTable (data)
         },
         onChangeCustomer (data) {

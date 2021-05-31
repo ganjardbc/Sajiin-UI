@@ -58,6 +58,7 @@ export default {
             .then((rest) => {
                 const count = rest.data.data
                 commit('SET_COUNT_CUSTOMER', count > 0 ? count : 0)
+                console.log('getCountCustomerCart => ', count)
             })
             .catch(() => {
                 commit('SET_COUNT_CUSTOMER', 0)
@@ -69,6 +70,8 @@ export default {
                 const count = rest.data.data
                 commit('SET_COUNT', count.all)
                 commit('SET_ALL', count)
+
+                console.log('count card', count)
             })
             .catch(() => {
                 commit('SET_COUNT', 0)

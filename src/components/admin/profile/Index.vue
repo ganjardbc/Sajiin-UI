@@ -14,7 +14,7 @@
                     </div>
 
                     <AppButtonQR 
-                        v-if="dataUser.role_name === 'owner'"
+                        v-if="dataUser.role_name !== 'customer'"
                         :buttonFull="true"
                         :onChange="(data) => onChangeCustomer(data)" 
                         :code="code"

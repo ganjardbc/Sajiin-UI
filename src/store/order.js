@@ -74,7 +74,7 @@ export default {
                     unconfirmed: count.unconfirmed
                 }
 
-                console.log('getcountcustomer', rest)
+                console.log('getCountCustomerOrder => ', rest)
 
                 commit('SET_COUNT_CUSTOMER', count.all)
                 commit('SET_ALL_CUSTOMER', newPayload)
@@ -103,6 +103,7 @@ export default {
 
                 commit('SET_COUNT', count.all)
                 commit('SET_ALL', newPayload)
+                console.log('count order', count)
             })
             .catch(() => {
                 commit('SET_COUNT', 0)
