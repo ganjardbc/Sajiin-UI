@@ -414,6 +414,82 @@
     }
 }
 
+.card-toast-message-container {
+    position: fixed;
+    z-index: 10000;
+    top: 50px;
+    right: 20px;
+    width: 340px;
+    padding: 0 10px;
+    // max-height: calc(100vh - 100px);
+    // overflow-y: auto;
+    transition: 0.5s;
+}
+
+.card-toast-message {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+    transition: 0.5s;
+    // &.hide {
+    //     position: absolute;
+    //     right: -320px;
+    //     transition: 0.5s;
+    // }
+    // &.show {
+    //     right: 20px;
+    //     transition: 0.5s;
+    // }
+    .card-toast-message-content {
+        position: relative;
+        width: calc(100% - 10px);
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: #e8f9f6;
+        box-shadow: $shadow-bold;
+        border-left: 5px $teal solid;
+        .sign {
+            position: relative;
+            text-align: left;
+            .icn {
+                color: $teal;
+                font-size: 18px;
+            }
+        }
+        .left {
+            position: relative;
+            width: calc(100% - 55px);
+            padding: 14px 0;
+            padding-left: 10px;
+            padding-right: 15px;
+            .ttl {
+                font-weight: bold;
+                font-size: 11pt;
+                color: $black;
+            }
+            .subttl {
+                font-weight: normal;
+                font-size: 10pt;
+                color: $black;
+            }
+        }
+        .right {
+            position: relative;
+            width: 30px;
+            text-align: center;
+            cursor: pointer;
+            &:hover {
+                background-color: rgba($color: $teal, $alpha: 0.4);
+            }
+            .icn {
+                @include post_center(absolute);
+                color: $black;
+                font-size: 14px;
+            }
+        }
+    }
+}
+
 .card-check {
     position: relative;
     width: 35px;

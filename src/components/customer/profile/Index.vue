@@ -21,14 +21,11 @@
                         </div>
                     </div>
 
-                    <!-- <div style="margin-top: 5px;">
-                        <div class="fonts fonts-10 black semibold" style="margin-bottom: 10px;">Table</div>
-                        <AppButtonTable 
-                            :enableDetail="true"
-                            :isFull="true" 
-                            :onChange="(data) => onChangeSelectedTable(data)" 
-                            style="width: 100%; margin-bottom: 15px;" />
-                    </div> -->
+                    <div style="padding-top: 5px; padding-bottom: 15px;">
+                        <button class="btn btn-main btn-full" @click="sendSocketOrder">
+                            Send Order 
+                        </button>
+                    </div>
 
                     <div v-if="dataOrder" class="border border-bottoms" style="padding-top: 5px; padding-bottom: 15px;">
                         <div class="fonts fonts-10 semibold" style="margin-bottom: 5px;">
@@ -117,7 +114,7 @@ export default {
     mounted () {
         this.selectedCustomer = this.$cookies.get('customer')
         this.dataOrder = this.$cookies.get('orderItem')
-        this.dataUser = this.$cookies.get('user')
+        this.dataUser = this.$cookies.get('admin')
     },
     components: {
         FormCustomer,
@@ -134,7 +131,9 @@ export default {
             setCustomer: 'auth/setCustomer'
         }),
         makeToast (title) {
+            const time = new Date().getTime()
             const payload = {
+                id: time,
                 visible: true,
                 title: title
             }
@@ -251,6 +250,18 @@ export default {
                 alert('Proceed failed')
                 this.visibleLoaderAction = false
             }
+        },
+        sendSocketOrder () {
+            const payload = {
+                order_id: '0001',
+                customer_id: this.selectedCustomer ? this.selectedCustomer.id : '',
+                owner_id: this.dataUser ? this.dataUser.id : '',
+                title: 'Orders',
+                subtitle: 'You have new order',
+                link: 'localhost:8088'
+            }
+
+            this.$socket.emit('order', payload)
         }
     },
     computed: {

@@ -39,7 +39,7 @@
                         <router-link :to="{name: '404'}" style="margin-left: 5px;">
                             <button class="btn btn-white btn-icon btn-radius" title="Notifications">
                                 <i class="fa fa-lg fa-bell" />
-                                <span class="notif">0</span>
+                                <span class="notif">{{ countNotif }}</span>
                             </button>
                         </router-link>
                         <router-link :to="{name: 'profile'}" class="card-small-profile" style="margin-left: 5px;">
@@ -72,6 +72,8 @@
         </div>
 
         <AppToast />
+
+        <AppToastMessage />
     </div>
 </template>
 
@@ -81,6 +83,7 @@ import AppListMenu from '../modules/AppListMenu'
 import logo from '@/assets/img/logo.png'
 import icon from '@/assets/img/icon.png'
 import AppToast from '../modules/AppToast'
+import AppToastMessage from '../modules/AppToastMessage'
 
 const sidebarAdmin = [
     {icon: 'fa fa-lg fa-database', label: 'DASHBOARD', value: 0, menu: [
@@ -121,6 +124,7 @@ export default {
             permissions: null,
             logo: logo,
             icon: icon,
+            countNotif: 0,
             sidebar: null,
             isSidebarSmall: false,
             classSidebar: 'sidebar smalls',
@@ -148,14 +152,26 @@ export default {
         this.getLocalOrderCount()
     },
     components: {
+        AppToastMessage,
         AppToast,
         AppListMenu
     },
     methods: {
         ...mapActions({
+            setToast: 'toastmessage/setMultipleToast',
             getCount: 'cart/getCount',
             getCountOrder: 'order/getCount'
         }),
+        makeToast (title, subtitle) {
+            const time = new Date().getTime()
+            const payload = {
+                id: time,
+                visible: true,
+                title: title,
+                subtitle: subtitle
+            }
+            this.setToast(payload)
+        },
         onCheckSubmenus (data) {
             let menu = []
             data && data.map((dt) => {
@@ -247,21 +263,18 @@ export default {
             }
 
             this.onSetNotif('orders', val)
-        },
-        // carts (props) {
-        //     let val = 0
-        //     const data = this.$cookies.get('user')
-        //     const role = data && data.role_name
-        //     switch (role) {
-        //         case 'admin':
-        //             val = props.allAdmin
-        //             break;
-        //         default:
-        //             val = props.all
-        //             break;
-        //     }
-        //     this.onSetNotif('carts', val)
-        // }
+        }
+    },
+    sockets: {
+        orderList: function (data) {
+            console.log('orderList', data)
+            const lth = data.length
+            const payload = data && data[lth - 1]
+            this.countNotif = lth 
+            this.getLocalCartCount()
+            this.getLocalOrderCount()
+            this.makeToast(payload.title, payload.subtitle)
+        }
     }
 }
 </script>

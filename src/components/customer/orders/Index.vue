@@ -283,7 +283,7 @@ export default {
         const orderItem = this.$cookies.get('orderItem')
 
         this.data = orderItem.details
-        this.dataUser = this.$cookies.get('user')
+        this.dataUser = this.$cookies.get('admin')
         this.formPayload = {...orderItem}
         this.selectedTable = orderItem && orderItem.table ? orderItem.table : this.$cookies.get('table')
         this.selectedCustomer = orderItem && orderItem.customer ? orderItem.customer : this.$cookies.get('customer')
@@ -517,6 +517,7 @@ export default {
                 this.makeToast('Your Order Created')
                 this.getLocalCartCount()
                 this.getLocalOrderCount()
+                this.sendSocketOrder(data.order.order_id)
                 this.$cookies.remove('orderItem')
                 this.$router.push({ name: 'customer-order-list' })
             } else {
@@ -591,7 +592,19 @@ export default {
             } else {
                 // console.log('csID not defined', csID)
             }
+        },
+        sendSocketOrder (order_id) {
+            const payload = {
+                order_id: order_id,
+                customer_id: this.selectedCustomer ? this.selectedCustomer.id : '',
+                owner_id: this.dataUser ? this.dataUser.id : '',
+                title: 'You have new order',
+                subtitle: order_id,
+                link: 'localhost:8088'
+            }
+
+            this.$socket.emit('order', payload)
         }
-    },
+    }
 }
 </script>

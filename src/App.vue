@@ -7,6 +7,7 @@
 <script>
 import Web from './components/layouts/Web'
 import Admin from './components/layouts/Admin'
+import io from 'socket.io-client'
 
 export default {
     name: 'App',
@@ -14,6 +15,10 @@ export default {
         Web,
         Admin
     },
+    created () {
+        var socket = io.connect(socketUrl)
+        console.log('socket', socket)
+    }
 }
 </script>
 

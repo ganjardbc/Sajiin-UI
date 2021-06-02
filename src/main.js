@@ -10,11 +10,14 @@ import {routes} from './router';
 import store from './store';
 import SmartTable from 'vuejs-smart-table';
 import jquery from 'jquery';
+import VueSocketIO from 'vue-socket.io';
+import SocketIo from 'socket.io-client';
 import "./assets/sass/app.css";
 import "./assets/icons/fontawesome/css/all.min.css";
 import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
+const socket = "http://localhost:9999";
 // const api = "http://localhost:8000"; 
 const api = "https://kebunbegonialembang.com/sajiin-v2/public/";
 const deploy = "https://ganjardbc.github.io/Sajiin-UI/";
@@ -30,12 +33,17 @@ Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VueCookies);
 Vue.use(SmartTable);
+Vue.use(new VueSocketIO({
+    debug: true,
+    connection: SocketIo(socket)
+}));
 
 
 Vue.$cookies.config('7d');
 Vue.prototype.deployUrl = deploy;
 Vue.prototype.apiUrl = api;
 Vue.prototype.initUrl = url;
+Vue.prototype.socketUrl = socket;
 Vue.prototype.adminImageThumbnailUrl = api + '/contents/users/thumbnails/';
 Vue.prototype.adminImageCoverUrl = api + '/contents/users/covers/';
 Vue.prototype.benefitImageThumbnailUrl = api + '/contents/benefits/thumbnails/';

@@ -1548,6 +1548,78 @@ a.btn {
   font-size: 12px;
 }
 
+.card-toast-message-container {
+  position: fixed;
+  z-index: 10000;
+  top: 50px;
+  right: 20px;
+  width: 340px;
+  padding: 0 10px;
+  transition: 0.5s;
+}
+
+.card-toast-message {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+  transition: 0.5s;
+}
+.card-toast-message .card-toast-message-content {
+  position: relative;
+  width: calc(100% - 10px);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #e8f9f6;
+  box-shadow: 3px 6px 18px rgba(0, 0, 0, 0.1);
+  border-left: 5px #4dc0b5 solid;
+}
+.card-toast-message .card-toast-message-content .sign {
+  position: relative;
+  text-align: left;
+}
+.card-toast-message .card-toast-message-content .sign .icn {
+  color: #4dc0b5;
+  font-size: 18px;
+}
+.card-toast-message .card-toast-message-content .left {
+  position: relative;
+  width: calc(100% - 55px);
+  padding: 14px 0;
+  padding-left: 10px;
+  padding-right: 15px;
+}
+.card-toast-message .card-toast-message-content .left .ttl {
+  font-weight: bold;
+  font-size: 11pt;
+  color: #151f2d;
+}
+.card-toast-message .card-toast-message-content .left .subttl {
+  font-weight: normal;
+  font-size: 10pt;
+  color: #151f2d;
+}
+.card-toast-message .card-toast-message-content .right {
+  position: relative;
+  width: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+.card-toast-message .card-toast-message-content .right:hover {
+  background-color: rgba(77, 192, 181, 0.4);
+}
+.card-toast-message .card-toast-message-content .right .icn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #151f2d;
+  font-size: 14px;
+}
+
 .card-check {
   position: relative;
   width: 35px;
