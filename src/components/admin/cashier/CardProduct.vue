@@ -34,8 +34,8 @@
                                     :class="'card-capsule pointer no-height ' + (indexDetail === dt.id ? 'active' : 'normal')" 
                                     @click="selectDetail(dt.id)"
                                     style="margin-right: 5px; margin-bottom: 5px; padding-bottom: 4px; border-radius: 4px;">
-                                    <div class="fonts fonts-10 semibold">{{ dt.name }}</div>
-                                    <div class="fonts fonts-9 grey">Rp. {{ dt.price }}</div>
+                                    <div class="fonts fonts-9 semibold">{{ dt.name }}</div>
+                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price }}</div>
                                 </div>
                             </div>
                         </div>
@@ -48,8 +48,8 @@
                                     :class="'card-capsule pointer no-height ' + (indexToping === dt.id ? 'active' : 'normal')" 
                                     @click="selectToping(dt.id)"
                                     style="margin-right: 5px; margin-bottom: 5px; padding-bottom: 4px; border-radius: 4px;">
-                                    <div class="fonts fonts-10 semibold">{{ dt.name }}</div>
-                                    <div class="fonts fonts-9 grey">Rp. {{ dt.price }}</div>
+                                    <div class="fonts fonts-9 semibold">{{ dt.name }}</div>
+                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price }}</div>
                                 </div>
                             </div>
                         </div>
