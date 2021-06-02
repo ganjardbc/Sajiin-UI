@@ -112,6 +112,16 @@ export default {
 
                 this.$router.push({ name: 'home' })
                 // window.location = this.initUrl + '/home'
+
+                if (data) {
+                    const payload = {
+                        id: data.user.id,
+                        name: data.user.name,
+                        email: data.user.email,
+                        token: data.token
+                    }
+                    this.$socket.emit('admin', payload)
+                }
             } else {
                 this.visibleLoader = false
                 this.visibleError = true

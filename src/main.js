@@ -17,7 +17,7 @@ import "./assets/icons/fontawesome/css/all.min.css";
 import Vue from 'vue';
 
 const url = window.location.protocol+'//'+window.location.host;
-const socket = "http://localhost:9999";
+const socket = "https://sajiin-socket-v1.herokuapp.com";
 // const api = "http://localhost:8000"; 
 const api = "https://kebunbegonialembang.com/sajiin-v2/public/";
 const deploy = "https://ganjardbc.github.io/Sajiin-UI/";
