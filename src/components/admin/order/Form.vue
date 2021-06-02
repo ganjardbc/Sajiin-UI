@@ -43,32 +43,6 @@
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">DELIVERY FEE</div>
-                    <input 
-                        v-if="dataUser.role_name === 'owner'"
-                        type="number" 
-                        placeholder="" 
-                        class="field field-sekunder" 
-                        name="delivery_fee" 
-                        id="delivery_fee" 
-                        @change="onChangeDeliveryFee"
-                        v-model="formData.order.delivery_fee"
-                        :readonly="this.title === 'EDIT' ? false : true">
-                    <input 
-                        v-else
-                        type="text" 
-                        placeholder="" 
-                        class="field field-sekunder" 
-                        name="delivery_fee" 
-                        id="delivery_fee" 
-                        style="text-transform: capitalize;"
-                        :value="formData.order.delivery_fee"
-                        readonly>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.delivery_fee && formMessage.delivery_fee[0] }}
-                    </div>
-                </div>
-                <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">TOTAL ITEM</div>
                     <input 
                         type="number" 
@@ -123,6 +97,47 @@
                         readonly>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.change_price && formMessage.change_price[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">ORDER STATUS</div>
+                    <div v-if="this.title === 'EDIT' ? true : false">
+                        <select 
+                            v-if="dataUser.role_name === 'owner' ? true : true"
+                            class="cf-input slc slc-sekunder"
+                            name="status" 
+                            id="status" 
+                            v-model="formData.order.status"
+                            :readonly="this.title === 'VIEW' ? true : false">
+                            <option v-for="(ctr, index) in formBpStatus" :value="ctr.value" :key="index">
+                                {{ ctr.value }}
+                            </option>
+                        </select>
+                        <div v-else>
+                            <input 
+                                type="text" 
+                                placeholder="" 
+                                class="field field-sekunder" 
+                                name="order_status" 
+                                id="order_status" 
+                                style="text-transform: capitalize;"
+                                :value="formData.order.status"
+                                readonly>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <input 
+                            type="text" 
+                            placeholder="" 
+                            class="field field-sekunder" 
+                            name="order_status" 
+                            id="order_status" 
+                            style="text-transform: capitalize;"
+                            :value="formData.order.status"
+                            readonly>
+                    </div>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.status && formMessage.status[0] }}
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
@@ -186,76 +201,6 @@
                         {{ formMessage && formMessage.payment_status && formMessage.payment_status[0] }}
                     </div>
                 </div>
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ORDER STATUS</div>
-                    <div v-if="this.title === 'EDIT' ? true : false">
-                        <select 
-                            v-if="dataUser.role_name === 'owner' ? true : true"
-                            class="cf-input slc slc-sekunder"
-                            name="status" 
-                            id="status" 
-                            v-model="formData.order.status"
-                            :readonly="this.title === 'VIEW' ? true : false">
-                            <option v-for="(ctr, index) in formBpStatus" :value="ctr.value" :key="index">
-                                {{ ctr.value }}
-                            </option>
-                        </select>
-                        <div v-else>
-                            <input 
-                                type="text" 
-                                placeholder="" 
-                                class="field field-sekunder" 
-                                name="order_status" 
-                                id="order_status" 
-                                style="text-transform: capitalize;"
-                                :value="formData.order.status"
-                                readonly>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <input 
-                            type="text" 
-                            placeholder="" 
-                            class="field field-sekunder" 
-                            name="order_status" 
-                            id="order_status" 
-                            style="text-transform: capitalize;"
-                            :value="formData.order.status"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.status && formMessage.status[0] }}
-                    </div>
-                </div>
-                <!-- <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ORDER TYPE</div>
-                    <div v-if="this.title !== 'VIEW' ? true : false">
-                        <select 
-                            class="cf-input slc slc-sekunder"
-                            name="type" 
-                            id="type" 
-                            v-model="formData.order.type"
-                            :readonly="this.title === 'VIEW' ? true : false">
-                            <option v-for="(ctr, index) in formBpOrder" :value="ctr.value" :key="index">
-                                {{ ctr.value }}
-                            </option>
-                        </select>
-                    </div>
-                    <div v-else>
-                        <input 
-                            type="text" 
-                            placeholder="" 
-                            class="field field-sekunder" 
-                            name="type" 
-                            id="type" 
-                            style="text-transform: capitalize;"
-                            :value="formData.order.type"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.type && formMessage.type[0] }}
-                    </div>
-                </div> -->
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">NOTE</div>
                     <textarea 
@@ -399,129 +344,19 @@
                 </div>
             </div>
 
-            <!-- <div v-if="selectedIndex === 3">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="shipment_id" 
-                            id="shipment_id" 
-                            v-model="formData.order.shipment_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonShipment">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
-                    </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="shipment_id" 
-                            id="shipment_id" 
-                            v-model="formData.order.shipment_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.shipment_id && formMessage.shipment_id[0] }}
-                    </div>
-                </div>
-                <FormShipment
-                    :data.sync="formData.shipment"
-                    :enablePopup="openCreateShipment"
-                    :onChange="(data) => onChangeShipment(data)"
-                />
-            </div>
-
             <div v-if="selectedIndex === 4">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonCustomer">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
-                    </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="customer_id" 
-                            id="customer_id" 
-                            v-model="formData.order.customer_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.customer_id && formMessage.customer_id[0] }}
-                    </div>
+                <div v-if="title !== 'CREATE' ? true : false">
+                    <FormProduct 
+                        :selectedId.sync="formData.order.id"
+                        :selectedOrderId.sync="formData.order.order_id"
+                        :enableButton="title === 'EDIT' ? true : false"
+                        :enablePopup="popupProductCreate"
+                        :onCalculate="(data) => onCalculate(data)"
+                    />
                 </div>
-                <FormCustomer
-                    :data.sync="formData.customer"
-                    :enablePopup="openCreateCustomer"
-                    :onChange="(data) => onChangeCustomer(data)"
-                />
-            </div>
-
-            <div v-if="selectedIndex === 5">
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">ID</div>
-                    <div v-if="this.title !== 'VIEW'" class="card-search full">
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field"
-                            name="address_id" 
-                            id="address_id" 
-                            v-model="formData.order.address_id"
-                            readonly>
-                        <button class="btn btn-icon btn-white" @click="onButtonAddress">
-                            <i class="fa fa-1x fa-search" />
-                        </button>
-                    </div>
-                    <div v-else>
-                        <input 
-                            type="search" 
-                            placeholder="" 
-                            class="field field-sekunder"
-                            style="width: 100%;"
-                            name="address_id" 
-                            id="address_id" 
-                            v-model="formData.order.address_id"
-                            readonly>
-                    </div>
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.address_id && formMessage.address_id[0] }}
-                    </div>
+                <div v-else style="text-align: center;">
+                    <div class="fonts micro semibold" >You can add products after create this order</div>
                 </div>
-                <FormAddress
-                    :data.sync="formData.address"
-                    :customerId.sync="formData.customer.customer_id"
-                    :enablePopup="openCreateAddress"
-                    :onChange="(data) => onChangeAddress(data)"
-                />
-            </div> -->
-
-            <div v-if="selectedIndex === 4">
-                <FormProduct 
-                    :selectedId.sync="formData.order.id"
-                    :selectedOrderId.sync="formData.order.order_id"
-                    :enableButton="title === 'EDIT' ? true : false"
-                    :enablePopup="popupProductCreate"
-                    :onCalculate="(data) => onCalculate(data)"
-                />
             </div>
         </AppSideForm>
     </div>
@@ -546,12 +381,10 @@ const tabs = [
     {label: 'Products', status: ''}
 ]
 
-const time = new Date().getTime()
-
 const payload = {
     order: {
         id: '',
-        order_id: 'ODR-' + time.toString(),
+        order_id: '0',
         delivery_fee: 0,
         total_price: 0,
         total_item: 0,
@@ -668,7 +501,16 @@ export default {
             this.popupProductCreate = !this.popupProductCreate
         },
         onButtonSave () {
-            const newPayload = this.formData
+            const time = new Date().getTime()
+            const newPayload = this.title === 'CREATE' ? {
+                ...this.formData,
+                order: {
+                    ...this.formData.order,
+                    order_id: 'ODR-' + time.toString()
+                }
+            } : {
+                ...this.formData
+            }
             this.onSave(newPayload)
         },
         onChangeTabs (data) {

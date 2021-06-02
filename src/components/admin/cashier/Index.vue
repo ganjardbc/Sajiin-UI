@@ -37,7 +37,7 @@
             <div class="right">
                 <AppSideForm
                     :title="'Check Out'"
-                    :enableSaveButton="order.order.bills_price && selectedPayment"
+                    :enableSaveButton="selectedTable && selectedPayment ?  true : false"
                     :onSave="onShowHideSave"
                     :onClose="onButtonCheckOut"
                 >

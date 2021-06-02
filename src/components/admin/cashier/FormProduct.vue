@@ -11,6 +11,7 @@
                 <div v-for="(dt, i) in dataCategories" :key="i" class="column-5">
                     <CardCategory :data="dt" />
                 </div>
+                <AppLoader v-if="visibleLoaderCategory" />
             </div>
         </div>
         <div>
@@ -22,7 +23,7 @@
             </div>
 
             <div class="display-flex wrap" style="padding-left: 5px; padding-right: 5px;">
-                <div v-for="(dt, i) in datas" :key="i" class="column-4">
+                <div v-for="(dt, i) in datas" :key="i" class="column-3">
                     <CardProduct :data="dt" :onCheckOut="(data) => onCheckOut(data)" />
                 </div>
                 <AppLoader v-if="visibleLoader" />
@@ -52,7 +53,7 @@ export default {
             dataUser: null,
             datas: [],
             dataCategories: [],
-            limit: 4,
+            limit: 6,
             offset: 0 
         }
     },
@@ -95,6 +96,8 @@ export default {
             }
             
             const rest = await axios.post('/api/category/getAll', payload, { headers: { Authorization: token } })
+
+            console.log('getDataCategory', rest)
 
             if (rest && rest.status === 200) {
                 const newData = rest.data.data
