@@ -31,9 +31,15 @@
                         </form>
                     </div>
                     <div style="width: 100%;" class="display-flex right">
-                        <router-link v-if="user && user.role_name === 'owner'" :to="{name: '404'}" style="margin-left: 5px;">
+                        <!-- <router-link v-if="user && user.role_name !== 'customer'" :to="{name: '404'}" style="margin-left: 5px;">
                             <button class="btn btn-white btn-icon btn-radius" title="Reports">
                                 <i class="fa fa-lg fa-calendar-alt" />
+                            </button>
+                        </router-link> -->
+                        <router-link :to="{name: 'shops'}" style="margin-left: 5px;">
+                            <button class="btn btn-white btn-icon btn-radius" title="Notifications">
+                                <i class="fa fa-lg fa-store" />
+                                <span class="notif">0</span>
                             </button>
                         </router-link>
                         <router-link :to="{name: '404'}" style="margin-left: 5px;">
@@ -49,6 +55,10 @@
                             </div>
                             <div class="label" style="text-transform: uppercase;">{{ dataUser && dataUser.name }}</div>
                         </router-link>
+                        <div class="border-left" style="margin-left: 10px; padding-left: 10px;"></div>
+                        <button class="btn btn-white btn-radius-rounded">
+                            CHOOSE SHOP <i class="icn fa fa-lg fa-chevron-down"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -88,29 +98,29 @@ import AppToastMessage from '../modules/AppToastMessage'
 const sidebarAdmin = [
     {icon: 'fa fa-lg fa-database', label: 'DASHBOARD', value: 0, menu: [
         {icon: 'fa fa-lg fa-tachometer-alt', label: 'Dashboard', value: 1, link: 'dashboard', permission: 'dashboard'},
+        // {icon: 'fa fa-lg fa-store', label: 'Shops', value: 0, link: 'shops', permission: 'products'},
         {icon: 'fa fa-lg fa-laptop', label: 'Cashier', value: 0, link: 'cashier', permission: 'cashier'},
         {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
-        {icon: 'fa fa-lg fa-th-large', label: 'Table / Desk', value: 0, link: 'table', permission: 'tables'}
-    ]},
-    {icon: 'fa fa-lg fa-database', label: 'PRODUCT', value: 0, menu: [
-        {icon: 'fa fa-lg fa-list-ol', label: 'Categories', value: 0, link: 'category', permission: 'categories'},
-        {icon: 'fa fa-lg fa-bars', label: 'Toppings', value: 0, link: 'toping', permission: 'toppings'},
-        {icon: 'fa fa-lg fa-utensils', label: 'Products', value: 0, link: 'listing', permission: 'products'}
-    ]},
-    {icon: 'fa fa-lg fa-database', label: 'CUSTOMER', value: 0, menu: [
+        {icon: 'fa fa-lg fa-utensils', label: 'Catalogs', value: 0, link: 'listing', permission: 'products'},
         {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
-        {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
-        {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'wishelist', permission: 'wiselists'},
-        {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'feedback', permission: 'feedbacks'}
+        {icon: 'fa fa-lg fa-th-large', label: 'Tables', value: 0, link: 'table', permission: 'tables'},
+        {icon: 'fa fa-lg fa-address-card', label: 'Employees', value: 0, link: '404', permission: 'products'},
+        {icon: 'fa fa-lg fa-clock', label: 'Shifts', value: 0, link: '404', permission: 'products'}
     ]},
-    {icon: 'fa fa-lg fa-database', label: 'MASTERDATA', value: 0, menu: [
-        {icon: 'fa fa-lg fa-tag', label: 'Bizpars', value: 0, link: 'bizpar', permission: 'bizpars'},
+    // {icon: 'fa fa-lg fa-database', label: 'CUSTOMER', value: 0, menu: [
+    //     {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
+    //     {icon: 'fa fa-lg fa-shopping-basket', label: 'Carts', value: 0, link: 'cartList', permission: 'carts'},
+    //     {icon: 'fa fa-lg fa-heart', label: 'Wiselists', value: 0, link: 'wishelist', permission: 'wiselists'},
+    //     {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'feedback', permission: 'feedbacks'}
+    // ]},
+    {icon: 'fa fa-lg fa-database', label: 'WEBSITE', value: 0, menu: [
         // {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
-        {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'},
+        // {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'},
         {icon: 'fa fa-lg fa-newspaper', label: 'Articles', value: 0, link: 'articlelist', permission: 'articles'},
         {icon: 'fa fa-lg fa-check', label: 'Benefits', value: 0, link: 'benefit', permission: 'benefits'}
     ]},
     {icon: 'fa fa-lg fa-database', label: 'USER N ROLES', value: 0, menu: [
+        {icon: 'fa fa-lg fa-tag', label: 'Bizpars', value: 0, link: 'bizpar', permission: 'bizpars'},
         {icon: 'fa fa-lg fa-lock', label: 'Permissions', value: 0, link: 'permission', permission: 'permissions'},
         {icon: 'fa fa-lg fa-flag', label: 'Roles', value: 0, link: 'role', permission: 'roles'},
         {icon: 'fa fa-lg fa-user', label: 'Users', value: 0, link: 'userlist', permission: 'users'}

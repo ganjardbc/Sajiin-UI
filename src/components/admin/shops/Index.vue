@@ -1,11 +1,26 @@
 <template>
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
-            <div class="bg-white box-shadow">
+            <div class="bg-white">
+                <div class="display-flex wrap" style="margin-bottom: 15px;">
+                    <div v-for="(dt, i) in menus" :key="i" class="column-6" style="margin-top: 10px; margin-bottom: 10px;">
+                        <router-link :to="{name: dt.link ? dt.link : '404'}" style="display: block; margin-left: 15px; margin-right: 15px;">
+                            <div class="card border-full bg-white" style="width: calc(100% - 42px); padding-bottom: 35px;">
+                                <div class="image image-100px bg-white" style="margin: auto;">
+                                    <i :class="'post-middle fonts fonts-28 orange ' + dt.icon"></i>
+                                </div>
+                                <div class="fonts fonts-11 black semibold" style="text-align: center;">
+                                    {{ dt.title }}
+                                </div>
+                            </div>
+                        </router-link>
+                    </div>
+                </div>
+
                 <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">TABLES</h1>
-                        <p class="fonts micro grey no-line-height">controll your datas</p>
+                        <h1 class="post-center fonts fonts-16 semibold black">SHOPS</h1>
+                        <!-- <p class="fonts micro grey no-line-height">controll your datas</p> -->
                     </div>
                     <div class="display-flex">
                         <AppButtonMenu 
@@ -16,47 +31,68 @@
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search tables ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search shops ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
                 
-                <div class="content-body">
-                    <div style="padding-left: 15px; padding-right: 15px;">
+                <div>
+                    <div style="padding-left: 10px; padding-right: 10px;">
                         <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
                             <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
                                 <div style="width: 60px; margin-right: 15px;">
                                     <div class="image image-padding border border-full">
-                                        <img v-if="dt.image" :src="tableImageThumbnailUrl + dt.table.image" alt="" class="post-center">
+                                        <img v-if="dt.shop.image" :src="shopImageThumbnailUrl + dt.shop.image" alt="" class="post-center">
                                         <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
                                     </div>
                                 </div>
                                 <div style="width: calc(100% - 185px);">
                                     <div class="display-flex" style="margin-bottom: 5px;">
-                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.table.name }}</div>
+                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shop.name }}</div>
                                         <div 
                                             :class="'card-capsule ' + (
-                                            dt.table.status === 'active' 
+                                            dt.shop.status === 'active' 
                                                 ? 'active' 
                                                 : ''
                                             )" 
                                             style="margin-left: 10px; text-transform: capitalize;">
-                                            {{ dt.table.status }}
+                                            {{ dt.shop.status }}
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="fonts fonts-10 grey">{{ dt.table.code }} | {{ dt.table.description }}</div>
-                                        <div class="fonts fonts-10 grey">{{ dt.shop.name }}</div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shop.open_day + ' - ' + dt.shop.close_day }}</div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shop.open_time + ' - ' + dt.shop.close_time }}</div>
+                                    </div>
+                                    <div v-if="dt.tables.length > 0" style="margin-top: 10px;">
+                                        <div class="fonts fonts-11 black semibold">Tables ({{ dt.tables.length }})</div>
+                                        <div class="display-flex wrap">
+                                            <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
+                                                <div class="card border-full" style="width: 100px; padding: 15px 5px;">
+                                                    <div class="fonts fonts-11 black" style="width: 100%; text-align: center;">{{ tb.name }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="dt.shifts.length > 0" style="margin-top: 10px;">
+                                        <div class="fonts fonts-11 black semibold">Shifts ({{ dt.shifts.length }})</div>
+                                        <div class="display-flex wrap">
+                                            <div v-for="(tb, j) in dt.shifts" :key="j" :title="tb.title" style="margin: 5px;">
+                                                <div class="card border-full" style="width: auto; padding: 10px 15px;">
+                                                    <div class="fonts fonts-11 black">{{ tb.title }}</div>
+                                                    <div class="fonts fonts-9 grey">{{ tb.start_time }} | {{ tb.end_time }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="display-flex column space-between" style="width: 100px;">
                                     <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.table.id)">
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.shop.id)">
                                             <i class="fa fa-1x fa-pencil-alt"></i>
                                         </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.table.id)">
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.shop.id)">
                                             <i class="fa fa-1x fa-trash-alt"></i>
                                         </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.table.id)">
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.shop.id)">
                                             <i class="fa fa-1x fa-ellipsis-v"></i>
                                         </button>
                                     </div>
@@ -112,6 +148,16 @@ import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
 import Form from './Form'
 
+const menus = [
+    {title: 'Products', icon: 'fa fa-lg fa-box', link: ''},
+    {title: 'Employees', icon: 'fa fa-lg fa-address-card', link: ''},
+    {title: 'Order History', icon: 'fa fa-lg fa-receipt', link: ''},
+    // {title: 'Shipments', icon: 'fa fa-lg fa-truck', link: 'shipment'},
+    {title: 'Payments', icon: 'fa fa-lg fa-calculator', link: 'payment'},
+    {title: 'Users', icon: 'fa fa-lg fa-users', link: ''},
+    {title: 'Reports', icon: 'fa fa-lg fa-calendar-alt', link: ''},
+]
+
 export default {
     name: 'App',
     data () {
@@ -124,6 +170,7 @@ export default {
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
+            menus: menus,
             selectedIndex: null,
             selectedData: null,
             selectedMessage: null,
@@ -166,7 +213,7 @@ export default {
         onSearchData (id) {
             let payload = null
             this.datas.map((dt) => {
-                if (dt.table.id === id) {
+                if (dt.shop.id === id) {
                     payload = {...dt}
                 }
                 return null 
@@ -208,13 +255,15 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex).table_id
+            const id = this.onSearchData(this.selectedIndex).shop.shop_id
             const payload = {
-                table_id: id
+                shop_id: id
             }
 
-            const rest = await axios.post('/api/table/delete', payload, { headers: { Authorization: token } })
-            // console.log('rest', rest)
+            console.log('payload', id)
+
+            const rest = await axios.post('/api/shop/delete', payload, { headers: { Authorization: token } })
+            console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -237,7 +286,7 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = this.formTitle === 'CREATE' ? '/api/table/post' : '/api/table/update' 
+            const url = this.formTitle === 'CREATE' ? '/api/shop/post' : '/api/shop/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
@@ -262,10 +311,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/table/uploadImage' 
+            const url = '/api/shop/uploadImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('shop_id', payload.shop_id);
             formData.append('image', data);
 
             const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
@@ -290,10 +339,10 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = '/api/table/removeImage' 
+            const url = '/api/shop/removeImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('shop_id', payload.shop_id);
 
             var a = confirm('remove this image ?')
             if (a) {
@@ -331,7 +380,7 @@ export default {
                 user_id: this.dataUser.id
             }
 
-            const rest = await axios.post('/api/table/getAllWithShop', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/shop/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const newData = rest.data.data
@@ -343,7 +392,7 @@ export default {
                 this.datas = data 
                 this.visibleLoader = false 
 
-                console.log('table', this.datas)
+                console.log('shop', this.datas)
 
                 if (newData.length > 0) {
                     this.offset += this.limit

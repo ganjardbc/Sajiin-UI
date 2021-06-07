@@ -5,135 +5,182 @@
             :enableSaveButton="this.title !== 'VIEW' ? true : false"
             :onSave="onButtonSave"
             :onClose="onClose">
-            <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
-                <div class="field-label">IMAGE</div>
-                <AppImage 
-                    :image.sync="image"
-                    :isEnable="this.title !== 'VIEW' ? true : false"
-                    :onUpload="(data) => uploadImage(data)"
-                    :onRemove="removeImage"
-                />
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.image && formMessage.image[0] }}
-                </div>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">ID</div>
-                <input 
-                    type="text" 
-                    placeholder="" 
-                    class="field field-sekunder" 
-                    name="id" 
-                    id="id" 
-                    v-model="formData.id"
-                    readonly>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">TABLE ID</div>
-                <input 
-                    type="text" 
-                    placeholder="" 
-                    class="field field-sekunder" 
-                    name="table_id" 
-                    id="table_id" 
-                    v-model="formData.table_id"
-                    readonly>
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
-                </div>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">CODE</div>
-                <input 
-                    type="text" 
-                    placeholder="" 
-                    class="field field-sekunder" 
-                    name="code" 
-                    id="code" 
-                    v-model="formData.code"
-                    :readonly="this.title === 'VIEW' ? true : false">
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.code && formMessage.code[0] }}
-                </div>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">NAME</div>
-                <input 
-                    type="text" 
-                    placeholder="" 
-                    class="field field-sekunder" 
-                    name="name" 
-                    id="name" 
-                    v-model="formData.name"
-                    :readonly="this.title === 'VIEW' ? true : false">
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.name && formMessage.name[0] }}
-                </div>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">STATUS</div>
-                <div class="display-flex">
-                    <label class="radio">
-                        <input 
-                            type="radio" 
-                            name="status"
-                            id="active"
-                            value="active"
-                            v-model="formData.status"
-                            :readonly="this.title === 'VIEW' ? true : false" />
-                        <span class="checkmark" />
-                        <span class="fonts micro">
-                            Active
-                        </span>
-                    </label>
+            
+            <AppTabs 
+                :selectedIndex="selectedIndex" 
+                :data="tabs" 
+                :onChange="(data) => onChangeTabs(data)" 
+                class="margin margin-bottom-15-px" />
 
-                    <label class="radio">
-                        <input 
-                            type="radio" 
-                            name="status"
-                            id="inactive"
-                            value="inactive"
-                            v-model="formData.status"
-                            :readonly="this.title === 'VIEW' ? true : false" />
-                        <span class="checkmark" />
-                        <span class="fonts micro">
-                            Inactive
-                        </span>
-                    </label>
+            <div v-if="selectedIndex === 0">
+                <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">IMAGE</div>
+                    <AppImage 
+                        :image.sync="image"
+                        :isEnable="this.title !== 'VIEW' ? true : false"
+                        :onUpload="(data) => uploadImage(data)"
+                        :onRemove="removeImage"
+                    />
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.image && formMessage.image[0] }}
+                    </div>
                 </div>
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.status && formMessage.status[0] }}
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">ID</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="id" 
+                        id="id" 
+                        v-model="formData.id"
+                        readonly>
                 </div>
-            </div>
-            <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">AVAILABLE</div>
-                    <div class="display-flex space-between">
-                        <div class="fonts micro black">Is this table still available ?</div>
-                        <label class="switch green">
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">TABLE ID</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="table_id" 
+                        id="table_id" 
+                        v-model="formData.table_id"
+                        readonly>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">CODE</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="code" 
+                        id="code" 
+                        v-model="formData.code"
+                        :readonly="this.title === 'VIEW' ? true : false">
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.code && formMessage.code[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">NAME</div>
+                    <input 
+                        type="text" 
+                        placeholder="" 
+                        class="field field-sekunder" 
+                        name="name" 
+                        id="name" 
+                        v-model="formData.name"
+                        :readonly="this.title === 'VIEW' ? true : false">
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.name && formMessage.name[0] }}
+                    </div>
+                </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">STATUS</div>
+                    <div class="display-flex">
+                        <label class="radio">
                             <input 
-                                type="checkbox" 
-                                name="is_available" 
-                                id="is_available" 
-                                v-model="formData.is_available"
+                                type="radio" 
+                                name="status"
+                                id="active"
+                                value="active"
+                                v-model="formData.status"
                                 :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="slider round" />
+                            <span class="checkmark" />
+                            <span class="fonts micro">
+                                Active
+                            </span>
+                        </label>
+
+                        <label class="radio">
+                            <input 
+                                type="radio" 
+                                name="status"
+                                id="inactive"
+                                value="inactive"
+                                v-model="formData.status"
+                                :readonly="this.title === 'VIEW' ? true : false" />
+                            <span class="checkmark" />
+                            <span class="fonts micro">
+                                Inactive
+                            </span>
                         </label>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.is_available && formMessage.is_available[0] }}
+                        {{ formMessage && formMessage.status && formMessage.status[0] }}
                     </div>
                 </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">DESCRIPTION</div>
-                <textarea 
-                    name="description" 
-                    id="description" 
-                    class="field field-sekunder field-textarea" 
-                    v-model="formData.description"
-                    :readonly="this.title === 'VIEW' ? true : false"></textarea>
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.description && formMessage.description[0] }}
+                <div class="field-group margin margin-bottom-15-px">
+                        <div class="field-label">AVAILABLE</div>
+                        <div class="display-flex space-between">
+                            <div class="fonts micro black">Is this table still available ?</div>
+                            <label class="switch green">
+                                <input 
+                                    type="checkbox" 
+                                    name="is_available" 
+                                    id="is_available" 
+                                    v-model="formData.is_available"
+                                    :readonly="this.title === 'VIEW' ? true : false" />
+                                <span class="slider round" />
+                            </label>
+                        </div>
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.is_available && formMessage.is_available[0] }}
+                        </div>
+                    </div>
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">DESCRIPTION</div>
+                    <textarea 
+                        name="description" 
+                        id="description" 
+                        class="field field-sekunder field-textarea" 
+                        v-model="formData.description"
+                        :readonly="this.title === 'VIEW' ? true : false"></textarea>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.description && formMessage.description[0] }}
+                    </div>
                 </div>
+            </div>
+
+            <div v-if="selectedIndex === 1">
+                <div class="field-group margin margin-bottom-15-px">
+                    <div class="field-label">SHOP ID</div>
+                    <div v-if="this.title !== 'VIEW'" class="card-search full">
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field"
+                            name="shop_id" 
+                            id="shop_id" 
+                            v-model="formData.shop_id"
+                            readonly>
+                        <button class="btn btn-icon btn-white" @click="onButtonShop">
+                            <i class="fa fa-1x fa-search" />
+                        </button>
+                    </div>
+                    <div v-else>
+                        <input 
+                            type="search" 
+                            placeholder="" 
+                            class="field field-sekunder"
+                            style="width: 100%;"
+                            name="shop_id" 
+                            id="shop_id" 
+                            v-model="formData.shop_id"
+                            readonly>
+                    </div>
+                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                        {{ formMessage && formMessage.shop_id && formMessage.shop_id[0] }}
+                    </div>
+                </div>
+                <FormShop
+                    :data.sync="selectedShop"
+                    :enablePopup="openCreateShop"
+                    :onChange="(data) => onChangeShop(data)"
+                />
             </div>
         </AppSideForm>
     </div>
@@ -142,6 +189,13 @@
 <script>
 import AppSideForm from '../../modules/AppSideForm'
 import AppImage from '../../modules/AppImage'
+import AppTabs from '../../modules/AppTabs'
+import FormShop from '../shops/FormShop'
+
+const tabs = [
+    {label: 'Data', status: 'active'},
+    {label: 'Shops', status: ''}
+]
 
 const time = new Date().getTime()
 
@@ -153,15 +207,37 @@ const payload = {
     name: '',
     status: '',
     is_available: 0,
-    description: ''
+    description: '',
+    shop_id: 0
+}
+
+const shop = {
+    id: '',
+    shop_id: '',
+    image: '',
+    name: '',
+    about: '',
+    email: '',
+    phone: '',
+    location: '',
+    open_day: '',
+    close_day: '',
+    open_time: '',
+    close_time: '',
+    status: '',
+    is_available: 0
 }
 
 export default {
     name: 'form',
     data () {
         return {
+            selectedIndex: 0,
+            openCreateShop: false,
+            tabs: tabs,
             isView: false,
             image: '',
+            selectedShop: {...shop},
             formData: {...payload},
             formMessage: []
         }
@@ -170,8 +246,10 @@ export default {
         this.formData = {...payload}
     },
     components: {
-        AppSideForm: AppSideForm,
-        AppImage: AppImage
+        FormShop,
+        AppTabs,
+        AppSideForm,
+        AppImage
     },
     props: {
         data: {
@@ -202,6 +280,20 @@ export default {
         }
     },
     methods: {
+        onChangeTabs (data) {
+            this.selectedIndex = data
+        },
+        onChangeShop (data) {
+            console.log('onChangeShop', data)
+            this.formData = {
+                ...this.formData,
+                shop_id: data.id
+            }
+            this.selectedShop = {...data}
+        },
+        onButtonShop () {
+            this.openCreateShop = !this.openCreateShop
+        },
         onButtonSave () {
             const newPayload = this.formData
             this.onSave(newPayload)
@@ -212,20 +304,30 @@ export default {
             if (props) {
                 this.formData = {
                     ...this.formData,
-                    id: props.id,
-                    table_id: props.table_id,
-                    code: props.code,
-                    image: props.image,
-                    name: props.name,
-                    is_available: props.is_available,
-                    status: props.status,
-                    description: props.description
+                    id: props.table.id,
+                    table_id: props.table.table_id,
+                    code: props.table.code,
+                    image: props.table.image,
+                    name: props.table.name,
+                    is_available: props.table.is_available,
+                    status: props.table.status,
+                    description: props.table.description,
+                    shop_id: props.table.shop_id
                 }
-                this.image = props.image ? this.tableImageThumbnailUrl + props.image : ''
+                this.selectedShop = {
+                    ...this.selectedShop,
+                    shop_id: props.shop.shop_id,
+                    name: props.shop.name,
+                    status: props.shop.status,
+                    about: props.shop.about
+                }
+                this.image = props.table.image ? this.tableImageThumbnailUrl + props.table.image : ''
             } else {
                 this.formData = {...payload}
+                this.selectedShop = {...shop}
                 this.image = ''
             }
+            this.onChangeTabs(0)
         },
         message: function (props, prevProps) {
             if (props) {
