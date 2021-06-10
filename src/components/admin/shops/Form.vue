@@ -6,12 +6,12 @@
             :onSave="onButtonSave"
             :onClose="onClose">
             
-            <AppTabs 
+            <!-- <AppTabs 
                 v-if="this.title !== 'CREATE'"
                 :selectedIndex="selectedIndex" 
                 :data="tabs" 
                 :onChange="(data) => onChangeTabs(data)" 
-                class="margin margin-bottom-15-px" />
+                class="margin margin-bottom-15-px" /> -->
             
             <div v-if="selectedIndex === 0">
                 <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
@@ -177,36 +177,51 @@
                         {{ formMessage && formMessage.about && formMessage.about[0] }}
                     </div>
                 </div>
-                <div class="field-group margin margin-bottom-25-px">
+                <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">STATUS</div>
-                    <div class="display-flex">
-                        <label class="radio">
-                            <input 
-                                type="radio" 
-                                name="status"
-                                id="active"
-                                value="active"
-                                v-model="formData.status"
-                                :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Active
-                            </span>
-                        </label>
+                    <div v-if="this.title !== 'VIEW' ? true : false">
+                        <div class="display-flex" style="padding-bottom: 10px;">
+                            <label class="radio">
+                                <input 
+                                    type="radio" 
+                                    name="status"
+                                    id="active"
+                                    value="active"
+                                    v-model="formData.status"
+                                    :readonly="this.title === 'VIEW' ? true : false" />
+                                <span class="checkmark" />
+                                <span class="fonts micro">
+                                    Active
+                                </span>
+                            </label>
 
-                        <label class="radio">
+                            <label class="radio">
+                                <input 
+                                    type="radio" 
+                                    name="status"
+                                    id="inactive"
+                                    value="inactive"
+                                    v-model="formData.status"
+                                    :readonly="this.title === 'VIEW' ? true : false" />
+                                <span class="checkmark" />
+                                <span class="fonts micro">
+                                    Inactive
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div style="width: 100%;">
                             <input 
-                                type="radio" 
-                                name="status"
-                                id="inactive"
-                                value="inactive"
-                                v-model="formData.status"
-                                :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="checkmark" />
-                            <span class="fonts micro">
-                                Inactive
-                            </span>
-                        </label>
+                                type="text" 
+                                placeholder="" 
+                                class="field field-sekunder" 
+                                name="status" 
+                                id="status" 
+                                style="text-transform: capitalize;"
+                                :value="formData.status"
+                                readonly>
+                        </div>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.status && formMessage.status[0] }}
@@ -214,28 +229,43 @@
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">AVAILABLE</div>
-                    <div class="display-flex space-between">
-                        <div class="fonts micro black">Is this table still available ?</div>
-                        <label class="switch green">
+                    <div v-if="this.title !== 'VIEW' ? true : false">
+                        <div class="display-flex space-between">
+                            <div class="fonts micro black">Is this table still available ?</div>
+                            <label class="switch green">
+                                <input 
+                                    type="checkbox" 
+                                    name="is_available" 
+                                    id="is_available" 
+                                    v-model="formData.is_available"
+                                    :readonly="this.title === 'VIEW' ? true : false" />
+                                <span class="slider round" />
+                            </label>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div style="width: 100%;">
                             <input 
-                                type="checkbox" 
+                                type="text" 
+                                placeholder="" 
+                                class="field field-sekunder" 
                                 name="is_available" 
                                 id="is_available" 
-                                v-model="formData.is_available"
-                                :readonly="this.title === 'VIEW' ? true : false" />
-                            <span class="slider round" />
-                        </label>
+                                style="text-transform: capitalize;"
+                                :value="formData.is_available ? 'Available' : 'Unavailable'"
+                                readonly>
+                        </div>
                     </div>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.is_available && formMessage.is_available[0] }}
                     </div>
                 </div>
             </div>
-            <div v-if="selectedIndex !== 0">
+            <!-- <div v-if="selectedIndex !== 0">
                 <div>
                     {{ tabs[selectedIndex].label }}
                 </div>
-            </div>
+            </div> -->
         </AppSideForm>
     </div>
 </template>

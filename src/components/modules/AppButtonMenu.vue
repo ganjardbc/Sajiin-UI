@@ -1,9 +1,14 @@
 <template>
     <div id="AppButtonMenu" style="position: relative;">
         <button :class="button ? button : 'btn btn-sekunder btn-icon btn-radius'" :style="visiblePopup && 'background-color: #f0f0f0;'" @click="onShow">
-            <i :class="icon ? icon : 'fa fa-lg fa-ellipsis-h'"></i>
+            <div v-if="image" style="width: 28px;">
+                <div class="image image-30px image-circle" style="position: absolute; top: 5px; left: 5px;">
+                    <img :src="image" alt="">
+                </div>
+            </div>
+            {{ label }}<i :class="icon ? icon : 'fa fa-lg fa-ellipsis-h'"></i>
         </button>
-        <div v-if="visiblePopup" class="card border-full box-shadow" style="position: absolute; top: 45px; right: 0; width: 150px; z-index: 10; padding: 0 0; border-radius: 5px; background-color: #fff;">
+        <div v-if="visiblePopup" class="card border-full box-shadow" style="position: absolute; top: 45px; right: 0; width: 220px; z-index: 10; padding: 0 0; border-radius: 5px; background-color: #fff;">
             <ul class="menu-list hover with-icon">
                 <li v-for="(dt, index) in data" :key="index" class="ml-list">
                     <div class="ml-link" :style="dt.icon ? 'cursor: pointer; padding: 5px 0;' : 'cursor: pointer; padding: 10px;'" @click="onHide(index)">
@@ -29,6 +34,14 @@ export default {
     },
     props: {
         button: {
+            type: String,
+            required: false
+        },
+        label: {
+            type: String,
+            required: false
+        },
+        image: {
             type: String,
             required: false
         },

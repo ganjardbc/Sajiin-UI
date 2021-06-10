@@ -53,23 +53,26 @@
                                 <img v-if="dataUser && dataUser.image" :src="dataUser && dataUser.image ? (adminImageThumbnailUrl + dataUser.image) : ''" alt="">
                                 <i v-else class="post-top fa fa-lg fa-user-circle" style="color: #999;" />
                             </div>
-                            <div class="label" style="text-transform: uppercase;">{{ dataUser && dataUser.name }}</div>
+                            <div style="height: 30px; padding-right: 10px; padding-left: 5px;">
+                                <div class="post-center fonts fonts-10 semibold black" style="text-transform: uppercase;">{{ dataUser && dataUser.name }}</div>
+                            </div>
                         </router-link>
                         <div class="border-left" style="margin-left: 10px; padding-left: 10px;"></div>
-                        <button class="btn btn-white btn-radius-rounded">
-                            CHOOSE SHOP <i class="icn fa fa-lg fa-chevron-down"></i>
-                        </button>
+                        <div class="display-flex">
+                            <AppButtonMenu 
+                                :icon="'icn fa fa-lg fa-chevron-down'"
+                                :image="'https://cdn.popbela.com/content-images/post/20190405/f5882dfb568129d2d6182c7319a22d70.jpg'"
+                                :label="selectedLabel"
+                                :button="'btn btn-white btn-radius-rounded'"
+                                :onChange="(data) => onChangeMenu(data)" 
+                                :data="dataShops" />
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="inner">
-                <transition>
-                    <router-view />
-                </transition>
-
-                <transition>
-                    <router-view name="adminfresh" />
-                </transition>
+                <router-view />
+                <router-view name="adminfresh" />
             </div>
             <!-- <div class="footer display-flex display-mobile space-between">
                 <div>Version 0.0.1 - Beta</div>
@@ -94,6 +97,7 @@ import logo from '@/assets/img/logo.png'
 import icon from '@/assets/img/icon.png'
 import AppToast from '../modules/AppToast'
 import AppToastMessage from '../modules/AppToastMessage'
+import AppButtonMenu from '../modules/AppButtonMenu'
 
 const sidebarAdmin = [
     {icon: 'fa fa-lg fa-database', label: 'DASHBOARD', value: 0, menu: [
@@ -101,11 +105,11 @@ const sidebarAdmin = [
         // {icon: 'fa fa-lg fa-store', label: 'Shops', value: 0, link: 'shops', permission: 'products'},
         {icon: 'fa fa-lg fa-laptop', label: 'Cashier', value: 0, link: 'cashier', permission: 'cashier'},
         {icon: 'fa fa-lg fa-receipt', label: 'Orders', value: 0, link: 'orderlist', permission: 'orders'},
-        {icon: 'fa fa-lg fa-utensils', label: 'Catalogs', value: 0, link: 'listing', permission: 'products'},
+        {icon: 'fa fa-lg fa-utensils', label: 'Catalogs', value: 0, link: 'catalog', permission: 'products'},
         {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
         {icon: 'fa fa-lg fa-th-large', label: 'Tables', value: 0, link: 'table', permission: 'tables'},
-        {icon: 'fa fa-lg fa-address-card', label: 'Employees', value: 0, link: '404', permission: 'products'},
-        {icon: 'fa fa-lg fa-clock', label: 'Shifts', value: 0, link: '404', permission: 'products'}
+        {icon: 'fa fa-lg fa-address-card', label: 'Employees', value: 0, link: 'employee', permission: 'products'},
+        {icon: 'fa fa-lg fa-clock', label: 'Shifts', value: 0, link: 'shift', permission: 'products'}
     ]},
     // {icon: 'fa fa-lg fa-database', label: 'CUSTOMER', value: 0, menu: [
     //     {icon: 'fa fa-lg fa-users', label: 'Customers', value: 0, link: 'customer', permission: 'customers'},
@@ -139,7 +143,13 @@ export default {
             isSidebarSmall: false,
             classSidebar: 'sidebar smalls',
             classSidebarMenu: 'menu-list hover with-icon smalls',
-            dataUser: null 
+            dataUser: null,
+            dataShops: [
+                {icon: 'fa fa-1x fa-store', label: 'SHOP 1'}, 
+                {icon: 'fa fa-1x fa-store', label: 'SHOP 2'}, 
+                {icon: 'fa fa-1x fa-store', label: 'SHOP 3'}
+            ],
+            selectedLabel: 'CHOOSE SHOP'
         }
     },
     beforeMount (){
@@ -162,6 +172,7 @@ export default {
         this.getLocalOrderCount()
     },
     components: {
+        AppButtonMenu,
         AppToastMessage,
         AppToast,
         AppListMenu
@@ -172,6 +183,10 @@ export default {
             getCount: 'cart/getCount',
             getCountOrder: 'order/getCount'
         }),
+        onChangeMenu (data) {
+            this.selectedLabel = this.dataShops[data].label
+            console.log('onChangeMenu', data)
+        },
         makeToast (title, subtitle) {
             const time = new Date().getTime()
             const payload = {

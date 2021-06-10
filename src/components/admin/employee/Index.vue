@@ -2,9 +2,9 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">ARTICLES</h1>
+                        <h1 class="fonts small black">EMPLOYEES</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
@@ -12,67 +12,65 @@
                             :icon="'fa fa-lw fa-filter'"
                             :button="'btn btn-icon btn-white'"
                             :onChange="(data) => onChangeMenu(data)" 
-                            :data="[{label: 'By ID'}, {label: 'By Title'}, {label: 'By Status'}]" />
+                            :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Status'}]" />
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search articles ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search employees ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
                 
-                <div class="table-container">
-                    <v-table 
-                        :data="datas ? datas : []" 
-                        :filters="filters" 
-                        :currentPage.sync="currentPage" 
-                        :pageSize="limitPage" 
-                        @totalPagesChanged="totalPages = $event">
-                        <thead slot="head">
-                            <v-th class="small-col hide-icon">NO</v-th>
-                            <v-th sortKey="article_id" class="normal-col">Article ID</v-th>
-                            <v-th sortKey="title">Title</v-th>
-                            <v-th sortKey="description">Description</v-th>
-                            <v-th sortKey="status" class="normal-col">Status</v-th>
-                            <th class="medium-col"></th>
-                        </thead>
-                        <tbody slot="body" slot-scope="{displayData}">
-                            <AppLoader v-if="visibleLoader" />
-
-                            <tr v-for="(row, index) in displayData" :key="index">
-                                <td class="small-col">{{ (index + 1) }}</td>
-                                <td class="normal-col">{{ row.article_id }}</td>
-                                <td>{{ row.title }}</td>
-                                <td>{{ row.description.substring(0, 50) }} ...</td>
-                                <td class="normal-col">
-                                    <div 
-                                        :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 
-                                        style="text-transform: capitalize; display: inline-block; padding-top: 2px; padding-bottom: 2px;">
-                                        {{ row.status }}
+                <div class="content-body">
+                    <div style="padding-left: 15px; padding-right: 15px;">
+                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
+                                <div style="width: 60px; margin-right: 15px;">
+                                    <div class="image image-padding border border-full">
+                                        <img v-if="dt.employee.image" :src="employeeImageThumbnailUrl + dt.employee.image" alt="" class="post-center">
+                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
                                     </div>
-                                </td>
-                                <td class="medium-col">
-                                    <div class="display-flex justify-content">
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.id)">
-                                            <i class="fa fa-lw fa-pencil-alt" />
+                                </div>
+                                <div style="width: calc(100% - 185px);">
+                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.employee.name }}</div>
+                                        <div 
+                                            :class="'card-capsule ' + (
+                                            dt.employee.status === 'active' 
+                                                ? 'active' 
+                                                : ''
+                                            )" 
+                                            style="margin-left: 10px; text-transform: capitalize;">
+                                            {{ dt.employee.status }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fonts fonts-10 grey">{{ dt.position.title }}</div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shop.name }}</div>
+                                    </div>
+                                </div>
+                                <div class="display-flex column space-between" style="width: 100px;">
+                                    <div class="display-flex space-between">
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.employee.id)">
+                                            <i class="fa fa-1x fa-pencil-alt"></i>
                                         </button>
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.id)">
-                                            <i class="fa fa-lw fa-trash-alt" />
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.employee.id)">
+                                            <i class="fa fa-1x fa-trash-alt"></i>
                                         </button>
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.id)">
-                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.employee.id)">
+                                            <i class="fa fa-1x fa-ellipsis-v"></i>
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </v-table>
-                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <AppLoader v-if="visibleLoader" />
+                    </div>
 
-                <div class="padding padding-10-px" style="height: 40px;">
-                    <smart-pagination
-                        :currentPage.sync="currentPage"
-                        :totalPages="totalPages"
-                    />
+                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData(limit, offset)">
+                            Load More
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,11 +120,11 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
+            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
             selectedIndex: null,
-            selectedForm: null,
             selectedData: null,
             selectedMessage: null,
             filters: {
@@ -134,11 +132,15 @@ export default {
             },
             limitPage: 10,
             currentPage: 1,
-            totalPages: 0
+            totalPages: 0,
+            dataUser: null,
+            limit: 4,
+            offset: 0
         }
     },
     mounted () {
-        this.getData()
+        this.dataUser = this.$cookies.get('user')
+        this.getData(this.limit, this.offset)
     },
     components: {
         AppAlert,
@@ -156,7 +158,7 @@ export default {
     },
     methods: {
         onChangeMenu (index) {
-            console.log('onChange', index)
+            // console.log('onChange', index)
         },
         nameLength (row) {
             return row.key.length
@@ -164,7 +166,7 @@ export default {
         onSearchData (id) {
             let payload = null
             this.datas.map((dt) => {
-                if (dt.id === id) {
+                if (dt.employee.id === id) {
                     payload = {...dt}
                 }
                 return null 
@@ -194,24 +196,28 @@ export default {
         },
         onFormSave (data = null) {
             this.onShowHideSave()
-            this.selectedForm = data ? data : null
+            this.selectedData = data ? data : null
         },
         onChangeImage (data) {
             this.selectedData = {
                 ...this.selectedData,
-                image: data
+                employee: {
+                    ...this.selectedData.employee,
+                    image: data
+                }
             }
         },
         async removeData () {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex).article_id
+            const id = this.onSearchData(this.selectedIndex).employee_id
             const payload = {
-                article_id: id
+                employee_id: id
             }
 
-            const rest = await axios.post('/api/article/delete', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/employee/delete', payload, { headers: { Authorization: token } })
+            // console.log('rest', rest)
 
             if (rest && rest.status === 200) {
                 this.onShowHideDelete()
@@ -220,7 +226,7 @@ export default {
 
                 const data = rest.data
                 if (data.status === 'ok') {
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
@@ -233,8 +239,8 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedForm
-            const url = this.formTitle === 'CREATE' ? '/api/article/post' : '/api/article/update' 
+            const payload = this.selectedData
+            const url = this.formTitle === 'CREATE' ? '/api/employee/post' : '/api/employee/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
@@ -245,7 +251,7 @@ export default {
                 const data = rest.data.data
                 if (data.length !== 0) {
                     this.onClose()
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     this.selectedMessage = rest.data.message
                 }
@@ -258,11 +264,11 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
-            const url = '/api/article/uploadImage' 
+            const payload = this.selectedData.employee
+            const url = '/api/employee/uploadImage' 
 
             let formData = new FormData();
-            formData.append('article_id', payload.article_id);
+            formData.append('employee_id', payload.employee_id);
             formData.append('image', data);
 
             const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
@@ -273,7 +279,7 @@ export default {
                 const data = rest.data.data
                 if (data && data.image) {
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                     this.selectedMessage = []
                 } else {
                     this.selectedMessage = rest.data.message
@@ -286,11 +292,11 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
-            const url = '/api/article/removeImage' 
+            const payload = this.selectedData.employee
+            const url = '/api/employee/removeImage' 
 
             let formData = new FormData();
-            formData.append('article_id', payload.article_id);
+            formData.append('employee_id', payload.employee_id);
 
             var a = confirm('remove this image ?')
             if (a) {
@@ -301,27 +307,56 @@ export default {
 
                     const data = rest.data.data
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
             }
         },
-        async getData () {
+        async getData (limit, offset) {
             this.visibleLoader = true 
 
-            const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = {
-                limit: 1000,
-                offset: 0
+            let data = []
+
+            if (offset > 0) {
+                data = Object.assign([], this.datas)
+            } else {
+                data = []
             }
-            
-            const rest = await axios.post('/api/article/getAll', payload, { headers: { Authorization: token } })
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = this.dataUser.role_name === 'admin' ? {
+                limit: limit,
+                offset: offset
+            } : {
+                limit: limit,
+                offset: offset,
+                user_id: this.dataUser.id
+            }
+
+            const rest = await axios.post('/api/employee/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.datas = data
+                const newData = rest.data.data
+                
+                newData && newData.map((dt) => {
+                    return data.push({...dt})
+                })
+
+                this.datas = data 
                 this.visibleLoader = false 
+
+                console.log('newData', newData)
+
+                if (newData.length > 0) {
+                    this.offset += this.limit
+                }
+
+                if (newData.length < this.limit) {
+                    this.visibleLoadMore = false
+                } else {
+                    this.visibleLoadMore = true
+                }
             } else {
                 this.visibleLoader = false 
             }

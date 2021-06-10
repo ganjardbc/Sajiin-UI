@@ -66,6 +66,10 @@ Vue.prototype.feedbackImageThumbnailUrl = api + '/contents/feedbacks/thumbnails/
 Vue.prototype.feedbackImageCoverUrl = api + '/contents/feedbacks/covers/';
 Vue.prototype.shopImageThumbnailUrl = api + '/contents/shops/thumbnails/';
 Vue.prototype.shopImageCoverUrl = api + '/contents/shops/covers/';
+Vue.prototype.employeeImageThumbnailUrl = api + '/contents/employees/thumbnails/';
+Vue.prototype.employeeImageCoverUrl = api + '/contents/employees/covers/';
+Vue.prototype.shiftImageThumbnailUrl = api + '/contents/shifts/thumbnails/';
+Vue.prototype.shiftImageCoverUrl = api + '/contents/shifts/covers/';
 
 const token = Vue.$cookies.get('token'); 
 const router = new VueRouter({

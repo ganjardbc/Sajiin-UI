@@ -10,7 +10,7 @@
                 </div>
                 <div style="width: 100%; text-align: center; padding-top: 15px; padding-bottom: 15px;">
                     <div class="fonts fonts-10 semibold" style="margin-bottom: 3px;">{{ data.product.name }}</div>
-                    <div class="fonts fonts-10 grey">Rp. {{ data.details[0].price }}</div>
+                    <div v-if="data.details.length > 0" class="fonts fonts-10 grey">Rp. {{ data.details ? data.details[0].price : 0 }}</div>
                 </div>
                 <button class="btn btn-full btn-sekunder" style="margin-bottom: 5px;" @click="openDetail">
                     Choose Product
@@ -35,7 +35,7 @@
                                     @click="selectDetail(dt.id)"
                                     style="margin-right: 5px; margin-bottom: 5px; padding-bottom: 4px; border-radius: 4px;">
                                     <div class="fonts fonts-9 semibold">{{ dt.name }}</div>
-                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price }}</div>
+                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price ? dt.price : 0 }}</div>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                     @click="selectToping(dt.id)"
                                     style="margin-right: 5px; margin-bottom: 5px; padding-bottom: 4px; border-radius: 4px;">
                                     <div class="fonts fonts-9 semibold">{{ dt.name }}</div>
-                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price }}</div>
+                                    <div class="fonts fonts-8 grey">Rp. {{ dt.price ? dt.price : 0 }}</div>
                                 </div>
                             </div>
                         </div>

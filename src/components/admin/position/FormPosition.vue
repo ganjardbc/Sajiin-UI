@@ -1,25 +1,25 @@
 <template>
-    <div id="FormShop">
+    <div id="FormTable">
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">SHOP ID</div>
+            <div class="field-label">POSITION ID</div>
             <input 
                 type="text" 
                 placeholder="" 
                 class="field field-sekunder" 
-                name="shop_id" 
-                id="shop_id" 
-                v-model="data.shop_id"
+                name="position_id" 
+                id="position_id" 
+                v-model="data.position_id"
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">NAME</div>
+            <div class="field-label">TITLE</div>
             <input 
                 type="text" 
                 placeholder="" 
                 class="field field-sekunder" 
-                name="name" 
-                id="name" 
-                v-model="data.name"
+                name="title" 
+                id="title" 
+                v-model="data.title"
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
@@ -34,31 +34,31 @@
                 readonly>
         </div>
         <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">ABOUT</div>
+            <div class="field-label">DESCRIPTION</div>
             <textarea 
-                name="about" 
-                id="about" 
+                name="description" 
+                id="description" 
                 class="field field-sekunder field-textarea" 
-                v-model="data.about"
+                v-model="data.description"
                 readonly></textarea>
         </div>
 
         <AppPopupForm
             v-if="visiblePopup"
-            :title="'Choose Shop'"
+            :title="'Choose Position'"
             :onClose="onClose"
         >
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">SHOP ID</th>
-                        <th>NAME</th>
+                        <th class="normal-col">POSITION ID</th>
+                        <th>TITLE</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in datas" :key="index">
-                            <td class="normal-col">{{ dt.shop_id }}</td>
-                            <td>{{ dt.name }}</td>
+                            <td class="normal-col">{{ dt.position_id }}</td>
+                            <td>{{ dt.title }}</td>
                             <td class="small-col">
                                 <button v-if="data.id !== dt.id" class="btn btn-small-icon btn-sekunder" @click="onChoose(dt)">
                                     <i class="fa fa-1x fa-plus"></i>
@@ -94,7 +94,7 @@ import AppAlert from '../../modules/AppAlert'
 const payload = {}
 
 export default {
-    name: 'FormShop',
+    name: 'FormTable',
     data () {
         return {
             visibleAlertDelete: false,
@@ -165,7 +165,7 @@ export default {
                 offset: 0,
                 user_id: this.dataUser.id
             }
-            const rest = await axios.post('/api/shop/getAllOnlyShop', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/position/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data

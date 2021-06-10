@@ -67,7 +67,7 @@
                     </div>
 
                     <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData(limit, offset)">
                             Load More
                         </button>
                     </div>
@@ -141,7 +141,7 @@ export default {
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
-        this.getData()
+        this.getData(this.limit, this.offset)
     },
     components: {
         AppAlert,
@@ -229,7 +229,7 @@ export default {
                 const data = rest.data.data
                 if (data && data.image) {
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                     this.selectedMessage = []
                 } else {
                     this.selectedMessage = rest.data.message
@@ -257,7 +257,7 @@ export default {
 
                     const data = rest.data.data
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
@@ -282,7 +282,7 @@ export default {
 
                 const data = rest.data
                 if (data.status === 'ok') {
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
@@ -307,7 +307,7 @@ export default {
                 const data = rest.data.data
                 if (data.length !== 0) {
                     this.onClose()
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     this.selectedMessage = rest.data.message
                 }
@@ -316,12 +316,12 @@ export default {
                 this.visibleLoaderAction = false
             }
         },
-        async getData () {
+        async getData (limit, offset) {
             this.visibleLoader = true
 
             let data = []
 
-            if (this.offset > 0) {
+            if (offset > 0) {
                 data = Object.assign([], this.datas)
             } else {
                 data = []
@@ -329,11 +329,11 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset
+                limit: limit,
+                offset: offset
             } : {
-                limit: this.limit,
-                offset: this.offset,
+                limit: limit,
+                offset: offset,
                 user_id: this.dataUser.id
             }
             
@@ -361,8 +361,6 @@ export default {
             } else {
                 this.visibleLoader = false 
             }
-
-            console.log('rest', rest)
         }
     }
 }

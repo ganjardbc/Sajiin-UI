@@ -29,17 +29,17 @@
                     readonly>
             </div>
             <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">BENEFIT ID</div>
+                <div class="field-label">ARTICLE ID</div>
                 <input 
                     type="text" 
                     placeholder="" 
                     class="field field-sekunder" 
-                    name="benefit_id" 
-                    id="benefit_id" 
-                    v-model="formData.benefit_id"
+                    name="position_id" 
+                    id="position_id" 
+                    v-model="formData.position_id"
                     readonly>
                 <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.benefit_id && formMessage.benefit_id[0] }}
+                    {{ formMessage && formMessage.position_id && formMessage.position_id[0] }}
                 </div>
             </div>
             <div class="field-group margin margin-bottom-15-px">
@@ -54,6 +54,18 @@
                     :readonly="this.title === 'VIEW' ? true : false">
                 <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                     {{ formMessage && formMessage.title && formMessage.title[0] }}
+                </div>
+            </div>
+            <div class="field-group margin margin-bottom-15-px">
+                <div class="field-label">DESCRIPTION</div>
+                <textarea 
+                    name="description" 
+                    id="description" 
+                    class="field field-sekunder field-textarea" 
+                    v-model="formData.description"
+                    :readonly="this.title === 'VIEW' ? true : false"></textarea>
+                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                    {{ formMessage && formMessage.description && formMessage.description[0] }}
                 </div>
             </div>
             <div class="field-group margin margin-bottom-15-px">
@@ -103,18 +115,6 @@
                     {{ formMessage && formMessage.status && formMessage.status[0] }}
                 </div>
             </div>
-            <div class="field-group margin margin-bottom-15-px">
-                <div class="field-label">DESCRIPTION</div>
-                <textarea 
-                    name="description" 
-                    id="description" 
-                    class="field field-sekunder field-textarea" 
-                    v-model="formData.description"
-                    :readonly="this.title === 'VIEW' ? true : false"></textarea>
-                <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                    {{ formMessage && formMessage.description && formMessage.description[0] }}
-                </div>
-            </div>
         </AppSideForm>
     </div>
 </template>
@@ -127,7 +127,7 @@ const time = new Date().getTime()
 
 const payload = {
     id: '',
-    benefit_id: 'BN-' + time,
+    position_id: 'PS-' + time,
     image: '',
     title: '',
     description: '',
@@ -191,13 +191,13 @@ export default {
                 this.formData = {
                     ...this.formData,
                     id: props.id,
-                    benefit_id: props.benefit_id,
+                    position_id: props.position_id,
                     image: props.image,
                     title: props.title,
                     description: props.description,
                     status: props.status
                 }
-                this.image = props.image ? this.benefitImageThumbnailUrl + props.image : ''
+                this.image = props.image ? this.articleImageThumbnailUrl + props.image : ''
             } else {
                 this.formData = {...payload}
                 this.image = ''

@@ -2,7 +2,9 @@
     <div id="form">
         <AppSideForm 
             :title="title" 
-            :enableSaveButton="this.title !== 'VIEW' ? true : false"
+            :enableCreateButton="this.title === 'EDIT' ? selectedIndex === 2 ? true : false : false"
+            :enableSaveButton="this.title !== 'VIEW' ? selectedIndex === 0 || selectedIndex === 1 ? true : false : false"
+            :onCreate="onButtonCreate"
             :onSave="onButtonSave"
             :onClose="onClose">
             
@@ -13,7 +15,7 @@
                 class="margin margin-bottom-15-px" />
 
             <div v-if="selectedIndex === 0">
-                <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
+                <!-- <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
                     <div class="field-label">IMAGE</div>
                     <AppImage 
                         :image.sync="image"
@@ -24,7 +26,7 @@
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                         {{ formMessage && formMessage.image && formMessage.image[0] }}
                     </div>
-                </div>
+                </div> -->
                 <div class="field-group margin margin-bottom-15-px">
                     <div class="field-label">ID</div>
                     <input 
@@ -37,45 +39,61 @@
                         readonly>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">TABLE ID</div>
+                    <div class="field-label">SHIFT ID</div>
                     <input 
                         type="text" 
                         placeholder="" 
                         class="field field-sekunder" 
-                        name="table_id" 
-                        id="table_id" 
-                        v-model="formData.table_id"
+                        name="shift_id" 
+                        id="shift_id" 
+                        v-model="formData.shift_id"
                         readonly>
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.table_id && formMessage.table_id[0] }}
+                        {{ formMessage && formMessage.shift_id && formMessage.shift_id[0] }}
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">CODE</div>
+                    <div class="field-label">TITLE</div>
                     <input 
                         type="text" 
                         placeholder="" 
                         class="field field-sekunder" 
-                        name="code" 
-                        id="code" 
-                        v-model="formData.code"
+                        name="title" 
+                        id="title" 
+                        v-model="formData.title"
                         :readonly="this.title === 'VIEW' ? true : false">
                     <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.code && formMessage.code[0] }}
+                        {{ formMessage && formMessage.title && formMessage.title[0] }}
                     </div>
                 </div>
-                <div class="field-group margin margin-bottom-15-px">
-                    <div class="field-label">NAME</div>
-                    <input 
-                        type="text" 
-                        placeholder="" 
-                        class="field field-sekunder" 
-                        name="name" 
-                        id="name" 
-                        v-model="formData.name"
-                        :readonly="this.title === 'VIEW' ? true : false">
-                    <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
-                        {{ formMessage && formMessage.name && formMessage.name[0] }}
+                <div class="display-flex margin margin-bottom-15-px">
+                    <div class="field-group" style="width: calc(100% - 10px); margin-right: 10px;">
+                        <div class="field-label">START TIME</div>
+                        <input 
+                            type="text" 
+                            placeholder="" 
+                            class="field field-sekunder" 
+                            name="start_time" 
+                            id="start_time" 
+                            v-model="formData.start_time"
+                            :readonly="this.title === 'VIEW' ? true : false">
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.start_time && formMessage.start_time[0] }}
+                        </div>
+                    </div>
+                    <div class="field-group" style="width: calc(100% - 10px); margin-left: 10px;">
+                        <div class="field-label">END TIME</div>
+                        <input 
+                            type="text" 
+                            placeholder="" 
+                            class="field field-sekunder" 
+                            name="end_time" 
+                            id="end_time" 
+                            v-model="formData.end_time"
+                            :readonly="this.title === 'VIEW' ? true : false">
+                        <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                            {{ formMessage && formMessage.end_time && formMessage.end_time[0] }}
+                        </div>
                     </div>
                 </div>
                 <div class="field-group margin margin-bottom-15-px">
@@ -212,6 +230,14 @@
                     :onChange="(data) => onChangeShop(data)"
                 />
             </div>
+
+            <div v-if="selectedIndex === 2">
+                <FormEmployee 
+                    :selectedId.sync="formData.id"
+                    :selectedShiftId.sync="formData.shift_id"
+                    :enableButton="title === 'EDIT' ? true : false"
+                    :enablePopup="popupEmployeeCreate" />
+            </div>
         </AppSideForm>
     </div>
 </template>
@@ -221,20 +247,24 @@ import AppSideForm from '../../modules/AppSideForm'
 import AppImage from '../../modules/AppImage'
 import AppTabs from '../../modules/AppTabs'
 import FormShop from '../shops/FormShop'
+import FormEmployee from './FormEmployee'
 
 const tabs = [
     {label: 'Data', status: 'active'},
-    {label: 'Shops', status: ''}
+    {label: 'Shop', status: ''},
+    {label: 'Employees', status: ''}
 ]
 
 const time = new Date().getTime()
 
 const payload = {
     id: '',
-    table_id: 'CT-' + time,
+    shift_id: 'SH-' + time,
     code: '',
     image: '',
-    name: '',
+    title: '',
+    start_time: '',
+    end_time: '',
     status: '',
     is_available: 0,
     description: '',
@@ -263,6 +293,7 @@ export default {
     data () {
         return {
             selectedIndex: 0,
+            popupEmployeeCreate: false,
             openCreateShop: false,
             tabs: tabs,
             isView: false,
@@ -276,6 +307,7 @@ export default {
         this.formData = {...payload}
     },
     components: {
+        FormEmployee,
         FormShop,
         AppTabs,
         AppSideForm,
@@ -320,12 +352,18 @@ export default {
             }
             this.selectedShop = {...data}
         },
+        onButtonCreateEmployee () {
+            this.popupEmployeeCreate = !this.popupEmployeeCreate
+        },
         onButtonShop () {
             this.openCreateShop = !this.openCreateShop
         },
         onButtonSave () {
             const newPayload = this.formData
             this.onSave(newPayload)
+        },
+        onButtonCreate () {
+            this.onButtonCreateEmployee()
         }
     },
     watch: {
@@ -333,15 +371,16 @@ export default {
             if (props) {
                 this.formData = {
                     ...this.formData,
-                    id: props.table.id,
-                    table_id: props.table.table_id,
-                    code: props.table.code,
-                    image: props.table.image,
-                    name: props.table.name,
-                    is_available: props.table.is_available,
-                    status: props.table.status,
-                    description: props.table.description,
-                    shop_id: props.table.shop_id
+                    id: props.shift.id,
+                    shift_id: props.shift.shift_id,
+                    image: props.shift.image,
+                    title: props.shift.title,
+                    start_time: props.shift.start_time,
+                    end_time: props.shift.end_time,
+                    is_available: props.shift.is_available,
+                    status: props.shift.status,
+                    description: props.shift.description,
+                    shop_id: props.shift.shop_id
                 }
                 this.selectedShop = {
                     ...this.selectedShop,
@@ -351,7 +390,7 @@ export default {
                     status: props.shop.status,
                     about: props.shop.about
                 }
-                this.image = props.table.image ? this.tableImageThumbnailUrl + props.table.image : ''
+                this.image = props.shift.image ? this.shiftImageThumbnailUrl + props.shift.image : ''
             } else {
                 this.formData = {...payload}
                 this.selectedShop = {...shop}

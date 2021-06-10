@@ -4,7 +4,7 @@ import About from '@/components/About.vue';
 import AdminLayout from '@/components/layouts/Admin.vue';
 import WebLayout from '@/components/layouts/Web.vue';
 import CustomerLayout from '@/components/layouts/Customer.vue';
-import AccountLayout from '@/components/layouts/Account.vue';
+import ShopLayout from '@/components/layouts/Shop.vue';
 
 // admin
 import Dashboard from '@/components/admin/Index.vue';
@@ -49,6 +49,10 @@ import TableList from '@/components/admin/tables/Index.vue';
 import VisitorList from '@/components/admin/visitors/Index.vue';
 import Cashier from '@/components/admin/cashier/Index.vue';
 import Shops from '@/components/admin/shops/Index.vue';
+import CatalogList from '@/components/admin/catalog/Index.vue';
+import PositionList from '@/components/admin/position/Index.vue';
+import EmployeeList from '@/components/admin/employee/Index.vue';
+import ShiftList from '@/components/admin/shift/Index.vue';
 
 // customer
 import CustomerMain from '@/components/customer/Index.vue';
@@ -175,39 +179,9 @@ export const routes = [
                 component: Cashier
             },
             {
-                name: 'shops',
-                path: '/admin-shops',
-                component: Shops
-            },
-            {
                 name: 'bizpar',
                 path: '/admin-bizpar',
                 component: Bizpar
-            },
-            {
-                name: 'shipment',
-                path: '/admin-shipment',
-                component: Shipment
-            },
-            {
-                name: 'payment',
-                path: '/admin-payment',
-                component: Payment
-            },
-            {
-                name: 'category',
-                path: '/admin-category',
-                component: Category
-            },
-            {
-                name: 'listing',
-                path: '/admin-listing',
-                component: ProductAdmin
-            },
-            {
-                name: 'toping',
-                path: '/admin-toping',
-                component: Toping
             },
             {
                 name: 'customer',
@@ -279,12 +253,70 @@ export const routes = [
                 path: '/admin-visitors',
                 component: VisitorList
             },
+            {
+                name: 'catalog',
+                path: '/admin-catalogs',
+                component: CatalogList
+            },
+            {
+                name: 'employee',
+                path: '/admin-employee',
+                component: EmployeeList
+            },
+            {
+                name: 'shift',
+                path: '/admin-shift',
+                component: ShiftList
+            },
 
             // info
             {
                 name: '404',
                 path: '/admin-not-found',
                 component: NotFoundAdmin
+            },
+
+            // layout
+            {
+                path: '/admin-shop',
+                component: ShopLayout,
+                children: [
+                    {
+                        name: 'shops',
+                        path: 'shops',
+                        component: Shops
+                    },
+                    {
+                        name: 'category',
+                        path: 'categories',
+                        component: Category
+                    },
+                    {
+                        name: 'toping',
+                        path: 'topings',
+                        component: Toping
+                    },
+                    {
+                        name: 'listing',
+                        path: 'listing',
+                        component: ProductAdmin
+                    },
+                    {
+                        name: 'position',
+                        path: 'positions',
+                        component: PositionList
+                    },
+                    {
+                        name: 'shipment',
+                        path: 'shipments',
+                        component: Shipment
+                    },
+                    {
+                        name: 'payment',
+                        path: 'payments',
+                        component: Payment
+                    },
+                ]
             }
         ]
     },

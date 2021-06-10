@@ -1,63 +1,87 @@
 <template>
-    <div id="FormShop">
-        <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">SHOP ID</div>
-            <input 
-                type="text" 
-                placeholder="" 
-                class="field field-sekunder" 
-                name="shop_id" 
-                id="shop_id" 
-                v-model="data.shop_id"
-                readonly>
-        </div>
-        <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">NAME</div>
-            <input 
-                type="text" 
-                placeholder="" 
-                class="field field-sekunder" 
-                name="name" 
-                id="name" 
-                v-model="data.name"
-                readonly>
-        </div>
-        <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">STATUS</div>
-            <input 
-                type="text" 
-                placeholder="" 
-                class="field field-sekunder" 
-                name="status" 
-                id="status" 
-                v-model="data.status"
-                readonly>
-        </div>
-        <div class="field-group margin margin-bottom-15-px">
-            <div class="field-label">ABOUT</div>
-            <textarea 
-                name="about" 
-                id="about" 
-                class="field field-sekunder field-textarea" 
-                v-model="data.about"
-                readonly></textarea>
-        </div>
+    <div id="FormProduct">
+         <div class="field-group margin margin-bottom-15-px">
+             <div class="field-label">PRODUCT ID</div>
+             <input 
+                 type="text" 
+                 placeholder="" 
+                 class="field field-sekunder" 
+                 name="product_id" 
+                 id="product_id" 
+                 v-model="data.product_id"
+                 readonly>
+             <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                 {{ formMessage && formMessage.product_id && formMessage.product_id[0] }}
+             </div>
+         </div>
+         <div class="field-group margin margin-bottom-15-px">
+             <div class="field-label">NAME</div>
+             <input 
+                 type="text" 
+                 placeholder="" 
+                 class="field field-sekunder" 
+                 name="name" 
+                 id="name" 
+                 v-model="data.name"
+                 readonly>
+             <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                 {{ formMessage && formMessage.name && formMessage.name[0] }}
+             </div>
+         </div>
+         <div class="field-group margin margin-bottom-15-px">
+             <div class="field-label">CATEGORY</div>
+             <input 
+                 type="text" 
+                 placeholder="" 
+                 class="field field-sekunder" 
+                 name="category_id" 
+                 id="category_id" 
+                 v-model="data.ctr_name"
+                 readonly>
+             <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                 {{ formMessage && formMessage.category_id && formMessage.category_id[0] }}
+             </div>
+         </div>
+         <div class="field-group margin margin-bottom-15-px">
+             <div class="field-label">DESCRIPTION</div>
+             <textarea 
+                 name="description" 
+                 id="description" 
+                 class="field field-sekunder field-textarea" 
+                 v-model="data.description"
+                 readonly></textarea>
+             <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                 {{ formMessage && formMessage.description && formMessage.description[0] }}
+             </div>
+         </div>
+         <div class="field-group margin margin-bottom-15-px">
+             <div class="field-label">NOTE</div>
+             <textarea 
+                 name="note" 
+                 id="note" 
+                 class="field field-sekunder field-textarea" 
+                 v-model="data.note"
+                 readonly></textarea>
+             <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
+                 {{ formMessage && formMessage.note && formMessage.note[0] }}
+             </div>
+         </div>
 
-        <AppPopupForm
+         <AppPopupForm
             v-if="visiblePopup"
-            :title="'Choose Shop'"
+            :title="'Choose Product'"
             :onClose="onClose"
         >
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
-                        <th class="normal-col">SHOP ID</th>
+                        <th class="normal-col">PRODUCT ID</th>
                         <th>NAME</th>
                         <th class="small-col"></th>
                     </thead>
                     <tbody>
                         <tr v-for="(dt, index) in datas" :key="index">
-                            <td class="normal-col">{{ dt.shop_id }}</td>
+                            <td class="normal-col">{{ dt.product_id }}</td>
                             <td>{{ dt.name }}</td>
                             <td class="small-col">
                                 <button v-if="data.id !== dt.id" class="btn btn-small-icon btn-sekunder" @click="onChoose(dt)">
@@ -85,7 +109,6 @@
             :onSave="saveData" />
     </div>
 </template>
-
 <script>
 import axios from 'axios'
 import AppPopupForm from '../../modules/AppPopupForm'
@@ -94,7 +117,7 @@ import AppAlert from '../../modules/AppAlert'
 const payload = {}
 
 export default {
-    name: 'FormShop',
+    name: 'FormProduct',
     data () {
         return {
             visibleAlertDelete: false,
@@ -114,10 +137,6 @@ export default {
         this.dataUser = this.$cookies.get('user')
         this.getData()
     },
-    components: {
-        AppPopupForm: AppPopupForm,
-        AppAlert: AppAlert
-    },
     props: {
         onChange: {
             type: Function,
@@ -128,8 +147,12 @@ export default {
             requred: false
         },
         data: {
-            requred: true
+            required: true
         }
+    },
+    components: {
+        AppPopupForm: AppPopupForm,
+        AppAlert: AppAlert
     },
     methods: {
         onShowHideDelete (index = null) {
@@ -165,11 +188,13 @@ export default {
                 offset: 0,
                 user_id: this.dataUser.id
             }
-            const rest = await axios.post('/api/shop/getAllOnlyShop', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const data = rest.data.data
-                this.datas = data
+                this.datas = data && data.map((dt) => {
+                    return {...dt.product}
+                })
             }
         }
     },

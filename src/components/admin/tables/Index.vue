@@ -26,7 +26,7 @@
                             <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
                                 <div style="width: 60px; margin-right: 15px;">
                                     <div class="image image-padding border border-full">
-                                        <img v-if="dt.image" :src="tableImageThumbnailUrl + dt.table.image" alt="" class="post-center">
+                                        <img v-if="dt.table.image" :src="tableImageThumbnailUrl + dt.table.image" alt="" class="post-center">
                                         <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
                                     </div>
                                 </div>
@@ -201,7 +201,10 @@ export default {
         onChangeImage (data) {
             this.selectedData = {
                 ...this.selectedData,
-                image: data
+                table: {
+                    ...this.selectedData.table,
+                    image: data
+                }
             }
         },
         async removeData () {
@@ -261,7 +264,7 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
+            const payload = this.selectedData.table
             const url = '/api/table/uploadImage' 
 
             let formData = new FormData();
@@ -289,7 +292,7 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
+            const payload = this.selectedData.table
             const url = '/api/table/removeImage' 
 
             let formData = new FormData();
@@ -343,7 +346,7 @@ export default {
                 this.datas = data 
                 this.visibleLoader = false 
 
-                console.log('table', this.datas)
+                console.log('newData', newData)
 
                 if (newData.length > 0) {
                     this.offset += this.limit

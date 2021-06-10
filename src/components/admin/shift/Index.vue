@@ -2,9 +2,9 @@
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
             <div class="bg-white box-shadow">
-                <div class="display-flex row space-between border-bottom padding padding-10-px" style="height: 40px;">
+                <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="fonts small black">TABLES</h1>
+                        <h1 class="fonts small black">SHIFTS</h1>
                         <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
@@ -16,63 +16,60 @@
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search tables ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search shifts ..'" :enableResponsive="true" style="margin-left: 5px;" />
                     </div>
                 </div>
                 
-                <div class="table-container">
-                    <v-table 
-                        :data="datas ? datas : []" 
-                        :filters="filters" 
-                        :currentPage.sync="currentPage" 
-                        :pageSize="limitPage" 
-                        @totalPagesChanged="totalPages = $event">
-                        <thead slot="head">
-                            <v-th class="small-col hide-icon">NO</v-th>
-                            <v-th sortKey="table_id">Table ID</v-th>
-                            <v-th sortKey="name">Name</v-th>
-                            <v-th sortKey="code">Code</v-th>
-                            <v-th sortKey="status" class="normal-col">Status</v-th>
-                            <th class="medium-col"></th>
-                        </thead>
-                        <tbody slot="body" slot-scope="{displayData}">
-                            <AppLoader v-if="visibleLoader" />
-
-                            <tr v-for="(row, index) in displayData" :key="index">
-                                <td class="small-col">{{ (index + 1) }}</td>
-                                <td>{{ row.table_id }}</td>
-                                <td>{{ row.name }}</td>
-                                <td>{{ row.code }}</td>
-                                <td class="normal-col">
-                                    <div 
-                                        :class="'card-capsule ' + (row.status === 'active' ? 'active' : '')" 
-                                        style="text-transform: capitalize; display: inline-block; padding-top: 2px; padding-bottom: 2px;">
-                                        {{ row.status }}
+                <div class="content-body">
+                    <div style="padding-left: 15px; padding-right: 15px;">
+                        <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                            <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
+                                <div style="width: 60px; margin-right: 15px;">
+                                    <div class="image image-padding border border-full">
+                                        <i class="post-middle-absolute icn fa fa-lg fa-clock"></i>
                                     </div>
-                                </td>
-                                <td class="medium-col">
-                                    <div class="display-flex justify-content">
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('EDIT', row.id)">
-                                            <i class="fa fa-lw fa-pencil-alt" />
+                                </div>
+                                <div style="width: calc(100% - 185px);">
+                                    <div class="display-flex" style="margin-bottom: 5px;">
+                                        <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shift.title }}</div>
+                                        <div 
+                                            :class="'card-capsule ' + (
+                                            dt.shift.status === 'active' 
+                                                ? 'active' 
+                                                : ''
+                                            )" 
+                                            style="margin-left: 10px; text-transform: capitalize;">
+                                            {{ dt.shift.status }}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shift.start_time + ' - ' + dt.shift.end_time }}</div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shop.name }}</div>
+                                    </div>
+                                </div>
+                                <div class="display-flex column space-between" style="width: 100px;">
+                                    <div class="display-flex space-between">
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.shift.id)">
+                                            <i class="fa fa-1x fa-pencil-alt"></i>
                                         </button>
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShowHideDelete(row.id)">
-                                            <i class="fa fa-lw fa-trash-alt" />
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.shift.id)">
+                                            <i class="fa fa-1x fa-trash-alt"></i>
                                         </button>
-                                        <button class="btn btn-transparent btn-small-icon btn-radius" @click="onShow('VIEW', row.id)">
-                                            <i class="fa fa-lw fa-ellipsis-v" />
+                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.shift.id)">
+                                            <i class="fa fa-1x fa-ellipsis-v"></i>
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </v-table>
-                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <AppLoader v-if="visibleLoader" />
+                    </div>
 
-                <div class="padding padding-10-px" style="height: 40px;">
-                    <smart-pagination
-                        :currentPage.sync="currentPage"
-                        :totalPages="totalPages"
-                    />
+                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData(limit, offset)">
+                            Load More
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,6 +119,7 @@ export default {
             visibleAlertSave: false,
             visibleLoader: false,
             visibleLoaderAction: false,
+            visibleLoadMore: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
@@ -134,12 +132,14 @@ export default {
             limitPage: 10,
             currentPage: 1,
             totalPages: 0,
-            dataUser: null 
+            dataUser: null,
+            limit: 4,
+            offset: 0
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
-        this.getData()
+        this.getData(this.limit, this.offset)
     },
     components: {
         AppAlert,
@@ -165,7 +165,7 @@ export default {
         onSearchData (id) {
             let payload = null
             this.datas.map((dt) => {
-                if (dt.id === id) {
+                if (dt.shift.id === id) {
                     payload = {...dt}
                 }
                 return null 
@@ -200,19 +200,22 @@ export default {
         onChangeImage (data) {
             this.selectedData = {
                 ...this.selectedData,
-                image: data
+                shift: {
+                    ...this.selectedData.shift,
+                    image: data
+                }
             }
         },
         async removeData () {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const id = this.onSearchData(this.selectedIndex).table_id
+            const id = this.onSearchData(this.selectedIndex).shift_id
             const payload = {
-                table_id: id
+                shift_id: id
             }
 
-            const rest = await axios.post('/api/table/delete', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/shift/delete', payload, { headers: { Authorization: token } })
             // console.log('rest', rest)
 
             if (rest && rest.status === 200) {
@@ -222,7 +225,7 @@ export default {
 
                 const data = rest.data
                 if (data.status === 'ok') {
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
@@ -236,7 +239,7 @@ export default {
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.selectedData
-            const url = this.formTitle === 'CREATE' ? '/api/table/post' : '/api/table/update' 
+            const url = this.formTitle === 'CREATE' ? '/api/shift/post' : '/api/shift/update' 
 
             const rest = await axios.post(url, payload, { headers: { Authorization: token } })
 
@@ -247,7 +250,7 @@ export default {
                 const data = rest.data.data
                 if (data.length !== 0) {
                     this.onClose()
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     this.selectedMessage = rest.data.message
                 }
@@ -260,11 +263,11 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
-            const url = '/api/table/uploadImage' 
+            const payload = this.selectedData.shift
+            const url = '/api/shift/uploadImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('shift_id', payload.shift_id);
             formData.append('image', data);
 
             const rest = await axios.post(url, formData, { headers: { Authorization: token, 'Content-Type': 'multipart/form-data' } })
@@ -275,7 +278,7 @@ export default {
                 const data = rest.data.data
                 if (data && data.image) {
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                     this.selectedMessage = []
                 } else {
                     this.selectedMessage = rest.data.message
@@ -288,11 +291,11 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
-            const url = '/api/table/removeImage' 
+            const payload = this.selectedData.shift
+            const url = '/api/shift/removeImage' 
 
             let formData = new FormData();
-            formData.append('table_id', payload.table_id);
+            formData.append('shift_id', payload.shift_id);
 
             var a = confirm('remove this image ?')
             if (a) {
@@ -303,32 +306,56 @@ export default {
 
                     const data = rest.data.data
                     this.onChangeImage(data && data.image)
-                    this.getData()
+                    this.getData(this.limit, 0)
                 } else {
                     alert('Proceed failed')
                 }
             }
         },
-        async getData () {
+        async getData (limit, offset) {
             this.visibleLoader = true 
+
+            let data = []
+
+            if (offset > 0) {
+                data = Object.assign([], this.datas)
+            } else {
+                data = []
+            }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = this.dataUser.role_name === 'admin' ? {
-                limit: 1000,
-                offset: 0
+                limit: limit,
+                offset: offset
             } : {
-                limit: 1000,
-                offset: 0,
+                limit: limit,
+                offset: offset,
                 user_id: this.dataUser.id
             }
-            
-            // console.log('token', token)
-            const rest = await axios.post('/api/table/getAll', payload, { headers: { Authorization: token } })
+
+            const rest = await axios.post('/api/shift/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
-                const data = rest.data.data
-                this.datas = data
+                const newData = rest.data.data
+                
+                newData && newData.map((dt) => {
+                    return data.push({...dt})
+                })
+
+                this.datas = data 
                 this.visibleLoader = false 
+
+                console.log('newData', newData)
+
+                if (newData.length > 0) {
+                    this.offset += this.limit
+                }
+
+                if (newData.length < this.limit) {
+                    this.visibleLoadMore = false
+                } else {
+                    this.visibleLoadMore = true
+                }
             } else {
                 this.visibleLoader = false 
             }

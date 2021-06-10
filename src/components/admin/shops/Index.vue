@@ -1,26 +1,11 @@
 <template>
     <div id="App" :class="formClass ? 'content-form' : 'content-form hide'">
         <div class="left">
-            <div class="bg-white">
-                <div class="display-flex wrap" style="margin-bottom: 15px;">
-                    <div v-for="(dt, i) in menus" :key="i" class="column-6" style="margin-top: 10px; margin-bottom: 10px;">
-                        <router-link :to="{name: dt.link ? dt.link : '404'}" style="display: block; margin-left: 15px; margin-right: 15px;">
-                            <div class="card border-full bg-white" style="width: calc(100% - 42px); padding-bottom: 35px;">
-                                <div class="image image-100px bg-white" style="margin: auto;">
-                                    <i :class="'post-middle fonts fonts-28 orange ' + dt.icon"></i>
-                                </div>
-                                <div class="fonts fonts-11 black semibold" style="text-align: center;">
-                                    {{ dt.title }}
-                                </div>
-                            </div>
-                        </router-link>
-                    </div>
-                </div>
-
+            <div class="bg-white box-shadow">
                 <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
                     <div>
-                        <h1 class="post-center fonts fonts-16 semibold black">SHOPS</h1>
-                        <!-- <p class="fonts micro grey no-line-height">controll your datas</p> -->
+                        <h1 class="fonts small black">SHOPS</h1>
+                        <p class="fonts micro grey no-line-height">controll your datas</p>
                     </div>
                     <div class="display-flex">
                         <AppButtonMenu 
@@ -31,21 +16,20 @@
                         <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
                             <i class="fa fa-lw fa-plus" />
                         </button>
-                        <SearchField :placeholder="'Search shops ..'" :enableResponsive="true" style="margin-left: 5px;" />
+                        <SearchField :placeholder="'Search shops ..'" :enableResponsive="true" :onChange="(data) => onSearch(data)" style="margin-left: 5px;" />
                     </div>
                 </div>
-                
-                <div>
+                <div class="content-body">
                     <div style="padding-left: 10px; padding-right: 10px;">
                         <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
                             <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                <div style="width: 60px; margin-right: 15px;">
+                                <div style="width: 60px; margin-right: 20px;">
                                     <div class="image image-padding border border-full">
                                         <img v-if="dt.shop.image" :src="shopImageThumbnailUrl + dt.shop.image" alt="" class="post-center">
                                         <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
                                     </div>
                                 </div>
-                                <div style="width: calc(100% - 185px);">
+                                <div style="width: calc(100% - 180px);">
                                     <div class="display-flex" style="margin-bottom: 5px;">
                                         <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shop.name }}</div>
                                         <div 
@@ -59,11 +43,12 @@
                                         </div>
                                     </div>
                                     <div>
+                                        <div class="fonts fonts-10 grey">{{ dt.shop.about.substring(0, 50) }} ...</div>
                                         <div class="fonts fonts-10 grey">{{ dt.shop.open_day + ' - ' + dt.shop.close_day }}</div>
                                         <div class="fonts fonts-10 grey">{{ dt.shop.open_time + ' - ' + dt.shop.close_time }}</div>
                                     </div>
                                     <div v-if="dt.tables.length > 0" style="margin-top: 10px;">
-                                        <div class="fonts fonts-11 black semibold">Tables ({{ dt.tables.length }})</div>
+                                        <div class="fonts fonts-10 black semibold">Tables ({{ dt.tables.length }})</div>
                                         <div class="display-flex wrap">
                                             <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
                                                 <div class="card border-full" style="width: 100px; padding: 15px 5px;">
@@ -73,28 +58,20 @@
                                         </div>
                                     </div>
                                     <div v-if="dt.shifts.length > 0" style="margin-top: 10px;">
-                                        <div class="fonts fonts-11 black semibold">Shifts ({{ dt.shifts.length }})</div>
+                                        <div class="fonts fonts-10 black semibold">Shifts ({{ dt.shifts.length }})</div>
                                         <div class="display-flex wrap">
                                             <div v-for="(tb, j) in dt.shifts" :key="j" :title="tb.title" style="margin: 5px;">
                                                 <div class="card border-full" style="width: auto; padding: 10px 15px;">
                                                     <div class="fonts fonts-11 black">{{ tb.title }}</div>
-                                                    <div class="fonts fonts-9 grey">{{ tb.start_time }} | {{ tb.end_time }}</div>
+                                                    <div class="fonts fonts-9 grey">{{ tb.start_time }} - {{ tb.end_time }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="display-flex column space-between" style="width: 100px;">
-                                    <div class="display-flex space-between">
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('EDIT', dt.shop.id)">
-                                            <i class="fa fa-1x fa-pencil-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShowHideDelete(dt.shop.id)">
-                                            <i class="fa fa-1x fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-small-icon btn-sekunder" @click="onShow('VIEW', dt.shop.id)">
-                                            <i class="fa fa-1x fa-ellipsis-v"></i>
-                                        </button>
+                                    <div class="display-flex align-right">
+                                        <AppButtonMenu :onChange="(data) => onChangeMenuShop(data, dt.shop.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                                     </div>
                                 </div>
                             </div>
@@ -102,13 +79,120 @@
                         <AppLoader v-if="visibleLoader" />
                     </div>
 
-                    <div v-if="!visibleLoader" class="display-flex center" style="margin-top: 20px; margin-bottom: 20px;">
-                        <button v-if="visibleLoadMore" class="btn btn-sekunder" @click="getData(limit, offset)">
+                    <div v-if="!visibleLoader" class="display-flex center">
+                        <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 20px; margin-bottom: 20px;" @click="getData(limit, offset)">
                             Load More
                         </button>
                     </div>
                 </div>
             </div>
+            <!-- <div class="display-flex">
+                <div style="width: 250px;">
+                    <AppListDownMenu :data.sync="menus" :isSidebarSmall.sync="isSidebarSmall" />
+                </div>
+                <div style="width: calc(100% - 250px);">
+                    <div class="bg-white">
+                        <div class="display-flex wrap" style="margin-bottom: 5px;">
+                            <div v-for="(dt, i) in menus" :key="i" class="column-6" style="margin-top: 10px; margin-bottom: 10px;">
+                                <router-link :to="{name: dt.link ? dt.link : '404'}" style="display: block; margin-left: 15px; margin-right: 15px;">
+                                    <div class="card border-full bg-white" style="width: calc(100% - 42px); padding-bottom: 35px;">
+                                        <div class="image image-100px bg-white" style="margin: auto;">
+                                            <i :class="'post-middle fonts fonts-28 orange ' + dt.icon"></i>
+                                        </div>
+                                        <div class="fonts fonts-10 black semibold" style="text-align: center;">
+                                            {{ dt.label }}
+                                        </div>
+                                    </div>
+                                </router-link>
+                            </div>
+                        </div>
+
+                        <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
+                            <div>
+                                <h1 class="post-center fonts fonts-16 semibold black">SHOPS</h1>
+                            </div>
+                            <div class="display-flex">
+                                <AppButtonMenu 
+                                    :icon="'fa fa-lw fa-filter'"
+                                    :button="'btn btn-icon btn-white'"
+                                    :onChange="(data) => onChangeMenu(data)" 
+                                    :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Status'}]" />
+                                <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
+                                    <i class="fa fa-lw fa-plus" />
+                                </button>
+                                <SearchField :placeholder="'Search shops ..'" :enableResponsive="true" :onChange="(data) => onSearch(data)" style="margin-left: 5px;" />
+                            </div>
+                        </div>
+                        
+                        <div class="content-body">
+                            <div style="padding-left: 10px; padding-right: 10px;">
+                                <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
+                                    <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
+                                        <div style="width: 60px; margin-right: 20px;">
+                                            <div class="image image-padding border border-full">
+                                                <img v-if="dt.shop.image" :src="shopImageThumbnailUrl + dt.shop.image" alt="" class="post-center">
+                                                <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
+                                            </div>
+                                        </div>
+                                        <div style="width: calc(100% - 180px);">
+                                            <div class="display-flex" style="margin-bottom: 5px;">
+                                                <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shop.name }}</div>
+                                                <div 
+                                                    :class="'card-capsule ' + (
+                                                    dt.shop.status === 'active' 
+                                                        ? 'active' 
+                                                        : ''
+                                                    )" 
+                                                    style="margin-left: 10px; text-transform: capitalize;">
+                                                    {{ dt.shop.status }}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="fonts fonts-10 grey">{{ dt.shop.about.substring(0, 50) }} ...</div>
+                                                <div class="fonts fonts-10 grey">{{ dt.shop.open_day + ' - ' + dt.shop.close_day }}</div>
+                                                <div class="fonts fonts-10 grey">{{ dt.shop.open_time + ' - ' + dt.shop.close_time }}</div>
+                                            </div>
+                                            <div v-if="dt.tables.length > 0" style="margin-top: 10px;">
+                                                <div class="fonts fonts-10 black semibold">Tables ({{ dt.tables.length }})</div>
+                                                <div class="display-flex wrap">
+                                                    <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
+                                                        <div class="card border-full" style="width: 100px; padding: 15px 5px;">
+                                                            <div class="fonts fonts-11 black" style="width: 100%; text-align: center;">{{ tb.name }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-if="dt.shifts.length > 0" style="margin-top: 10px;">
+                                                <div class="fonts fonts-10 black semibold">Shifts ({{ dt.shifts.length }})</div>
+                                                <div class="display-flex wrap">
+                                                    <div v-for="(tb, j) in dt.shifts" :key="j" :title="tb.title" style="margin: 5px;">
+                                                        <div class="card border-full" style="width: auto; padding: 10px 15px;">
+                                                            <div class="fonts fonts-11 black">{{ tb.title }}</div>
+                                                            <div class="fonts fonts-9 grey">{{ tb.start_time }} - {{ tb.end_time }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="display-flex column space-between" style="width: 100px;">
+                                            <div class="display-flex align-right">
+                                                <AppButtonMenu :onChange="(data) => onChangeMenuShop(data, dt.shop.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <AppLoader v-if="visibleLoader" />
+                            </div>
+
+                            <div v-if="!visibleLoader" class="display-flex center">
+                                <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 20px; margin-bottom: 20px;" @click="getData(limit, offset)">
+                                    Load More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
         </div>
 
         <div class="right">
@@ -146,16 +230,17 @@ import AppLoader from '../../modules/AppLoader'
 import AppAlert from '../../modules/AppAlert'
 import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
+import AppListDownMenu from '../../modules/AppListDownMenu'
 import Form from './Form'
 
 const menus = [
-    {title: 'Products', icon: 'fa fa-lg fa-box', link: ''},
-    {title: 'Employees', icon: 'fa fa-lg fa-address-card', link: ''},
-    {title: 'Order History', icon: 'fa fa-lg fa-receipt', link: ''},
-    // {title: 'Shipments', icon: 'fa fa-lg fa-truck', link: 'shipment'},
-    {title: 'Payments', icon: 'fa fa-lg fa-calculator', link: 'payment'},
-    {title: 'Users', icon: 'fa fa-lg fa-users', link: ''},
-    {title: 'Reports', icon: 'fa fa-lg fa-calendar-alt', link: ''},
+    {label: 'Products', icon: 'fa fa-lg fa-box', link: 'listing'},
+    {label: 'Job Positions', icon: 'fa fa-lg fa-flag', link: 'position'},
+    {label: 'Shipments', icon: 'fa fa-lg fa-truck', link: 'shipment'},
+    {label: 'Payments', icon: 'fa fa-lg fa-calculator', link: 'payment'},
+    // {label: 'Users', icon: 'fa fa-lg fa-users', link: ''},
+    // {label: 'Order History', icon: 'fa fa-lg fa-receipt', link: ''},
+    // {label: 'Reports', icon: 'fa fa-lg fa-calendar-alt', link: ''},
 ]
 
 export default {
@@ -167,6 +252,7 @@ export default {
             visibleLoader: false,
             visibleLoaderAction: false,
             visibleLoadMore: false,
+            isSidebarSmall: false,
             formTitle: 'CREATE',
             formClass: false,
             datas: [],
@@ -190,6 +276,7 @@ export default {
         this.getData(this.limit, this.offset)
     },
     components: {
+        AppListDownMenu,
         AppAlert,
         AppLoader,
         AppButtonMenu,
@@ -204,8 +291,25 @@ export default {
         })
     },
     methods: {
+        onSearch (data) {
+            console.log('search', data)
+        },
         onChangeMenu (index) {
-            // console.log('onChange', index)
+            console.log('onChange', index)
+        },
+        onChangeMenuShop (index, id) {
+            console.log('onChange', index)
+            switch (index) {
+                case 1:
+                    this.onShowHideDelete(id)
+                    break
+                case 2:
+                    this.onShow('VIEW', id)
+                    break
+                default:
+                    this.onShow('EDIT', id)
+                    break
+            }
         },
         nameLength (row) {
             return row.key.length
