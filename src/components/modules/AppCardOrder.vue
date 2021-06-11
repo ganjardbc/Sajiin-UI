@@ -100,6 +100,12 @@
                     </button>
                 </div>
                 <div class="display-flex">
+                    <button 
+                        @click="onButtonDetail(dt)"
+                        class="btn btn-main"
+                        style="margin-right: 15px;">
+                        Check Out Order
+                    </button>
                     <AppButtonMenu :onChange="(data) => onChangeMenuOwner(data, dt.order.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                 </div>
             </div>

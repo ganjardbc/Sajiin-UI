@@ -278,8 +278,10 @@ export const routes = [
 
             // layout
             {
+                name: 'admin-shop',
                 path: '/admin-shop',
                 component: ShopLayout,
+                redirect: '/admin-shop/shops',
                 children: [
                     {
                         name: 'shops',

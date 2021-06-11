@@ -203,3 +203,11 @@ a {
         }
     }
 }
+
+.button-router-link {
+    &.router-link-active {
+        .btn {
+            background-color: $white-grey;
+        }
+    }
+}

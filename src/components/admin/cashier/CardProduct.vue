@@ -156,7 +156,7 @@ export default {
                 price: price,
                 quantity: qty,
                 subtotal: qty * (price + topingPrice),
-                product_image: data && data.images[0].image,
+                product_image: data && data.images.length > 0 ? data.images[0].image : '',
                 product_name: data && data.product.name,
                 product_detail: detail && detail.name,
                 product_toping: toping && toping.name,

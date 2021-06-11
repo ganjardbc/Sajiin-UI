@@ -5,7 +5,7 @@
             :enableSaveButton="this.title !== 'VIEW' ? true : false"
             :onSave="onButtonSave"
             :onClose="onClose">
-            <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
+            <!-- <div v-if="this.title !== 'CREATE' ? true : false" class="field-group margin margin-bottom-15-px">
                 <div class="field-label">IMAGE</div>
                 <AppImage 
                     :image.sync="image"
@@ -16,7 +16,7 @@
                 <div v-if="formMessage" class="fonts micro bold" style="color: red; margin-top: 5px;">
                     {{ formMessage && formMessage.image && formMessage.image[0] }}
                 </div>
-            </div>
+            </div> -->
             <div class="field-group margin margin-bottom-15-px">
                 <div class="field-label">ID</div>
                 <input 

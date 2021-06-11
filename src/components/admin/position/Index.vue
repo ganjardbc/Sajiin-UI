@@ -26,8 +26,7 @@
                             <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
                                 <div style="width: 60px; margin-right: 15px;">
                                     <div class="image image-padding border border-full">
-                                        <img v-if="dt.image" :src="positionImageThumbnailUrl + dt.image" alt="" class="post-center">
-                                        <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
+                                        <i class="post-middle-absolute icn fa fa-lg fa-flag"></i>
                                     </div>
                                 </div>
                                 <div style="width: calc(100% - 185px);">

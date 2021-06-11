@@ -8,7 +8,8 @@
             </div>
             {{ label }}<i :class="icon ? icon : 'fa fa-lg fa-ellipsis-h'"></i>
         </button>
-        <div v-if="visiblePopup" class="card border-full box-shadow" style="position: absolute; top: 45px; right: 0; width: 220px; z-index: 10; padding: 0 0; border-radius: 5px; background-color: #fff;">
+        <div v-if="visiblePopup" class="card border-full box-shadow" style="position: absolute; top: 45px; right: 0; width: 220px; z-index: 10; padding: 5px; padding-bottom: 0; border-radius: 5px; background-color: #fff;">
+            <AppLoader v-if="isLoader" />
             <ul class="menu-list hover with-icon">
                 <li v-for="(dt, index) in data" :key="index" class="ml-list">
                     <div class="ml-link" :style="dt.icon ? 'cursor: pointer; padding: 5px 0;' : 'cursor: pointer; padding: 10px;'" @click="onHide(index)">
@@ -25,6 +26,8 @@
     </div>
 </template>
 <script>
+import AppLoader from './AppLoader.vue'
+
 export default {
     name: 'AppButton',
     data () {
@@ -32,7 +35,14 @@ export default {
             visiblePopup: false
         }
     },
+    components: {
+        AppLoader
+    },
     props: {
+        isLoader: {
+            type: Boolean,
+            required: false
+        },
         button: {
             type: String,
             required: false

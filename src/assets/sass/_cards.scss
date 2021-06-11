@@ -185,6 +185,9 @@
         background-color: $white-grey;
         cursor: pointer;
     }
+    &.router-link-active {
+        background-color: $white-grey;
+    }
     @media (max-width: $min-width) {
         .label {
             display: none;

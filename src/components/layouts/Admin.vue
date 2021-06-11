@@ -36,13 +36,13 @@
                                 <i class="fa fa-lg fa-calendar-alt" />
                             </button>
                         </router-link> -->
-                        <router-link :to="{name: 'shops'}" style="margin-left: 5px;">
-                            <button class="btn btn-white btn-icon btn-radius" title="Notifications">
+                        <router-link :to="{name: 'admin-shop'}" style="margin-left: 5px;" class="button-router-link">
+                            <button class="btn btn-white btn-icon btn-radius" title="Shops">
                                 <i class="fa fa-lg fa-store" />
                                 <span class="notif">0</span>
                             </button>
                         </router-link>
-                        <router-link :to="{name: '404'}" style="margin-left: 5px;">
+                        <router-link :to="{name: '404'}" style="margin-left: 5px;" class="button-router-link">
                             <button class="btn btn-white btn-icon btn-radius" title="Notifications">
                                 <i class="fa fa-lg fa-bell" />
                                 <span class="notif">{{ countNotif }}</span>
@@ -65,7 +65,8 @@
                                 :label="selectedLabel"
                                 :button="'btn btn-white btn-radius-rounded'"
                                 :onChange="(data) => onChangeMenu(data)" 
-                                :data="dataShops" />
+                                :isLoader="visibleLoader"
+                                :data="menuShops" />
                         </div>
                     </div>
                 </div>
@@ -74,14 +75,6 @@
                 <router-view />
                 <router-view name="adminfresh" />
             </div>
-            <!-- <div class="footer display-flex display-mobile space-between">
-                <div>Version 0.0.1 - Beta</div>
-                <div class="mobile-hidden" style="cursor: default;">
-                    <router-link to="/" class="link-text bold small">About us</router-link> -
-                    <router-link to="/" class="link-text bold small">Helps</router-link> -
-                    <router-link to="/" class="link-text bold small">Terms & conditions</router-link>
-                </div>
-            </div> -->
         </div>
 
         <AppToast />
@@ -91,6 +84,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 import AppListMenu from '../modules/AppListMenu'
 import logo from '@/assets/img/logo.png'
@@ -118,8 +112,6 @@ const sidebarAdmin = [
     //     {icon: 'fa fa-lg fa-star', label: 'Feedbacks', value: 0, link: 'feedback', permission: 'feedbacks'}
     // ]},
     {icon: 'fa fa-lg fa-database', label: 'WEBSITE', value: 0, menu: [
-        // {icon: 'fa fa-lg fa-truck', label: 'Shipments', value: 0, link: 'shipment', permission: 'shipments'},
-        // {icon: 'fa fa-lg fa-calculator', label: 'Payments', value: 0, link: 'payment', permission: 'payments'},
         {icon: 'fa fa-lg fa-newspaper', label: 'Articles', value: 0, link: 'articlelist', permission: 'articles'},
         {icon: 'fa fa-lg fa-check', label: 'Benefits', value: 0, link: 'benefit', permission: 'benefits'}
     ]},
@@ -135,6 +127,7 @@ export default {
     name: 'admin',
     data () {
         return {
+            visibleLoader: false,
             permissions: null,
             logo: logo,
             icon: icon,
@@ -144,12 +137,14 @@ export default {
             classSidebar: 'sidebar smalls',
             classSidebarMenu: 'menu-list hover with-icon smalls',
             dataUser: null,
-            dataShops: [
+            dataShops: null,
+            menuShops: [
                 {icon: 'fa fa-1x fa-store', label: 'SHOP 1'}, 
                 {icon: 'fa fa-1x fa-store', label: 'SHOP 2'}, 
                 {icon: 'fa fa-1x fa-store', label: 'SHOP 3'}
             ],
-            selectedLabel: 'CHOOSE SHOP'
+            selectedLabel: 'CHOOSE SHOP',
+            selectedShop: null
         }
     },
     beforeMount (){
@@ -170,6 +165,7 @@ export default {
         this.onCheckMenus(sidebarAdmin)
         this.getLocalCartCount()
         this.getLocalOrderCount()
+        this.getShop()
     },
     components: {
         AppButtonMenu,
@@ -184,8 +180,9 @@ export default {
             getCountOrder: 'order/getCount'
         }),
         onChangeMenu (data) {
-            this.selectedLabel = this.dataShops[data].label
-            console.log('onChangeMenu', data)
+            this.selectedLabel = this.menuShops[data].label
+            this.selectedShop = this.dataShops[data]
+            console.log('onChangeMenu', this.selectedShop)
         },
         makeToast (title, subtitle) {
             const time = new Date().getTime()
@@ -260,6 +257,31 @@ export default {
         getLocalOrderCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             this.getCountOrder(token)
+        },
+        async getShop () {
+            this.visibleLoader = true 
+
+            const token = 'Bearer '.concat(this.$cookies.get('token'))
+            const payload = {
+                limit: 100,
+                offset: 0,
+                user_id: this.dataUser.id
+            }
+
+            const rest = await axios.post('/api/shop/getAll', payload, { headers: { Authorization: token } })
+
+            if (rest && rest.status === 200) {
+                const data = rest.data.data
+                this.menuShops = data && data.map((dt) => {
+                    return {icon: 'fa fa-1x fa-store', label: dt.shop.name}
+                })
+                this.dataShops = data && data.map((dt) => {
+                    return {...dt.shop}
+                })
+                this.visibleLoader = false 
+            } else {
+                this.visibleLoader = false 
+            }
         }
     },
     computed: {

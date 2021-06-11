@@ -1,10 +1,12 @@
 <template>
     <div id="Shop" class="display-flex">
-        <div style="width: 230px; height: calc(100vh - 60px); overflow-y: auto;">
-            <div class="fonts fonts-11 black" style="padding-left: 15px; padding-top: 20px; padding-bottom: 10px;">MENUS</div>
-            <AppListDownMenu :data.sync="menus" :isSidebarSmall.sync="isSidebarSmall" />
+        <div style="width: 210px; height: calc(100vh - 60px); padding-left: 20px; padding-right: 20px; overflow-y: auto; background-color: #fff;">
+            <div class="fonts fonts-11 black" style="padding-left: 15px; padding-top: 20px; padding-bottom: 0;">MASTERDATA</div>
+            <div style="padding-top: 5px;">
+                <AppListDownMenu :data.sync="menus" :isSidebarSmall.sync="isSidebarSmall" />
+            </div>
         </div>
-        <div style="width: calc(100% - 230px);">
+        <div style="width: calc(100% - 250px);">
             <router-view />
         </div>
     </div>
@@ -17,9 +19,9 @@ const menus = [
     {label: 'Categories', icon: 'fa fa-lg fa-list-alt', link: 'category'},
     {label: 'Toppings', icon: 'fa fa-lg fa-list-alt', link: 'toping'},
     {label: 'Products', icon: 'fa fa-lg fa-box', link: 'listing'},
-    {label: 'Job Positions', icon: 'fa fa-lg fa-flag', link: 'position'},
     // {label: 'Shipments', icon: 'fa fa-lg fa-truck', link: 'shipment'},
     {label: 'Payments', icon: 'fa fa-lg fa-calculator', link: 'payment'},
+    {label: 'Job Positions', icon: 'fa fa-lg fa-flag', link: 'position'},
     {label: 'Users', icon: 'fa fa-lg fa-users', link: 'shipment'},
     {label: 'Order History', icon: 'fa fa-lg fa-receipt', link: 'shipment'},
     {label: 'Reports', icon: 'fa fa-lg fa-calendar-alt', link: 'shipment'},

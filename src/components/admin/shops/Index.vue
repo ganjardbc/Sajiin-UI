@@ -51,7 +51,7 @@
                                         <div class="fonts fonts-10 black semibold">Tables ({{ dt.tables.length }})</div>
                                         <div class="display-flex wrap">
                                             <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
-                                                <div class="card border-full" style="width: 100px; padding: 15px 5px;">
+                                                <div class="card border-full" style="width: 100px; padding: 10px 5px;">
                                                     <div class="fonts fonts-11 black" style="width: 100%; text-align: center;">{{ tb.name }}</div>
                                                 </div>
                                             </div>
@@ -86,113 +86,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="display-flex">
-                <div style="width: 250px;">
-                    <AppListDownMenu :data.sync="menus" :isSidebarSmall.sync="isSidebarSmall" />
-                </div>
-                <div style="width: calc(100% - 250px);">
-                    <div class="bg-white">
-                        <div class="display-flex wrap" style="margin-bottom: 5px;">
-                            <div v-for="(dt, i) in menus" :key="i" class="column-6" style="margin-top: 10px; margin-bottom: 10px;">
-                                <router-link :to="{name: dt.link ? dt.link : '404'}" style="display: block; margin-left: 15px; margin-right: 15px;">
-                                    <div class="card border-full bg-white" style="width: calc(100% - 42px); padding-bottom: 35px;">
-                                        <div class="image image-100px bg-white" style="margin: auto;">
-                                            <i :class="'post-middle fonts fonts-28 orange ' + dt.icon"></i>
-                                        </div>
-                                        <div class="fonts fonts-10 black semibold" style="text-align: center;">
-                                            {{ dt.label }}
-                                        </div>
-                                    </div>
-                                </router-link>
-                            </div>
-                        </div>
-
-                        <div class="display-flex row space-between padding padding-10-px" style="height: 40px;">
-                            <div>
-                                <h1 class="post-center fonts fonts-16 semibold black">SHOPS</h1>
-                            </div>
-                            <div class="display-flex">
-                                <AppButtonMenu 
-                                    :icon="'fa fa-lw fa-filter'"
-                                    :button="'btn btn-icon btn-white'"
-                                    :onChange="(data) => onChangeMenu(data)" 
-                                    :data="[{label: 'By ID'}, {label: 'By Name'}, {label: 'By Status'}]" />
-                                <button class="btn btn-white btn-icon btn-radius" @click="onShow('CREATE')">
-                                    <i class="fa fa-lw fa-plus" />
-                                </button>
-                                <SearchField :placeholder="'Search shops ..'" :enableResponsive="true" :onChange="(data) => onSearch(data)" style="margin-left: 5px;" />
-                            </div>
-                        </div>
-                        
-                        <div class="content-body">
-                            <div style="padding-left: 10px; padding-right: 10px;">
-                                <div v-for="(dt, i) in datas" :key="i" class="card box-shadow" style="margin-top: 15px; margin-bottom: 15px; overflow: unset;">
-                                    <div class="display-flex space-between" style="padding-top: 5px; padding-bottom: 5px;">
-                                        <div style="width: 60px; margin-right: 20px;">
-                                            <div class="image image-padding border border-full">
-                                                <img v-if="dt.shop.image" :src="shopImageThumbnailUrl + dt.shop.image" alt="" class="post-center">
-                                                <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
-                                            </div>
-                                        </div>
-                                        <div style="width: calc(100% - 180px);">
-                                            <div class="display-flex" style="margin-bottom: 5px;">
-                                                <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shop.name }}</div>
-                                                <div 
-                                                    :class="'card-capsule ' + (
-                                                    dt.shop.status === 'active' 
-                                                        ? 'active' 
-                                                        : ''
-                                                    )" 
-                                                    style="margin-left: 10px; text-transform: capitalize;">
-                                                    {{ dt.shop.status }}
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="fonts fonts-10 grey">{{ dt.shop.about.substring(0, 50) }} ...</div>
-                                                <div class="fonts fonts-10 grey">{{ dt.shop.open_day + ' - ' + dt.shop.close_day }}</div>
-                                                <div class="fonts fonts-10 grey">{{ dt.shop.open_time + ' - ' + dt.shop.close_time }}</div>
-                                            </div>
-                                            <div v-if="dt.tables.length > 0" style="margin-top: 10px;">
-                                                <div class="fonts fonts-10 black semibold">Tables ({{ dt.tables.length }})</div>
-                                                <div class="display-flex wrap">
-                                                    <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
-                                                        <div class="card border-full" style="width: 100px; padding: 15px 5px;">
-                                                            <div class="fonts fonts-11 black" style="width: 100%; text-align: center;">{{ tb.name }}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div v-if="dt.shifts.length > 0" style="margin-top: 10px;">
-                                                <div class="fonts fonts-10 black semibold">Shifts ({{ dt.shifts.length }})</div>
-                                                <div class="display-flex wrap">
-                                                    <div v-for="(tb, j) in dt.shifts" :key="j" :title="tb.title" style="margin: 5px;">
-                                                        <div class="card border-full" style="width: auto; padding: 10px 15px;">
-                                                            <div class="fonts fonts-11 black">{{ tb.title }}</div>
-                                                            <div class="fonts fonts-9 grey">{{ tb.start_time }} - {{ tb.end_time }}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="display-flex column space-between" style="width: 100px;">
-                                            <div class="display-flex align-right">
-                                                <AppButtonMenu :onChange="(data) => onChangeMenuShop(data, dt.shop.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <AppLoader v-if="visibleLoader" />
-                            </div>
-
-                            <div v-if="!visibleLoader" class="display-flex center">
-                                <button v-if="visibleLoadMore" class="btn btn-sekunder" style="margin-top: 20px; margin-bottom: 20px;" @click="getData(limit, offset)">
-                                    Load More
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
 
         <div class="right">
