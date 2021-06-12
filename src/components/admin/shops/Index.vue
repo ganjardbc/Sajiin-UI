@@ -245,7 +245,10 @@ export default {
         onChangeImage (data) {
             this.selectedData = {
                 ...this.selectedData,
-                image: data
+                shop: {
+                    ...this.selectedData.shop,
+                    image: data
+                }
             }
         },
         async removeData () {
@@ -307,7 +310,7 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
+            const payload = this.selectedData.shop
             const url = '/api/shop/uploadImage' 
 
             let formData = new FormData();
@@ -335,7 +338,7 @@ export default {
             this.visibleLoaderAction = true
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.selectedData
+            const payload = this.selectedData.shop
             const url = '/api/shop/removeImage' 
 
             let formData = new FormData();

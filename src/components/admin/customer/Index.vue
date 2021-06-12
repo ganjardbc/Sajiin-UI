@@ -135,12 +135,14 @@ export default {
             currentPage: 1,
             totalPages: 0,
             dataUser: null,
+            dataShop: null,
             limit: 4,
             offset: 0
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
+        this.dataShop = this.$cookies.get('shop')
         this.getData(this.limit, this.offset)
     },
     components: {
@@ -198,8 +200,8 @@ export default {
         },
         onFormSave (data = null) {
             this.onShowHideSave()
-            this.selectedForm = data && data.customer ? data.customer : null
-            console.log('onFormSave', data.customer)
+            this.selectedForm = data ? data : null
+            console.log('onFormSave', data)
         },
         onChangeImage (data) {
             this.selectedData = {
@@ -328,15 +330,12 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
-                limit: limit,
-                offset: offset
-            } : {
+            const payload = {
                 limit: limit,
                 offset: offset,
-                user_id: this.dataUser.id
+                shop_id: this.dataShop ? this.dataShop.id : ''
             }
-            
+
             const rest = await axios.post('/api/customer/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {

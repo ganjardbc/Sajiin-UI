@@ -7,6 +7,7 @@ import order from './order'
 import wishelist from './wishelist'
 import customer from './customer'
 import table from './table'
+import store from './store'
 import toastmessage from './toastmessage'
 
 Vue.use(Vuex)
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     order,
     customer,
     table,
+    store,
     toastmessage
   }
 })

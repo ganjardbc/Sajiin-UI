@@ -51,6 +51,7 @@ export default {
             visibleLoader: false,
             visibleLoadMore: false,
             dataUser: null,
+            dataShop: null,
             datas: [],
             dataCategories: [],
             limit: 6,
@@ -59,6 +60,7 @@ export default {
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
+        this.dataShop = this.$cookies.get('shop')
         this.getDataCategory()
         this.getData(this.limit, this.offset)
     },
@@ -119,15 +121,12 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
-                limit: limit,
-                offset: offset
-            } : {
+            const payload = {
                 limit: limit,
                 offset: offset,
-                user_id: this.dataUser.id
+                shop_id: this.dataShop ? this.dataShop.id : ''
             }
-            const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
+            const rest = await axios.post('/api/catalog/getAll', payload, { headers: { Authorization: token } })
 
             if (rest && rest.status === 200) {
                 const newData = rest.data.data
@@ -138,6 +137,8 @@ export default {
 
                 this.datas = data 
                 this.visibleLoader = false 
+
+                console.log('newData', newData)
 
                 if (newData.length > 0) {
                     this.offset += this.limit

@@ -144,12 +144,14 @@ export default {
             currentPage: 1,
             totalPages: 0,
             dataUser: null,
+            dataShop: null,
             limit: 4,
             offset: 0
         }
     },
     mounted () {
         this.dataUser = this.$cookies.get('user')
+        this.dataShop = this.$cookies.get('shop')
         this.getData()
         this.getBizpar()
     },
@@ -380,15 +382,11 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset,
-                status: type
-            } : {
+            const payload = {
                 limit: this.limit,
                 offset: this.offset,
                 status: type,
-                user_id: this.dataUser.id
+                shop_id: this.dataShop ? this.dataShop.id : ''
             }
             
             const rest = await axios.post('/api/order/getByStatus', payload, { headers: { Authorization: token } })
@@ -428,13 +426,10 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
-                limit: this.limit,
-                offset: this.offset
-            } : {
+            const payload = {
                 limit: this.limit,
                 offset: this.offset,
-                user_id: this.dataUser.id
+                shop_id: this.dataShop ? this.dataShop.id : ''
             }
             
             const rest = await axios.post('/api/order/getAll', payload, { headers: { Authorization: token } })

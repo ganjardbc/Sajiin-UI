@@ -85,7 +85,11 @@ export default {
             })
         },
         async getCount ({ commit }, token = '') {
-            return await axios.post('/api/order/getCountByStatus', {}, { headers: { Authorization: token } })
+            const shopData = $cookies.get('shop')
+            const payload = {
+                shop_id: shopData.id
+            }
+            return await axios.post('/api/order/getCountByStatus', payload, { headers: { Authorization: token } })
             .then((rest) => {
                 const count = rest.data.data
                 const newPayload = {

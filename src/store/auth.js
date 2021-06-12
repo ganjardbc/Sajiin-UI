@@ -125,6 +125,7 @@ export default {
       $cookies.remove('role_name')
       $cookies.remove('rawUser')
       $cookies.remove('table')
+      $cookies.remove('shop')
 
       commit('SET_AUTHENTICATED', false)
       commit('SET_ADMIN', null)
@@ -166,6 +167,7 @@ export default {
       $cookies.remove('rawUser')
       $cookies.remove('orderItem')
       $cookies.remove('customer')
+      $cookies.remove('shop')
 
       commit('SET_AUTHENTICATED', false)
       commit('SET_USER', null)

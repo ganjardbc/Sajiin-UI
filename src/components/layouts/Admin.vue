@@ -61,7 +61,7 @@
                         <div class="display-flex">
                             <AppButtonMenu 
                                 :icon="'icn fa fa-lg fa-chevron-down'"
-                                :image="'https://cdn.popbela.com/content-images/post/20190405/f5882dfb568129d2d6182c7319a22d70.jpg'"
+                                :image="selectedShop ? (shopImageThumbnailUrl + selectedShop.image) : ''"
                                 :label="selectedLabel"
                                 :button="'btn btn-white btn-radius-rounded'"
                                 :onChange="(data) => onChangeMenu(data)" 
@@ -154,6 +154,8 @@ export default {
     },
     mounted () {
         this.dataUser = this.user ? this.user : this.$cookies.get('user')
+        this.selectedShop = this.choosedShop ? this.choosedShop : this.$cookies.get('shop')
+        this.selectedLabel = this.selectedShop ? this.selectedShop.name : 'CHOOSE SHOP'
 
         const token = this.$cookies.get('token')
         console.log('token', token)
@@ -163,7 +165,6 @@ export default {
         console.log('permissions', permissions)
 
         this.onCheckMenus(sidebarAdmin)
-        this.getLocalCartCount()
         this.getLocalOrderCount()
         this.getShop()
     },
@@ -175,16 +176,32 @@ export default {
     },
     methods: {
         ...mapActions({
-            setToast: 'toastmessage/setMultipleToast',
-            getCount: 'cart/getCount',
+            setData: 'store/setData',
+            setToast: 'toast/setToast',
+            setMultipleToast: 'toastmessage/setMultipleToast',
+            getCountCart: 'cart/getCount',
             getCountOrder: 'order/getCount'
         }),
         onChangeMenu (data) {
             this.selectedLabel = this.menuShops[data].label
             this.selectedShop = this.dataShops[data]
-            console.log('onChangeMenu', this.selectedShop)
+            this.setSelectedShop(this.selectedShop)
+        },
+        setSelectedShop (data) {
+            this.setData(data)
+            this.getLocalOrderCount()
+            this.makeToast('Shop Moved to ' + data.name)
         },
         makeToast (title, subtitle) {
+            const time = new Date().getTime()
+            const payload = {
+                visible: true,
+                title: title,
+                subtitle: subtitle
+            }
+            this.setToast(payload)
+        },
+        makeMultipleToast (title, subtitle) {
             const time = new Date().getTime()
             const payload = {
                 id: time,
@@ -192,7 +209,7 @@ export default {
                 title: title,
                 subtitle: subtitle
             }
-            this.setToast(payload)
+            this.setMultipleToast(payload)
         },
         onCheckSubmenus (data) {
             let menu = []
@@ -252,7 +269,7 @@ export default {
         },
         getLocalCartCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            this.getCount(token)
+            this.getCountCart(token)
         },
         getLocalOrderCount () {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
@@ -292,7 +309,8 @@ export default {
             cart: 'cart/count',
             carts: 'cart/all',
             order: 'order/count',
-            orders: 'order/all'
+            orders: 'order/all',
+            choosedShop: 'store/selected'
         })
     },
     watch: {
@@ -320,7 +338,7 @@ export default {
             this.countNotif = lth 
             this.getLocalCartCount()
             this.getLocalOrderCount()
-            this.makeToast(payload.title, payload.subtitle)
+            this.makeMultipleToast(payload.title, payload.subtitle)
         }
     }
 }
