@@ -16,7 +16,6 @@
                     <AppButtonQR 
                         v-if="dataUser.role_name !== 'customer'"
                         :buttonFull="true"
-                        :onChange="(data) => onChangeCustomer(data)" 
                         :code="code"
                         title="Show QR Restaurant" 
                     />
@@ -183,11 +182,13 @@ export default {
             image: '',
             code: '',
             formData: {...payload},
-            dataUser: null 
+            dataUser: null,
+            dataShop: null
         }
     },
     mounted () {
-        this.dataUser = this.user ? this.user : this.$cookies.get('user')
+        this.dataUser = this.$cookies.get('user')
+        this.dataShop = this.$cookies.get('shop')
         const token = this.$cookies.get('token')
         this.formData = {
             ...payload,
@@ -200,7 +201,7 @@ export default {
             image: this.dataUser.image
         }
         this.image = this.dataUser.image ? this.adminImageThumbnailUrl + this.dataUser.image : ''
-        this.code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + token
+        this.code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + (this.dataShop ? this.dataShop.shop_id : token)
 
         console.log('user', this.dataUser)
     },

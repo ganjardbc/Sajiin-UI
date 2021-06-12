@@ -31,12 +31,13 @@
                         </form>
                     </div>
                     <div style="width: 100%;" class="display-flex right">
-                        <!-- <router-link v-if="user && user.role_name !== 'customer'" :to="{name: '404'}" style="margin-left: 5px;">
-                            <button class="btn btn-white btn-icon btn-radius" title="Reports">
-                                <i class="fa fa-lg fa-calendar-alt" />
-                            </button>
-                        </router-link> -->
-                        <router-link :to="{name: 'admin-shop'}" style="margin-left: 5px;" class="button-router-link">
+                        <!-- <AppButtonQR 
+                            v-if="dataUser.role_name !== 'customer'"
+                            :buttonClass="'btn btn-white'"
+                            :code="code"
+                            title="Show QR" 
+                        /> -->
+                        <router-link :to="{name: 'admin-shop'}" style="margin-left: 0;" class="button-router-link">
                             <button class="btn btn-white btn-icon btn-radius" title="Shops">
                                 <i class="fa fa-lg fa-store" />
                                 <span class="notif">0</span>
@@ -92,6 +93,7 @@ import icon from '@/assets/img/icon.png'
 import AppToast from '../modules/AppToast'
 import AppToastMessage from '../modules/AppToastMessage'
 import AppButtonMenu from '../modules/AppButtonMenu'
+import AppButtonQR from '../modules/AppButtonQR'
 
 const sidebarAdmin = [
     {icon: 'fa fa-lg fa-database', label: 'DASHBOARD', value: 0, menu: [
@@ -144,7 +146,8 @@ export default {
                 {icon: 'fa fa-1x fa-store', label: 'SHOP 3'}
             ],
             selectedLabel: 'CHOOSE SHOP',
-            selectedShop: null
+            selectedShop: null,
+            code: null
         }
     },
     beforeMount (){
@@ -153,12 +156,13 @@ export default {
         }
     },
     mounted () {
+        const token = this.$cookies.get('token')
+        console.log('token', token)
+
         this.dataUser = this.user ? this.user : this.$cookies.get('user')
         this.selectedShop = this.choosedShop ? this.choosedShop : this.$cookies.get('shop')
         this.selectedLabel = this.selectedShop ? this.selectedShop.name : 'CHOOSE SHOP'
-
-        const token = this.$cookies.get('token')
-        console.log('token', token)
+        this.code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + (this.selectedShop ? this.selectedShop.shop_id : token)
 
         const permissions = this.$cookies.get('permissions')
         this.permissions = permissions.permissions
@@ -169,6 +173,7 @@ export default {
         this.getShop()
     },
     components: {
+        AppButtonQR,
         AppButtonMenu,
         AppToastMessage,
         AppToast,

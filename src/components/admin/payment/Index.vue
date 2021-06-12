@@ -133,12 +133,13 @@ export default {
             currentPage: 1,
             totalPages: 0,
             limit: 4,
-            offset: 0
+            offset: 0,
+            dataUser: null
         }
     },
     mounted () {
+        this.dataUser = this.$cookies.get('user')
         this.getData(this.limit, this.offset)
-        // console.log('datas', this.datas)
     },
     components: {
         AppAlert,
@@ -322,7 +323,8 @@ export default {
             const token = 'Bearer '.concat(this.$cookies.get('token'))
             const payload = {
                 limit: limit,
-                offset: offset
+                offset: offset,
+                user_id: this.dataUser.id
             }
             
             const rest = await axios.post('/api/payment/getAll', payload, { headers: { Authorization: token } })

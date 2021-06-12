@@ -29,7 +29,7 @@
                                         <i v-else class="post-middle-absolute icn fa fa-lg fa-image"></i>
                                     </div>
                                 </div>
-                                <div style="width: calc(100% - 180px);">
+                                <div style="width: calc(100% - 260px);">
                                     <div class="display-flex" style="margin-bottom: 5px;">
                                         <div class="fonts fonts-11 semibold" style="margin-top: 3px;">{{ dt.shop.name }}</div>
                                         <div 
@@ -51,8 +51,9 @@
                                         <div class="fonts fonts-10 black semibold">Tables ({{ dt.tables.length }})</div>
                                         <div class="display-flex wrap">
                                             <div v-for="(tb, j) in dt.tables" :key="j" style="margin: 5px;" :title="tb.code">
-                                                <div class="card border-full" style="width: 100px; padding: 10px 5px;">
-                                                    <div class="fonts fonts-11 black" style="width: 100%; text-align: center;">{{ tb.name }}</div>
+                                                <div class="card border-full" style="width: auto; padding: 10px 15px;">
+                                                    <div class="fonts fonts-10 black">{{ tb.name }}</div>
+                                                    <div class="fonts fonts-8 grey">{{ tb.table_id }} - {{ tb.code }}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -62,15 +63,32 @@
                                         <div class="display-flex wrap">
                                             <div v-for="(tb, j) in dt.shifts" :key="j" :title="tb.title" style="margin: 5px;">
                                                 <div class="card border-full" style="width: auto; padding: 10px 15px;">
-                                                    <div class="fonts fonts-11 black">{{ tb.title }}</div>
-                                                    <div class="fonts fonts-9 grey">{{ tb.start_time }} - {{ tb.end_time }}</div>
+                                                    <div class="fonts fonts-10 black">{{ tb.title }}</div>
+                                                    <div class="fonts fonts-8 grey">{{ tb.start_time }} - {{ tb.end_time }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="dt.employees.length > 0" style="margin-top: 10px;">
+                                        <div class="fonts fonts-10 black semibold">Employees ({{ dt.employees.length }})</div>
+                                        <div class="display-flex wrap">
+                                            <div v-for="(tb, j) in dt.employees" :key="j" :title="tb.title" style="margin: 5px;">
+                                                <div class="card border-full" style="width: auto; padding: 10px 15px;">
+                                                    <div class="fonts fonts-10 black">{{ tb.name }}</div>
+                                                    <div class="fonts fonts-8 grey">{{ tb.employee_id }}</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="display-flex column space-between" style="width: 100px;">
+                                <div class="display-flex column space-between" style="width: 180px;">
                                     <div class="display-flex align-right">
+                                        <AppButtonQR 
+                                            v-if="dataUser.role_name !== 'customer'"
+                                            :buttonClass="'btn btn-sekunder'"
+                                            :code="dt.code"
+                                            title="Show QR" 
+                                        />
                                         <AppButtonMenu :onChange="(data) => onChangeMenuShop(data, dt.shop.id)" :data="[{icon: 'fa fa-1x fa-pencil-alt', label: 'Edit'}, {icon: 'fa fa-1x fa-trash-alt', label: 'Delete'}, {icon: 'fa fa-1x fa-ellipsis-h', label: 'View'}]" />
                                     </div>
                                 </div>
@@ -124,6 +142,7 @@ import AppAlert from '../../modules/AppAlert'
 import SearchField from '../../modules/SearchField'
 import AppButtonMenu from '../../modules/AppButtonMenu'
 import AppListDownMenu from '../../modules/AppListDownMenu'
+import AppButtonQR from '../../modules/AppButtonQR'
 import Form from './Form'
 
 const menus = [
@@ -169,6 +188,7 @@ export default {
         this.getData(this.limit, this.offset)
     },
     components: {
+        AppButtonQR,
         AppListDownMenu,
         AppAlert,
         AppLoader,
@@ -371,13 +391,9 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
+            const payload = {
                 limit: limit,
                 offset: offset
-            } : {
-                limit: limit,
-                offset: offset,
-                user_id: this.dataUser.id
             }
 
             const rest = await axios.post('/api/shop/getAll', payload, { headers: { Authorization: token } })
@@ -386,7 +402,8 @@ export default {
                 const newData = rest.data.data
                 
                 newData && newData.map((dt) => {
-                    return data.push({...dt})
+                    const code = this.deployUrl + (this.$router.mode === 'hash' ? '#' : '') + '/generate-customer/' + (dt.shop ? dt.shop.shop_id : token)
+                    return data.push({...dt, code: code})
                 })
 
                 this.datas = data 

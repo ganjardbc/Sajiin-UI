@@ -25,7 +25,7 @@
                         </button>
                     </div>
                     <div class="card-info-content">
-                        <div style="margin-bottom: 5px;">
+                        <div v-if="data.details.length > 0" style="margin-bottom: 5px;">
                             <div class="fonts fonts-9 normal">Details</div>
                             <div class="display-flex wrap" style="margin-top: 5px;">
                                 <div 
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="margin-bottom: 10px;">
+                        <div v-if="data.topings.length > 0" style="margin-bottom: 10px;">
                             <div class="fonts fonts-9 normal">Topings</div>
                             <div class="display-flex wrap" style="margin-top: 5px;">
                                 <div 

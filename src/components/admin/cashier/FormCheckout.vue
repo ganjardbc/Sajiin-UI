@@ -2,7 +2,7 @@
     <div id="App">
         <div class="card-check-out">
             <div class="check-out-header">
-                <div class="fonts fonts-14 bold">Check Out</div>
+                <div class="fonts fonts-14 bold">Carts</div>
             </div>
             <div class="check-out-body">
                 <div v-if="datas.length > 0">

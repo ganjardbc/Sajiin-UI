@@ -264,13 +264,9 @@ export default {
             }
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
+            const payload = {
                 limit: limit,
                 offset: offset
-            } : {
-                limit: limit,
-                offset: offset,
-                user_id: this.dataUser.id
             }
             const rest = await axios.post('/api/product/getAll', payload, { headers: { Authorization: token } })
 
@@ -301,11 +297,7 @@ export default {
             this.visibleLoader = true 
 
             const token = 'Bearer '.concat(this.$cookies.get('token'))
-            const payload = this.dataUser.role_name === 'admin' ? {
-                limit: 1000,
-                offset: 0,
-                status: 'active'
-            } : {
+            const payload = {
                 limit: 1000,
                 offset: 0,
                 status: 'active',
